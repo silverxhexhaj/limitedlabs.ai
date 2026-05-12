@@ -15,10 +15,26 @@ export default function Home() {
             </svg>
             <span className="mark-text">Limited Labs</span>
           </a>
-          <a href="#contact" className="nav-cta">
-            <span className="pulse" aria-hidden="true"></span>
-            Let's Talk
-          </a>
+          <div className="nav-actions">
+            <button
+              type="button"
+              id="themeToggle"
+              className="theme-toggle"
+              aria-label="Switch color theme"
+            >
+              <svg className="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <svg className="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <a href="#contact" className="nav-cta">
+              <span className="pulse" aria-hidden="true"></span>
+              Let's Talk
+            </a>
+          </div>
         </div>
       </header>
 
@@ -169,12 +185,12 @@ export default function Home() {
                   <line x1="140" y1="100" x2="220" y2="140" stroke="currentColor" strokeWidth="2"/>
                   <line x1="60" y1="140" x2="140" y2="100" stroke="currentColor" strokeWidth="2"/>
                   <line x1="140" y1="100" x2="140" y2="170" stroke="currentColor" strokeWidth="2"/>
-                  <circle cx="60" cy="60" r="10" fill="#131311" stroke="currentColor" strokeWidth="3"/>
-                  <circle cx="60" cy="140" r="10" fill="#131311" stroke="currentColor" strokeWidth="3"/>
+                  <circle cx="60" cy="60" r="10" fill="var(--bg-2)" stroke="currentColor" strokeWidth="3"/>
+                  <circle cx="60" cy="140" r="10" fill="var(--bg-2)" stroke="currentColor" strokeWidth="3"/>
                   <circle cx="140" cy="100" r="14" fill="currentColor"/>
-                  <circle cx="220" cy="60" r="10" fill="#131311" stroke="currentColor" strokeWidth="3"/>
-                  <circle cx="220" cy="140" r="10" fill="#131311" stroke="currentColor" strokeWidth="3"/>
-                  <circle cx="140" cy="170" r="8" fill="#131311" stroke="currentColor" strokeWidth="3"/>
+                  <circle cx="220" cy="60" r="10" fill="var(--bg-2)" stroke="currentColor" strokeWidth="3"/>
+                  <circle cx="220" cy="140" r="10" fill="var(--bg-2)" stroke="currentColor" strokeWidth="3"/>
+                  <circle cx="140" cy="170" r="8" fill="var(--bg-2)" stroke="currentColor" strokeWidth="3"/>
                 </svg>
               </div>
               <div className="service-info">
@@ -199,7 +215,7 @@ export default function Home() {
                   <path d="M210 85 L 220 100 L 235 90" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                   <path d="M220 100 A 60 60 0 1 1 60 100" stroke="currentColor" strokeWidth="3" strokeLinecap="round" fill="none" strokeDasharray="6 6"/>
                   <path d="M70 115 L 60 100 L 45 110" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                  <circle cx="140" cy="100" r="14" stroke="currentColor" strokeWidth="2.5" fill="#131311"/>
+                  <circle cx="140" cy="100" r="14" stroke="currentColor" strokeWidth="2.5" fill="var(--bg-2)"/>
                   <text x="140" y="106" fontFamily="Geist Mono" fontWeight="500" fontSize="13" fill="currentColor" textAnchor="middle">AI</text>
                 </svg>
               </div>
@@ -254,7 +270,7 @@ export default function Home() {
         <section className="work-section" id="work">
           <div className="wrap">
             <div className="work-head">
-              <h2>Our first hits.<br/><span style={{ color: "var(--ink-3)" }}>Forthcoming.</span></h2>
+              <h2>Our first hits.<br/><span style={{ color: "var(--ink-3)" }}>In the Works.</span></h2>
               <div className="drag-hint">
                 DRAG
                 <svg viewBox="0 0 60 40" fill="none" aria-hidden="true">

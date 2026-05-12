@@ -2,54 +2,104 @@
 
 import { useEffect } from "react";
 
+const THEME_STORAGE_KEY = "limitedlabs-theme";
+
+type Theme = "light" | "dark";
+
+function readStoredTheme(): Theme | null {
+  try {
+    const raw = localStorage.getItem(THEME_STORAGE_KEY);
+    if (raw === "light" || raw === "dark") return raw;
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+function systemTheme(): Theme {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function resolveInitialTheme(): Theme {
+  return readStoredTheme() ?? systemTheme();
+}
+
+function applyDomTheme(theme: Theme) {
+  if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
+  else document.documentElement.removeAttribute("data-theme");
+}
+
+function syncThemeToggleLabel(button: HTMLElement, theme: Theme) {
+  button.setAttribute(
+    "aria-label",
+    theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
+  );
+}
+
 export default function LandingInteractions() {
   useEffect(() => {
     const nav = document.getElementById("nav");
     if (!nav) return;
 
+    const initialTheme = resolveInitialTheme();
+    applyDomTheme(initialTheme);
+
+    const toggleBtn = document.getElementById("themeToggle");
+    if (toggleBtn) syncThemeToggleLabel(toggleBtn, initialTheme);
+
+    const onThemeToggleClick = () => {
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const next: Theme = isLight ? "dark" : "light";
+      applyDomTheme(next);
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, next);
+      } catch {
+        /* ignore */
+      }
+      if (toggleBtn) syncThemeToggleLabel(toggleBtn, next);
+    };
+
+    toggleBtn?.addEventListener("click", onThemeToggleClick);
+
     const onScroll = () => {
       if (window.scrollY > 40) nav.classList.add("scrolled");
       else nav.classList.remove("scrolled");
     };
-    window.addEventListener("scroll", onScroll);
+    const scrollOpts: AddEventListenerOptions = { passive: true };
+    window.addEventListener("scroll", onScroll, scrollOpts);
     onScroll();
 
     const track = document.getElementById("workTrack");
     let isDown = false;
     let startX = 0;
-    let scrollLeft = 0;
+    let scrollLeftStart = 0;
 
-    const onMouseDown = (e: MouseEvent) => {
-      if (!track) return;
-      isDown = true;
-      track.classList.add("dragging");
-      startX = e.pageX - track.offsetLeft;
-      scrollLeft = track.scrollLeft;
-    };
-    const onMouseLeave = () => {
-      if (!track) return;
-      isDown = false;
-      track.classList.remove("dragging");
-    };
-    const onMouseUp = () => {
-      if (!track) return;
-      isDown = false;
-      track.classList.remove("dragging");
-    };
-    const onMouseMove = (e: MouseEvent) => {
+    const onWindowMouseMove = (e: MouseEvent) => {
       if (!track || !isDown) return;
       e.preventDefault();
-      const x = e.pageX - track.offsetLeft;
-      const walk = (x - startX) * 1.6;
-      track.scrollLeft = scrollLeft - walk;
+      const walk = (e.pageX - startX) * 1.6;
+      track.scrollLeft = scrollLeftStart - walk;
     };
 
-    if (track) {
-      track.addEventListener("mousedown", onMouseDown);
-      track.addEventListener("mouseleave", onMouseLeave);
-      track.addEventListener("mouseup", onMouseUp);
-      track.addEventListener("mousemove", onMouseMove);
-    }
+    const endDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      track?.classList.remove("dragging");
+      window.removeEventListener("mousemove", onWindowMouseMove);
+      window.removeEventListener("mouseup", endDrag);
+    };
+
+    const onTrackMouseDown = (e: MouseEvent) => {
+      if (!track || e.button !== 0) return;
+      isDown = true;
+      track.classList.add("dragging");
+      startX = e.pageX;
+      scrollLeftStart = track.scrollLeft;
+      window.addEventListener("mousemove", onWindowMouseMove);
+      window.addEventListener("mouseup", endDrag);
+    };
+
+    track?.addEventListener("mousedown", onTrackMouseDown);
 
     let intersectionObserver: IntersectionObserver | undefined;
     if ("IntersectionObserver" in window) {
@@ -79,13 +129,11 @@ export default function LandingInteractions() {
     }
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (track) {
-        track.removeEventListener("mousedown", onMouseDown);
-        track.removeEventListener("mouseleave", onMouseLeave);
-        track.removeEventListener("mouseup", onMouseUp);
-        track.removeEventListener("mousemove", onMouseMove);
-      }
+      toggleBtn?.removeEventListener("click", onThemeToggleClick);
+      window.removeEventListener("scroll", onScroll, scrollOpts);
+      window.removeEventListener("mousemove", onWindowMouseMove);
+      window.removeEventListener("mouseup", endDrag);
+      track?.removeEventListener("mousedown", onTrackMouseDown);
       intersectionObserver?.disconnect();
     };
   }, []);
