@@ -25,8 +25,7 @@ function resolveInitialTheme(): Theme {
 }
 
 function applyDomTheme(theme: Theme) {
-  if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
-  else document.documentElement.removeAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme", theme);
 }
 
 function syncThemeToggleLabel(button: HTMLElement, theme: Theme) {
@@ -48,8 +47,8 @@ export default function LandingInteractions() {
     if (toggleBtn) syncThemeToggleLabel(toggleBtn, initialTheme);
 
     const onThemeToggleClick = () => {
-      const isLight = document.documentElement.getAttribute("data-theme") === "light";
-      const next: Theme = isLight ? "dark" : "light";
+      const current = document.documentElement.getAttribute("data-theme");
+      const next: Theme = current === "light" ? "dark" : "light";
       applyDomTheme(next);
       try {
         localStorage.setItem(THEME_STORAGE_KEY, next);
@@ -116,16 +115,14 @@ export default function LandingInteractions() {
         },
         { threshold: 0.12 },
       );
-      document
-        .querySelectorAll(".service-slide, .stat-card, .test-card, .work-card")
-        .forEach((el) => {
-          const node = el as HTMLElement;
-          node.style.opacity = "0";
-          node.style.transform = "translateY(24px)";
-          node.style.transition =
-            "opacity 0.7s cubic-bezier(.2,.6,.2,1), transform 0.7s cubic-bezier(.2,.6,.2,1)";
-          intersectionObserver?.observe(el);
-        });
+      document.querySelectorAll("[data-reveal]").forEach((el) => {
+        const node = el as HTMLElement;
+        node.style.opacity = "0";
+        node.style.transform = "translateY(24px)";
+        node.style.transition =
+          "opacity 0.7s cubic-bezier(.2,.6,.2,1), transform 0.7s cubic-bezier(.2,.6,.2,1)";
+        intersectionObserver?.observe(el);
+      });
     }
 
     return () => {
