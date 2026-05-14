@@ -5,7 +5,7 @@
 /* ---------- design tokens ---------- */
 :root {
   color-scheme: dark;
-  --bg: #0a0a0a;
+  --bg: #000000;
   --bg-2: #131311;
   --ink: #f5f4ef;
   --ink-2: #b8b8b3;
@@ -14,7 +14,7 @@
   --line-2: #2a2a27;
   --accent: #eaff5a;
   --cream: #f5f4ef;
-  --nav-scrolled-bg: rgba(10, 10, 10, 0.85);
+  --nav-scrolled-bg: rgba(0, 0, 0, 0.85);
 
   --display: "Bricolage Grotesque", "Inter Tight", system-ui, sans-serif;
   --sans: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -191,6 +191,18 @@ html[data-theme="light"] {
   stroke-dashoffset: 1600;
   animation: draw 2.5s cubic-bezier(0.4, 0.1, 0.2, 1) forwards;
   animation-delay: 0.5s;
+}
+
+/*
+ * Service PNG/SVG art is authored as light gray for the default (dark) UI.
+ * On light theme the page background is cream; darken the asset so contrast stays readable.
+ */
+.service-illustration-img {
+  transition: filter 0.25s ease;
+}
+
+html[data-theme="light"] .service-illustration-img {
+  filter: brightness(0.28) contrast(1.18);
 }
 
 @media (prefers-reduced-motion: reduce) {

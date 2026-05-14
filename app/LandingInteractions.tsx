@@ -69,29 +69,52 @@ export default function LandingInteractions() {
     onScroll();
 
     const track = document.getElementById("workTrack");
-    let isDown = false;
+    const DRAG_THRESHOLD_PX = 10;
+
+    let pointerDown = false;
+    let dragActive = false;
+    let suppressNextClick = false;
     let startX = 0;
     let scrollLeftStart = 0;
 
     const onWindowMouseMove = (e: MouseEvent) => {
-      if (!track || !isDown) return;
+      if (!track || !pointerDown) return;
+      const dx = e.pageX - startX;
+      if (!dragActive && Math.abs(dx) > DRAG_THRESHOLD_PX) {
+        dragActive = true;
+        track.classList.add("dragging");
+      }
+      if (!dragActive) return;
       e.preventDefault();
-      const walk = (e.pageX - startX) * 1.6;
+      const walk = dx * 1.6;
       track.scrollLeft = scrollLeftStart - walk;
     };
 
     const endDrag = () => {
-      if (!isDown) return;
-      isDown = false;
+      if (!pointerDown) return;
+      pointerDown = false;
+
+      suppressNextClick = dragActive;
+
+      dragActive = false;
       track?.classList.remove("dragging");
+
       window.removeEventListener("mousemove", onWindowMouseMove);
       window.removeEventListener("mouseup", endDrag);
     };
 
+    const onTrackClickCapture = (e: MouseEvent) => {
+      if (!track || !suppressNextClick) return;
+      e.preventDefault();
+      e.stopPropagation();
+      suppressNextClick = false;
+    };
+
     const onTrackMouseDown = (e: MouseEvent) => {
       if (!track || e.button !== 0) return;
-      isDown = true;
-      track.classList.add("dragging");
+      suppressNextClick = false;
+      pointerDown = true;
+      dragActive = false;
       startX = e.pageX;
       scrollLeftStart = track.scrollLeft;
       window.addEventListener("mousemove", onWindowMouseMove);
@@ -99,6 +122,7 @@ export default function LandingInteractions() {
     };
 
     track?.addEventListener("mousedown", onTrackMouseDown);
+    track?.addEventListener("click", onTrackClickCapture, true);
 
     let intersectionObserver: IntersectionObserver | undefined;
     if ("IntersectionObserver" in window) {
@@ -131,6 +155,7 @@ export default function LandingInteractions() {
       window.removeEventListener("mousemove", onWindowMouseMove);
       window.removeEventListener("mouseup", endDrag);
       track?.removeEventListener("mousedown", onTrackMouseDown);
+      track?.removeEventListener("click", onTrackClickCapture, true);
       intersectionObserver?.disconnect();
     };
   }, []);
