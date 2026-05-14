@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { wrap } from "../site";
@@ -8,12 +9,13 @@ export default function SiteFooter() {
       <div className={wrap}>
         <div className="mb-20 grid grid-cols-1 gap-8 min-[480px]:grid-cols-2 min-[880px]:grid-cols-4">
           <div>
-            <svg className="mb-4 h-auto w-[60px] text-ink" viewBox="0 0 88 64" fill="none" aria-hidden="true">
-              <path d="M8 8 V 56 H 38" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M50 8 V 56 H 80" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="38" cy="56" r="3.5" fill="currentColor" />
-              <circle cx="80" cy="56" r="3.5" fill="currentColor" />
-            </svg>
+            <Image
+              src="/ll-logo-white.png"
+              alt=""
+              width={137}
+              height={156}
+              className="site-logo-img mb-4 h-auto w-[60px]"
+            />
             <p className="max-w-[32ch] text-sm text-ink-muted">
               A digital systems studio. Brand, build, automate — under one logic.
             </p>

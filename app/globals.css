@@ -104,6 +104,201 @@ html[data-theme="light"] {
   pointer-events: none;
 }
 
+.hero-title {
+  --hero-tilt-x: 0deg;
+  --hero-tilt-y: 0deg;
+  --hero-glare-x: 50%;
+  --hero-glare-y: 35%;
+  /* Smoked glass body + refraction tint (dark theme) */
+  --hero-glass-body-a: rgba(72, 88, 108, 0.42);
+  --hero-glass-body-b: rgba(28, 34, 44, 0.78);
+  --hero-glass-body-c: rgba(16, 20, 28, 0.88);
+  --hero-glass-rim: rgba(255, 255, 255, 0.52);
+  --hero-glass-caustic: rgba(255, 255, 255, 0.72);
+  --hero-glass-caustic-soft: rgba(234, 255, 90, 0.16);
+  --hero-extrude: rgba(8, 10, 14, 0.94);
+  --hero-shadow: rgba(0, 0, 0, 0.75);
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  cursor: crosshair;
+  isolation: isolate;
+  perspective: 980px;
+  transform-style: preserve-3d;
+}
+
+/* Letters only — no backdrop panel */
+
+.hero-title-fallback {
+  display: block;
+  transition: opacity 0.35s ease;
+}
+
+.hero-refraction-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.hero-title[data-webgl-ready="true"] .hero-title-fallback {
+  opacity: 0;
+}
+
+.hero-title[data-webgl-ready="true"] .hero-refraction-canvas {
+  opacity: 1;
+}
+
+.hero-title-line {
+  --hero-z: 0px;
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 0.85px var(--hero-glass-rim);
+  background:
+    radial-gradient(
+      ellipse 55% 70% at var(--hero-glare-x) var(--hero-glare-y),
+      var(--hero-glass-caustic-soft) 0%,
+      transparent 52%
+    ),
+    linear-gradient(
+      168deg,
+      var(--hero-glass-body-a) 0%,
+      var(--hero-glass-body-b) 42%,
+      var(--hero-glass-body-c) 100%
+    );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transform: rotateX(var(--hero-tilt-x)) rotateY(var(--hero-tilt-y)) translate3d(0, 0, var(--hero-z));
+  transform-style: preserve-3d;
+  transform-origin: center;
+  transition:
+    transform 0.45s cubic-bezier(0.2, 0.6, 0.2, 1),
+    text-shadow 0.35s ease,
+    filter 0.35s ease,
+    -webkit-text-stroke 0.35s ease;
+  will-change: transform;
+  text-shadow:
+    0 0.02em 0 rgba(255, 255, 255, 0.14),
+    0 0.045em 0 rgba(0, 0, 0, 0.55),
+    0 0.09em 0.08em var(--hero-shadow),
+    0 0 0.06em rgba(255, 255, 255, 0.12);
+}
+
+/* Rear / extruded face: bent light through thickness */
+.hero-title-line::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: var(--hero-extrude);
+  -webkit-text-fill-color: var(--hero-extrude);
+  -webkit-text-stroke: 0.45px rgba(60, 72, 88, 0.9);
+  transform: translate3d(0.05em, 0.065em, -44px);
+  filter: blur(0.35px);
+  opacity: 0.38;
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s cubic-bezier(0.2, 0.6, 0.2, 1);
+  pointer-events: none;
+}
+
+/* Specular + caustic sheet, clipped to glyph outlines only */
+.hero-title-line::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 38%,
+      var(--hero-glass-caustic) 49.5%,
+      rgba(255, 255, 255, 0.22) 51%,
+      transparent 62%
+    ),
+    radial-gradient(
+      circle 28% at var(--hero-glare-x) var(--hero-glare-y),
+      rgba(255, 255, 255, 0.82) 0%,
+      rgba(255, 255, 255, 0.08) 48%,
+      transparent 72%
+    );
+  background-clip: text;
+  -webkit-background-clip: text;
+  mix-blend-mode: soft-light;
+  opacity: 0.32;
+  transform: translateZ(18px);
+  transition: opacity 0.35s ease;
+}
+
+.hero-title:hover .hero-title-line,
+.hero-title.is-hero-active .hero-title-line {
+  --hero-z: 48px;
+  filter: saturate(1.18) brightness(1.05);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.62);
+  text-shadow:
+    0 0.015em 0 rgba(255, 255, 255, 0.35),
+    0 0.04em 0 rgba(0, 0, 0, 0.45),
+    0 0.08em 0.06em var(--hero-shadow),
+    0 0 0.95em var(--hero-glass-caustic-soft),
+    0 0 0.04em rgba(255, 255, 255, 0.28);
+}
+
+.hero-title:hover .hero-title-line:nth-child(2),
+.hero-title.is-hero-active .hero-title-line:nth-child(2) {
+  --hero-z: 62px;
+}
+
+.hero-title:hover .hero-title-line::before,
+.hero-title.is-hero-active .hero-title-line::before {
+  opacity: 0.85;
+  transform: translate3d(0.07em, 0.085em, -58px);
+}
+
+.hero-title:hover .hero-title-line::after,
+.hero-title.is-hero-active .hero-title-line::after {
+  opacity: 0.92;
+  mix-blend-mode: screen;
+}
+
+html[data-theme="light"] .hero-title {
+  --hero-glass-body-a: rgba(180, 190, 205, 0.35);
+  --hero-glass-body-b: rgba(90, 98, 112, 0.55);
+  --hero-glass-body-c: rgba(45, 52, 64, 0.82);
+  --hero-glass-rim: rgba(255, 255, 255, 0.9);
+  --hero-glass-caustic: rgba(255, 255, 255, 0.95);
+  --hero-glass-caustic-soft: rgba(196, 207, 34, 0.14);
+  --hero-extrude: rgba(24, 28, 36, 0.92);
+  --hero-shadow: rgba(19, 19, 17, 0.35);
+}
+
+html[data-theme="light"] .hero-title-line {
+  background:
+    radial-gradient(
+      ellipse 50% 65% at var(--hero-glare-x) var(--hero-glare-y),
+      var(--hero-glass-caustic-soft) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      168deg,
+      var(--hero-glass-body-a) 0%,
+      var(--hero-glass-body-b) 45%,
+      var(--hero-glass-body-c) 100%
+    );
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
@@ -256,6 +451,15 @@ html[data-theme="light"] .service-illustration-img {
   filter: brightness(0.28) contrast(1.18);
 }
 
+/* Platform mark is authored white-on-black; darken on light theme for contrast */
+.site-logo-img {
+  transition: filter 0.25s ease;
+}
+
+html[data-theme="light"] .site-logo-img {
+  filter: brightness(0) saturate(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -278,6 +482,20 @@ html[data-theme="light"] .service-illustration-img {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .hero-title,
+  .hero-title-line,
+  .hero-title-line::before,
+  .hero-title-line::after {
+    transform: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+  }
+
+  .hero-title-line::before,
+  .hero-title-line::after {
+    opacity: 0 !important;
   }
 
   * {

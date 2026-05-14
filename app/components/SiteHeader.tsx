@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -240,6 +241,14 @@ export default function SiteHeader() {
               aria-label="Limited Labs home"
               onClick={closeMenu}
             >
+              <Image
+                src="/ll-logo-white.png"
+                alt=""
+                width={137}
+                height={156}
+                priority
+                className="site-logo-img h-[26px] w-auto shrink-0 sm:h-[30px]"
+              />
               <span className="font-display text-base font-bold tracking-[-0.02em] min-[720px]:inline sm:text-lg">
                 Limited Labs
               </span>

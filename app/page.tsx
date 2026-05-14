@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
+import HeroRefractionTitle from "./components/HeroRefractionTitle";
 import WorkCardLink from "./components/WorkCardLink";
 import LandingInteractions from "./LandingInteractions";
 import { wrap } from "./site";
@@ -36,10 +37,7 @@ export default function Home() {
           <div className={wrap}>
             <div className="mt-10 grid grid-cols-1 items-start gap-10 max-[880px]:gap-10 md:grid-cols-[1.4fr_1fr] md:gap-[clamp(32px,5vw,80px)]">
               <div>
-                <h1 className="anim font-display text-[clamp(48px,8.5vw,130px)] font-bold leading-[0.9] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96,'wdth'_100] d2">
-                  <span className="block">Welcome to</span>
-                  <span className="inline-block">the LAB.</span>
-                </h1>
+                <HeroRefractionTitle />
               </div>
               <div className="anim d3">
                 <p className="max-w-[38ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
@@ -85,9 +83,9 @@ export default function Home() {
                 </svg>
               </div>
             </div>
-            <div className="anim mt-10 relative grid place-items-center overflow-hidden rounded-[24px] border border-border px-6 py-10 before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_20%_30%,rgba(245,244,239,0.04)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(245,244,239,0.03)_0%,transparent_50%)] before:content-[''] d1">
+            <div className="anim mt-10 relative grid place-items-center overflow-hidden rounded-[24px] border border-border px-6 py-10 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:bg-[radial-gradient(circle_at_20%_30%,rgba(245,244,239,0.04)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(245,244,239,0.03)_0%,transparent_50%)] before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-[1] after:h-2/3 after:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent)] after:content-[''] d1">
               <svg
-                className="cloud h-auto w-full max-w-[540px]"
+                className="cloud relative z-10 h-auto w-full max-w-[540px]"
                 viewBox="0 0 540 320"
                 fill="none"
                 aria-hidden="true"

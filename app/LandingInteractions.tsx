@@ -68,6 +68,39 @@ export default function LandingInteractions() {
     window.addEventListener("scroll", onScroll, scrollOpts);
     onScroll();
 
+    const heroTitle = document.querySelector<HTMLElement>("[data-hero-title]");
+    const reduceHeroMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const resetHeroTitle = () => {
+      if (!heroTitle) return;
+      heroTitle.classList.remove("is-hero-active");
+      heroTitle.style.setProperty("--hero-tilt-x", "0deg");
+      heroTitle.style.setProperty("--hero-tilt-y", "0deg");
+      heroTitle.style.setProperty("--hero-glare-x", "50%");
+      heroTitle.style.setProperty("--hero-glare-y", "50%");
+    };
+
+    const onHeroPointerMove = (e: PointerEvent) => {
+      if (!heroTitle || reduceHeroMotion) return;
+      const rect = heroTitle.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const clampedX = Math.min(Math.max(x, 0), 1);
+      const clampedY = Math.min(Math.max(y, 0), 1);
+
+      heroTitle.classList.add("is-hero-active");
+      heroTitle.style.setProperty("--hero-tilt-x", `${((0.5 - clampedY) * 9).toFixed(2)}deg`);
+      heroTitle.style.setProperty("--hero-tilt-y", `${((clampedX - 0.5) * 12).toFixed(2)}deg`);
+      heroTitle.style.setProperty("--hero-glare-x", `${(clampedX * 100).toFixed(2)}%`);
+      heroTitle.style.setProperty("--hero-glare-y", `${(clampedY * 100).toFixed(2)}%`);
+    };
+
+    if (heroTitle && !reduceHeroMotion) {
+      heroTitle.addEventListener("pointermove", onHeroPointerMove);
+      heroTitle.addEventListener("pointerleave", resetHeroTitle);
+      heroTitle.addEventListener("pointercancel", resetHeroTitle);
+    }
+
     const track = document.getElementById("workTrack");
     const DRAG_THRESHOLD_PX = 10;
 
@@ -154,6 +187,9 @@ export default function LandingInteractions() {
       window.removeEventListener("scroll", onScroll, scrollOpts);
       window.removeEventListener("mousemove", onWindowMouseMove);
       window.removeEventListener("mouseup", endDrag);
+      heroTitle?.removeEventListener("pointermove", onHeroPointerMove);
+      heroTitle?.removeEventListener("pointerleave", resetHeroTitle);
+      heroTitle?.removeEventListener("pointercancel", resetHeroTitle);
       track?.removeEventListener("mousedown", onTrackMouseDown);
       track?.removeEventListener("click", onTrackClickCapture, true);
       intersectionObserver?.disconnect();
