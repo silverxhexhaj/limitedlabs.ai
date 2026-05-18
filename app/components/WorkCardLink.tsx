@@ -7,14 +7,26 @@ type WorkCardLinkProps = {
   work: WorkItem;
   tagRow: string;
   tagSm: string;
+  layout?: "carousel" | "grid";
 };
 
-export default function WorkCardLink({ work, tagRow, tagSm }: WorkCardLinkProps) {
+const layoutClasses = {
+  carousel:
+    "min-w-0 shrink-0 basis-[clamp(260px,min(32vw,100%),420px)] snap-start max-[380px]:basis-[min(280px,calc(100vw-(var(--gutter)*2)-24px))]",
+  grid: "min-w-0 w-full snap-none",
+};
+
+export default function WorkCardLink({
+  work,
+  tagRow,
+  tagSm,
+  layout = "carousel",
+}: WorkCardLinkProps) {
   return (
     <Link
       href={`/work/${work.slug}`}
       scroll
-      className="group/card min-w-0 shrink-0 basis-[clamp(260px,min(32vw,100%),420px)] snap-start transition-transform duration-300 ease-out max-[380px]:basis-[min(280px,calc(100vw-(var(--gutter)*2)-24px))] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4 focus-visible:ring-offset-page"
+      className={`group/card transition-transform duration-300 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4 focus-visible:ring-offset-page ${layoutClasses[layout]}`}
       data-reveal
     >
       <article className="h-full">

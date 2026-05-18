@@ -1,12 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import HeroRefractionTitle from "./components/HeroRefractionTitle";
-import WorkCardLink from "./components/WorkCardLink";
+import WorksTabs from "./components/WorksTabs";
 import LandingInteractions from "./LandingInteractions";
 import { wrap } from "./site";
-import { WORK_ITEMS } from "./work/workData";
 
 const tagRow = "flex flex-wrap gap-2";
 
@@ -17,7 +17,7 @@ const tagSm =
   "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted transition-colors hover:border-ink hover:text-ink";
 
 const serviceSlide =
-  "group grid grid-cols-1 gap-8 border-b border-border py-[clamp(40px,6vw,80px)] last:border-b-0 md:grid-cols-2 md:items-center md:gap-[clamp(32px,5vw,80px)] md:even:[&>div:first-of-type]:order-2 md:even:[&>div:last-of-type]:order-1";
+  "group grid grid-cols-1 gap-8 border-b border-border py-[clamp(40px,6vw,80px)] last:border-b-0 md:grid-cols-2 md:items-center md:gap-[clamp(32px,5vw,80px)] md:even:[&>:first-child]:order-2 md:even:[&>:last-child]:order-1";
 
 const serviceArt =
   "service-art relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-border p-8 transition-transform duration-500 ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.015] [&>span]:flex [&>span]:h-full [&>span]:w-full [&>span]:max-w-full [&>span]:items-center [&>span]:justify-center";
@@ -27,13 +27,16 @@ const eyebrowCore =
 
 const eyebrow = `mb-[18px] ${eyebrowCore}`;
 
+const learnMoreLink =
+  "mt-7 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors duration-200 hover:text-ink";
+
 export default function Home() {
   return (
     <>
       <SiteHeader />
 
       <main id="top">
-        <section className="pb-20 pt-[80px]">
+        <section className="py-20">
           <div className={wrap}>
             <div className="mt-10 grid grid-cols-1 items-start gap-10 max-[880px]:gap-10 md:grid-cols-[1.4fr_1fr] md:gap-[clamp(32px,5vw,80px)]">
               <div>
@@ -157,7 +160,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-[clamp(80px,10vw,160px)] pb-[clamp(40px,6vw,80px)]">
+        <section className="py-20">
           <div className={wrap}>
             <h2 className="font-display text-[clamp(48px,9vw,144px)] font-bold leading-[0.88] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
               <span className="block">We think systems.</span>
@@ -166,10 +169,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="pb-20 pt-10" id="services">
+        <section className="py-20" id="services">
           <div className={wrap}>
             <div className={serviceSlide} data-reveal>
-              <div className={serviceArt}>
+              <Link href="/services/brand" className={`${serviceArt} block`}>
                 <Image
                   src="/svg/brand-service.svg"
                   alt="Brand service illustration"
@@ -181,7 +184,7 @@ export default function Home() {
                 <span className="service-ticks" aria-hidden="true">
                   <span />
                 </span>
-              </div>
+              </Link>
               <div>
                 <div className={eyebrow}>01 / Brand</div>
                 <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
@@ -199,11 +202,15 @@ export default function Home() {
                   <li className={tag}>Content Pillars</li>
                   <li className={tag}>Brand Guidelines</li>
                 </ul>
+                <Link href="/services/brand" className={learnMoreLink}>
+                  Learn more
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
 
             <div className={serviceSlide} data-reveal>
-              <div className={serviceArt}>
+              <Link href="/services/software" className={`${serviceArt} block`}>
                 <Image
                   src="/svg/code-service.svg"
                   alt="Software service illustration"
@@ -215,7 +222,7 @@ export default function Home() {
                 <span className="service-ticks" aria-hidden="true">
                   <span />
                 </span>
-              </div>
+              </Link>
               <div>
                 <div className={eyebrow}>02 / Software</div>
                 <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
@@ -234,11 +241,15 @@ export default function Home() {
                   <li className={tag}>Supabase</li>
                   <li className={tag}>Vercel</li>
                 </ul>
+                <Link href="/services/software" className={learnMoreLink}>
+                  Learn more
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
 
             <div className={serviceSlide} data-reveal>
-              <div className={serviceArt}>
+              <Link href="/services/marketing-engines" className={`${serviceArt} block`}>
                 <Image
                   src="/svg/marketing-service.svg"
                   alt="Marketing engines service illustration"
@@ -250,7 +261,7 @@ export default function Home() {
                 <span className="service-ticks" aria-hidden="true">
                   <span />
                 </span>
-              </div>
+              </Link>
               <div>
                 <div className={eyebrow}>03 / Marketing Engines</div>
                 <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
@@ -268,11 +279,15 @@ export default function Home() {
                   <li className={tag}>KPI Reporting</li>
                   <li className={tag}>Lead Workflows</li>
                 </ul>
+                <Link href="/services/marketing-engines" className={learnMoreLink}>
+                  Learn more
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
 
             <div className={serviceSlide} data-reveal>
-              <div className={serviceArt}>
+              <Link href="/services/automation" className={`${serviceArt} block`}>
                 <Image
                   src="/svg/ai-service.svg"
                   alt="Automation and AI service illustration"
@@ -284,7 +299,7 @@ export default function Home() {
                 <span className="service-ticks" aria-hidden="true">
                   <span />
                 </span>
-              </div>
+              </Link>
               <div>
                 <div className={eyebrow}>04 / Automation</div>
                 <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
@@ -302,11 +317,15 @@ export default function Home() {
                   <li className={tag}>Internal AI Tools</li>
                   <li className={tag}>SOPs</li>
                 </ul>
+                <Link href="/services/automation" className={learnMoreLink}>
+                  Learn more
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
 
             <div className={serviceSlide} data-reveal>
-              <div className={serviceArt}>
+              <Link href="/services/product-lab" className={`${serviceArt} block`}>
                 <Image
                   src="/svg/productlab-service.svg"
                   alt="Product Lab service illustration"
@@ -318,7 +337,7 @@ export default function Home() {
                 <span className="service-ticks" aria-hidden="true">
                   <span />
                 </span>
-              </div>
+              </Link>
               <div>
                 <div className={eyebrow}>05 / Product Lab</div>
                 <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
@@ -335,12 +354,16 @@ export default function Home() {
                   <li className={tag}>Pitch Deck</li>
                   <li className={tag}>Roadmap</li>
                 </ul>
+                <Link href="/services/product-lab" className={learnMoreLink}>
+                  Learn more
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="pb-20 pt-[clamp(80px,10vw,160px)]" id="work">
+        <section className="py-20" id="work">
           <div className={wrap}>
             <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
               <div className="min-w-0 max-w-[min(720px,calc(100%-160px))]">
@@ -353,39 +376,11 @@ export default function Home() {
                   Each tile links to an outline-style case page — ready to swap placeholder copy once real projects publish.
                 </p>
               </div>
-              <div className="drag-hint inline-flex shrink-0 -rotate-[4deg] items-center gap-2.5 font-hand text-[clamp(22px,3.8vw,28px)] text-ink">
-                Drag · Tap in
-                <svg className="drag-arrow w-[50px]" viewBox="0 0 60 40" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 20 Q 25 5, 45 20"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                  <path
-                    d="M38 14 L 47 20 L 41 28"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-              </div>
+              <span className={`${eyebrowCore} shrink-0`}>Filter by system</span>
             </div>
           </div>
 
-          <div className="mx-auto max-w-[var(--max)] overflow-hidden px-[var(--gutter)] py-2">
-            <div
-              className="flex cursor-grab gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain overscroll-y-none px-0 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
-              id="workTrack"
-            >
-              {WORK_ITEMS.map((work) => (
-                <WorkCardLink key={work.slug} work={work} tagRow={tagRow} tagSm={tagSm} />
-              ))}
-            </div>
-          </div>
+          <WorksTabs tagRow={tagRow} tagSm={tagSm} />
         </section>
 
         <section className="border-y border-border py-10" aria-hidden="true">
@@ -453,7 +448,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="py-[clamp(80px,10vw,140px)]" id="why" aria-labelledby="why-heading">
+        <section className="py-[clamp(80px,10vw,160px)]" id="why" aria-labelledby="why-heading">
           <div className={wrap}>
             <div className="mb-16 max-w-[50ch]">
               <span className={`${eyebrowCore} mb-3 inline-block`}>Impact</span>
@@ -561,7 +556,7 @@ export default function Home() {
         </section>
 
         <section
-          className="border-t border-border pb-20 pt-[clamp(80px,10vw,160px)]"
+          className="border-t border-border py-[clamp(80px,10vw,160px)]"
           id="voices"
           aria-labelledby="voices-heading"
         >
@@ -659,7 +654,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative py-[clamp(80px,12vw,180px)] text-center" id="contact">
+        <section className="relative py-[clamp(80px,10vw,160px)] text-center" id="contact">
           <div className={wrap}>
             <div className="relative mb-8 grid h-[220px] place-items-center">
               <div className="cta-stage relative grid h-[200px] w-[200px] place-items-center">

@@ -101,62 +101,6 @@ export default function LandingInteractions() {
       heroTitle.addEventListener("pointercancel", resetHeroTitle);
     }
 
-    const track = document.getElementById("workTrack");
-    const DRAG_THRESHOLD_PX = 10;
-
-    let pointerDown = false;
-    let dragActive = false;
-    let suppressNextClick = false;
-    let startX = 0;
-    let scrollLeftStart = 0;
-
-    const onWindowMouseMove = (e: MouseEvent) => {
-      if (!track || !pointerDown) return;
-      const dx = e.pageX - startX;
-      if (!dragActive && Math.abs(dx) > DRAG_THRESHOLD_PX) {
-        dragActive = true;
-        track.classList.add("dragging");
-      }
-      if (!dragActive) return;
-      e.preventDefault();
-      const walk = dx * 1.6;
-      track.scrollLeft = scrollLeftStart - walk;
-    };
-
-    const endDrag = () => {
-      if (!pointerDown) return;
-      pointerDown = false;
-
-      suppressNextClick = dragActive;
-
-      dragActive = false;
-      track?.classList.remove("dragging");
-
-      window.removeEventListener("mousemove", onWindowMouseMove);
-      window.removeEventListener("mouseup", endDrag);
-    };
-
-    const onTrackClickCapture = (e: MouseEvent) => {
-      if (!track || !suppressNextClick) return;
-      e.preventDefault();
-      e.stopPropagation();
-      suppressNextClick = false;
-    };
-
-    const onTrackMouseDown = (e: MouseEvent) => {
-      if (!track || e.button !== 0) return;
-      suppressNextClick = false;
-      pointerDown = true;
-      dragActive = false;
-      startX = e.pageX;
-      scrollLeftStart = track.scrollLeft;
-      window.addEventListener("mousemove", onWindowMouseMove);
-      window.addEventListener("mouseup", endDrag);
-    };
-
-    track?.addEventListener("mousedown", onTrackMouseDown);
-    track?.addEventListener("click", onTrackClickCapture, true);
-
     // ---------- Service illustration parallax tilt ----------
     const serviceTiles = Array.from(
       document.querySelectorAll<HTMLElement>(".service-art"),
@@ -267,13 +211,9 @@ export default function LandingInteractions() {
     return () => {
       toggleBtn?.removeEventListener("click", onThemeToggleClick);
       window.removeEventListener("scroll", onScroll, scrollOpts);
-      window.removeEventListener("mousemove", onWindowMouseMove);
-      window.removeEventListener("mouseup", endDrag);
       heroTitle?.removeEventListener("pointermove", onHeroPointerMove);
       heroTitle?.removeEventListener("pointerleave", resetHeroTitle);
       heroTitle?.removeEventListener("pointercancel", resetHeroTitle);
-      track?.removeEventListener("mousedown", onTrackMouseDown);
-      track?.removeEventListener("click", onTrackClickCapture, true);
       serviceTiles.forEach((tile) => {
         tile.removeEventListener("pointermove", onServicePointerMove);
         tile.removeEventListener("pointerleave", resetServiceTilt);

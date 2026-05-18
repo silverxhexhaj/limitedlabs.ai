@@ -197,7 +197,9 @@ export default function HeroRefractionTitle() {
       };
 
       const drawTextTexture = () => {
-        const rect = measureTextBox();
+        const fallback =
+          rootNode.querySelector<HTMLElement>(".hero-title-fallback") ?? rootNode;
+        const rect = fallback.getBoundingClientRect();
         if (rect.width <= 0 || rect.height <= 0) return;
 
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -206,8 +208,6 @@ export default function HeroRefractionTitle() {
         const fontWeight = rootStyles.fontWeight || "700";
         const fontFamily = rootStyles.fontFamily || "Bricolage Grotesque, sans-serif";
         const letterSpacing = Number.parseFloat(rootStyles.letterSpacing);
-        const lineHeight = Number.isFinite(fontSize) ? fontSize * 0.9 : rect.height / HERO_LINES.length;
-        const firstBaseline = Number.isFinite(fontSize) ? fontSize * 0.78 : lineHeight * 0.78;
 
         textureCanvas.width = Math.max(1, Math.round(rect.width * dpr));
         textureCanvas.height = Math.max(1, Math.round(rect.height * dpr));
@@ -217,10 +217,8 @@ export default function HeroRefractionTitle() {
         textureContext.textBaseline = "alphabetic";
         textureContext.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
 
-        HERO_LINES.forEach((text, index) => {
-          const x = 0;
-          const y = firstBaseline + lineHeight * index;
-
+        const lineNodes = fallback.querySelectorAll<HTMLElement>(".hero-title-line");
+        const drawLine = (text: string, x: number, y: number) => {
           if (Number.isFinite(letterSpacing) && letterSpacing !== 0) {
             let cursor = x;
             Array.from(text).forEach((char) => {
@@ -230,13 +228,28 @@ export default function HeroRefractionTitle() {
           } else {
             textureContext.fillText(text, x, y);
           }
+        };
+
+        lineNodes.forEach((lineEl) => {
+          const lineRect = lineEl.getBoundingClientRect();
+          const text = lineEl.getAttribute("data-text") ?? lineEl.textContent ?? "";
+          const x = lineRect.left - rect.left;
+          const metrics = textureContext.measureText(text || "Mg");
+          const ascent = metrics.actualBoundingBoxAscent;
+          const y =
+            lineRect.top -
+            rect.top +
+            (Number.isFinite(ascent) && ascent > 0 ? ascent : lineRect.height * 0.78);
+          drawLine(text, x, y);
         });
 
         textTexture.needsUpdate = true;
       };
 
       const resize = () => {
-        const rect = measureTextBox();
+        const fallback =
+          rootNode.querySelector<HTMLElement>(".hero-title-fallback") ?? rootNode;
+        const rect = fallback.getBoundingClientRect();
         if (rect.width <= 0 || rect.height <= 0) return;
         renderer.setSize(rect.width, rect.height, false);
         uniforms.uResolution.value.set(rect.width, rect.height);
@@ -307,15 +320,15 @@ export default function HeroRefractionTitle() {
   return (
     <h1
       ref={rootRef}
-      className="hero-title anim font-display text-[clamp(48px,8.5vw,130px)] font-bold leading-[0.9] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96,'wdth'_100] d2"
+      className="hero-title anim font-display text-[clamp(64px,13vw,130px)] font-bold leading-[0.9] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96,'wdth'_100] d2"
       data-hero-title
       data-webgl-ready={isReady ? "true" : undefined}
     >
       <span className="hero-title-fallback">
-        {HERO_LINES.map((line, index) => (
+        {HERO_LINES.map((line) => (
           <span
             key={line}
-            className={`hero-title-line ${index === 0 ? "block" : "inline-block"}`}
+            className="hero-title-line"
             data-refraction-text={line}
             data-text={line}
           >

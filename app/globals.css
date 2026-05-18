@@ -96,14 +96,6 @@ html[data-theme="light"] {
   border-bottom: 1px solid var(--line);
 }
 
-#workTrack.dragging {
-  cursor: grabbing;
-}
-
-#workTrack.dragging * {
-  pointer-events: none;
-}
-
 .hero-title {
   --hero-tilt-x: 0deg;
   --hero-tilt-y: 0deg;
@@ -119,7 +111,8 @@ html[data-theme="light"] {
   --hero-extrude: rgba(8, 10, 14, 0.94);
   --hero-shadow: rgba(0, 0, 0, 0.75);
   position: relative;
-  width: fit-content;
+  display: block;
+  width: 100%;
   max-width: 100%;
   cursor: crosshair;
   isolation: isolate;
@@ -131,6 +124,7 @@ html[data-theme="light"] {
 
 .hero-title-fallback {
   display: block;
+  padding-bottom: 0.25em;
   transition: opacity 0.35s ease;
 }
 
@@ -157,7 +151,7 @@ html[data-theme="light"] {
 .hero-title-line {
   --hero-z: 0px;
   position: relative;
-  display: inline-block;
+  display: block;
   color: transparent;
   -webkit-text-stroke: 0.85px var(--hero-glass-rim);
   background:
@@ -700,27 +694,6 @@ html[data-theme="light"] .service-art:hover .service-illustration-img {
 .voice-card:hover .voice-icon circle:nth-of-type(2) { animation: bob 0.9s ease-in-out 0.15s infinite; }
 .voice-card:hover .voice-icon circle:nth-of-type(3) { animation: bob 0.9s ease-in-out 0.3s infinite; }
 
-/* ---------- Work-section "drag" handwritten arrow ---------- */
-.drag-hint {
-  transition: transform 0.3s ease;
-}
-
-.drag-hint:hover {
-  transform: rotate(-2deg) scale(1.04);
-}
-
-.drag-arrow path {
-  transition: stroke-width 0.25s ease;
-}
-
-.drag-hint:hover .drag-arrow {
-  animation: nudge-right 0.9s ease-in-out infinite;
-}
-
-.drag-hint:hover .drag-arrow path {
-  stroke-width: 3;
-}
-
 /* ---------- Contact CTA ring + squiggle ---------- */
 #contact .cta-ring {
   transition: animation-duration 0.4s ease, filter 0.4s ease;
@@ -924,7 +897,6 @@ html[data-theme="light"] .site-logo-img {
   .service-art .service-illustration-img,
   .cloud g,
   .cloud circle,
-  .drag-arrow,
   .cta-squiggle {
     animation: none !important;
   }

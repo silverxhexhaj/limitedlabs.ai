@@ -50,6 +50,14 @@ export default function SiteFooter() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/admin/login"
+                  className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted"
+                >
+                  Admin login
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

@@ -223,6 +223,30 @@ export default function SiteHeader() {
                   />
                   Let&apos;s Talk
                 </a>
+                <Link
+                  href="/admin/login"
+                  onClick={closeMenu}
+                  className="mt-3 inline-flex w-full min-[420px]:w-auto items-center justify-center gap-2 rounded-full border border-border-strong bg-surface/95 px-8 py-3.5 text-sm font-medium text-ink transition-[border-color,transform] duration-200 hover:border-ink-muted hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transform-none"
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <rect
+                      x="3"
+                      y="7"
+                      width="10"
+                      height="7"
+                      rx="1.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  Admin login
+                </Link>
               </div>
             </div>
           </div>
@@ -274,7 +298,12 @@ export default function SiteHeader() {
           </div>
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-            
+            <Link
+              href="/admin/login"
+              className={`${navLinkDesktop} hidden sm:inline-flex`}
+            >
+              Login
+            </Link>
 
             <button
               type="button"
