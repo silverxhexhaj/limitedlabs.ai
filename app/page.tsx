@@ -20,7 +20,7 @@ const serviceSlide =
   "group grid grid-cols-1 gap-8 border-b border-border py-[clamp(40px,6vw,80px)] last:border-b-0 md:grid-cols-2 md:items-center md:gap-[clamp(32px,5vw,80px)] md:even:[&>div:first-of-type]:order-2 md:even:[&>div:last-of-type]:order-1";
 
 const serviceArt =
-  "relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-border p-8 transition-transform duration-500 ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.015] [&>span]:flex [&>span]:h-full [&>span]:w-full [&>span]:max-w-full [&>span]:items-center [&>span]:justify-center";
+  "service-art relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-border p-8 transition-transform duration-500 ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.015] [&>span]:flex [&>span]:h-full [&>span]:w-full [&>span]:max-w-full [&>span]:items-center [&>span]:justify-center";
 
 const eyebrowCore =
   "font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted";
@@ -178,6 +178,9 @@ export default function Home() {
                   className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
                   sizes="(max-width: 768px) 70vw, 280px"
                 />
+                <span className="service-ticks" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <div>
                 <div className={eyebrow}>01 / Brand</div>
@@ -209,6 +212,9 @@ export default function Home() {
                   className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
                   sizes="(max-width: 768px) 70vw, 280px"
                 />
+                <span className="service-ticks" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <div>
                 <div className={eyebrow}>02 / Software</div>
@@ -241,6 +247,9 @@ export default function Home() {
                   className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
                   sizes="(max-width: 768px) 70vw, 280px"
                 />
+                <span className="service-ticks" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <div>
                 <div className={eyebrow}>03 / Marketing Engines</div>
@@ -272,6 +281,9 @@ export default function Home() {
                   className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
                   sizes="(max-width: 768px) 70vw, 280px"
                 />
+                <span className="service-ticks" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <div>
                 <div className={eyebrow}>04 / Automation</div>
@@ -303,6 +315,9 @@ export default function Home() {
                   className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
                   sizes="(max-width: 768px) 70vw, 280px"
                 />
+                <span className="service-ticks" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <div>
                 <div className={eyebrow}>05 / Product Lab</div>
@@ -338,9 +353,9 @@ export default function Home() {
                   Each tile links to an outline-style case page — ready to swap placeholder copy once real projects publish.
                 </p>
               </div>
-              <div className="inline-flex shrink-0 -rotate-[4deg] items-center gap-2.5 font-hand text-[clamp(22px,3.8vw,28px)] text-ink">
+              <div className="drag-hint inline-flex shrink-0 -rotate-[4deg] items-center gap-2.5 font-hand text-[clamp(22px,3.8vw,28px)] text-ink">
                 Drag · Tap in
-                <svg className="w-[50px]" viewBox="0 0 60 40" fill="none" aria-hidden="true">
+                <svg className="drag-arrow w-[50px]" viewBox="0 0 60 40" fill="none" aria-hidden="true">
                   <path
                     d="M5 20 Q 25 5, 45 20"
                     stroke="currentColor"
@@ -455,10 +470,11 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 min-[980px]:grid-cols-4">
               <div
-                className="relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color] duration-300 ease-out hover:border-ink-faint"
+                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
                 data-reveal
+                data-spotlight
               >
-                <svg className="h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2" />
                   <path
                     d="M12 18 L 16 22 L 24 14"
@@ -480,10 +496,11 @@ export default function Home() {
               </div>
 
               <div
-                className="relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color] duration-300 ease-out hover:border-ink-faint"
+                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
                 data-reveal
+                data-spotlight
               >
-                <svg className="h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2" />
                   <path d="M18 10 V 18 L 23 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
                 </svg>
@@ -498,10 +515,11 @@ export default function Home() {
               </div>
 
               <div
-                className="relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color] duration-300 ease-out hover:border-ink-faint"
+                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
                 data-reveal
+                data-spotlight
               >
-                <svg className="h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <path d="M6 18 Q 18 6, 30 18 Q 18 30, 6 18 Z" stroke="currentColor" strokeWidth="2" fill="none" />
                   <circle cx="18" cy="18" r="4" fill="currentColor" />
                 </svg>
@@ -516,10 +534,11 @@ export default function Home() {
               </div>
 
               <div
-                className="relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color] duration-300 ease-out hover:border-ink-faint"
+                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
                 data-reveal
+                data-spotlight
               >
-                <svg className="h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
                   <rect x="6" y="6" width="24" height="24" rx="3" stroke="currentColor" strokeWidth="2" fill="none" />
                   <path
                     d="M12 14 H 24 M 12 18 H 22 M 12 22 H 20"
@@ -562,11 +581,11 @@ export default function Home() {
 
             <div className="grid grid-cols-1 gap-5 min-[720px]:grid-cols-2">
               <div
-                className="grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
+                className="voice-card grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
                 data-reveal
               >
                 <div className="grid size-20 place-items-center rounded-2xl border border-border bg-page text-ink">
-                  <svg className="h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <svg className="voice-icon h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path
                       d="M8 10 H 40 V 30 H 22 L 14 38 V 30 H 8 Z"
                       stroke="currentColor"
@@ -594,11 +613,11 @@ export default function Home() {
               </div>
 
               <div
-                className="grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
+                className="voice-card grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
                 data-reveal
               >
                 <div className="grid size-20 place-items-center rounded-2xl border border-border bg-page text-ink">
-                  <svg className="h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                  <svg className="voice-icon h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
                     <path
                       d="M10 14 Q 10 8, 16 8 H 32 Q 38 8, 38 14 V 28 Q 38 34, 32 34 H 24 L 16 40 V 34 Q 10 34, 10 28 Z"
                       stroke="currentColor"
@@ -643,7 +662,7 @@ export default function Home() {
         <section className="relative py-[clamp(80px,12vw,180px)] text-center" id="contact">
           <div className={wrap}>
             <div className="relative mb-8 grid h-[220px] place-items-center">
-              <div className="relative grid h-[200px] w-[200px] place-items-center">
+              <div className="cta-stage relative grid h-[200px] w-[200px] place-items-center">
                 <svg
                   className="cta-ring absolute inset-0 animate-[spin_18s_linear_infinite] text-ink"
                   viewBox="0 0 200 200"
@@ -658,7 +677,7 @@ export default function Home() {
                     </textPath>
                   </text>
                 </svg>
-                <svg className="relative z-[1] h-20 w-20 text-ink" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                <svg className="cta-squiggle relative z-[1] h-20 w-20 text-ink" viewBox="0 0 80 80" fill="none" aria-hidden="true">
                   <path
                     d="M10 40 Q 22 22, 40 30 Q 58 22, 70 40 Q 58 58, 40 50 Q 22 58, 10 40 Z"
                     stroke="currentColor"
@@ -685,10 +704,11 @@ export default function Home() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="mailto:hello@limitedlabs.co"
-                className="inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                className="magnetic inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:bg-accent"
+                data-magnetic
               >
                 hello@limitedlabs.co
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg className="magnetic-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8 H 13 M 9 4 L 13 8 L 9 12"
                     stroke="currentColor"
@@ -700,10 +720,11 @@ export default function Home() {
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-3 rounded-full border border-border-strong bg-transparent px-8 py-[18px] text-base font-medium text-ink transition-[border-color] duration-200 ease-out hover:border-ink"
+                className="magnetic inline-flex items-center gap-3 rounded-full border border-border-strong bg-transparent px-8 py-[18px] text-base font-medium text-ink transition-[border-color] duration-200 ease-out hover:border-ink"
+                data-magnetic
               >
                 Book a discovery call
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <svg className="magnetic-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 13 L 13 3 M 7 3 H 13 V 9"
                     stroke="currentColor"
@@ -717,7 +738,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="overflow-hidden py-10 pb-[60px]" aria-hidden="true">
+        <section className="footer-wordmark overflow-hidden py-10 pb-[60px]" aria-hidden="true">
           <svg className="h-auto w-full text-ink" viewBox="0 0 1400 200" fill="none" preserveAspectRatio="xMidYMid meet">
             <text
               x="700"
@@ -737,6 +758,7 @@ export default function Home() {
       </main>
 
       <SiteFooter />
+      <div className="grain-overlay" aria-hidden="true" />
       <LandingInteractions />
     </>
   );

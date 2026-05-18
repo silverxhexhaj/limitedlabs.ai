@@ -157,6 +157,88 @@ export default function LandingInteractions() {
     track?.addEventListener("mousedown", onTrackMouseDown);
     track?.addEventListener("click", onTrackClickCapture, true);
 
+    // ---------- Service illustration parallax tilt ----------
+    const serviceTiles = Array.from(
+      document.querySelectorAll<HTMLElement>(".service-art"),
+    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const onServicePointerMove = (event: PointerEvent) => {
+      const tile = event.currentTarget as HTMLElement;
+      const rect = tile.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const clampedX = Math.min(Math.max(x, 0), 1);
+      const clampedY = Math.min(Math.max(y, 0), 1);
+      tile.style.setProperty("--tilt-x", `${((0.5 - clampedY) * 8).toFixed(2)}deg`);
+      tile.style.setProperty("--tilt-y", `${((clampedX - 0.5) * 10).toFixed(2)}deg`);
+      tile.style.setProperty("--glare-x", `${(clampedX * 100).toFixed(2)}%`);
+      tile.style.setProperty("--glare-y", `${(clampedY * 100).toFixed(2)}%`);
+    };
+
+    const resetServiceTilt = (event: PointerEvent) => {
+      const tile = event.currentTarget as HTMLElement;
+      tile.style.setProperty("--tilt-x", "0deg");
+      tile.style.setProperty("--tilt-y", "0deg");
+      tile.style.setProperty("--glare-x", "50%");
+      tile.style.setProperty("--glare-y", "50%");
+    };
+
+    if (!reduceMotion) {
+      serviceTiles.forEach((tile) => {
+        tile.addEventListener("pointermove", onServicePointerMove);
+        tile.addEventListener("pointerleave", resetServiceTilt);
+      });
+    }
+
+    // ---------- Pointer spotlight on cards ----------
+    const spotlightCards = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-spotlight]"),
+    );
+
+    const onSpotlightMove = (event: PointerEvent) => {
+      const card = event.currentTarget as HTMLElement;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
+      card.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+    };
+
+    if (!reduceMotion) {
+      spotlightCards.forEach((card) => {
+        card.addEventListener("pointermove", onSpotlightMove);
+      });
+    }
+
+    // ---------- Magnetic CTA buttons ----------
+    const magneticEls = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-magnetic]"),
+    );
+    const MAG_STRENGTH = 0.22;
+
+    const onMagneticMove = (event: PointerEvent) => {
+      const el = event.currentTarget as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (event.clientX - cx) * MAG_STRENGTH;
+      const dy = (event.clientY - cy) * MAG_STRENGTH;
+      el.style.setProperty("--mag-x", `${dx.toFixed(2)}px`);
+      el.style.setProperty("--mag-y", `${dy.toFixed(2)}px`);
+    };
+
+    const resetMagnetic = (event: PointerEvent) => {
+      const el = event.currentTarget as HTMLElement;
+      el.style.setProperty("--mag-x", "0px");
+      el.style.setProperty("--mag-y", "0px");
+    };
+
+    if (!reduceMotion) {
+      magneticEls.forEach((el) => {
+        el.addEventListener("pointermove", onMagneticMove);
+        el.addEventListener("pointerleave", resetMagnetic);
+      });
+    }
+
     let intersectionObserver: IntersectionObserver | undefined;
     if ("IntersectionObserver" in window) {
       intersectionObserver = new IntersectionObserver(
@@ -192,6 +274,17 @@ export default function LandingInteractions() {
       heroTitle?.removeEventListener("pointercancel", resetHeroTitle);
       track?.removeEventListener("mousedown", onTrackMouseDown);
       track?.removeEventListener("click", onTrackClickCapture, true);
+      serviceTiles.forEach((tile) => {
+        tile.removeEventListener("pointermove", onServicePointerMove);
+        tile.removeEventListener("pointerleave", resetServiceTilt);
+      });
+      spotlightCards.forEach((card) => {
+        card.removeEventListener("pointermove", onSpotlightMove);
+      });
+      magneticEls.forEach((el) => {
+        el.removeEventListener("pointermove", onMagneticMove);
+        el.removeEventListener("pointerleave", resetMagnetic);
+      });
       intersectionObserver?.disconnect();
     };
   }, []);
