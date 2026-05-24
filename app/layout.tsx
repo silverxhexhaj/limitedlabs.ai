@@ -6,11 +6,26 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.limitedlabs.ai"),
-  title: "Limited Labs — A digital systems studio. Brand, build, automate.",
+  title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
   description:
-    "Limited Labs is a digital systems studio. We design brands, build software, run marketing engines, and ship automations — under one operating logic. Tirana, Albania.",
+    "Limited Labs builds brands, websites, marketing systems, and automation workflows for founders and local operators in Tirana, Albania and beyond.",
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
+    description:
+      "A Tirana-based digital systems studio for businesses that need clearer brand, better websites, stronger marketing, and less manual work.",
+    url: "https://www.limitedlabs.ai",
+    siteName: "Limited Labs",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
+    description:
+      "Brand, website, marketing, and automation systems for founders and local operators.",
   },
   applicationName: "Limited Labs",
   manifest: "/manifest.webmanifest",
@@ -45,6 +60,36 @@ export const viewport: Viewport = {
   colorScheme: "dark light",
 };
 
+const professionalServiceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Limited Labs",
+  url: "https://www.limitedlabs.ai",
+  email: "hello@limitedlabs.co",
+  areaServed: ["Albania", "Tirana", "Europe"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Tirana",
+    addressCountry: "AL",
+  },
+  description:
+    "Limited Labs builds brands, websites, marketing systems, and automation workflows for founders and local operators.",
+  knowsAbout: [
+    "Brand strategy",
+    "Website design",
+    "MVP development",
+    "Meta Ads",
+    "Business automation",
+    "AI workflows",
+  ],
+  makesOffer: [
+    { "@type": "Offer", name: "Brand strategy and visual identity" },
+    { "@type": "Offer", name: "Website and MVP development" },
+    { "@type": "Offer", name: "Marketing engines and lead generation" },
+    { "@type": "Offer", name: "Business automation and AI workflows" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,6 +103,10 @@ export default function RootLayout({
         <link
           href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@500;700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&display=swap"
           rel="stylesheet"
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
         />
       </head>
       <body className="min-h-screen bg-page font-sans text-ink antialiased">

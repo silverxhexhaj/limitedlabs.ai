@@ -56,7 +56,7 @@ export const WORK_ITEMS: WorkItem[] = [
         "Asset naming + folder structure",
       ],
       results:
-        "Placeholder outcome copy—swap in timelines, KPIs, and named links once the engagement wraps (traffic, bookings, reopening notes, whatever’s real).",
+        "Outcome target: a launch-ready hospitality brand system with reusable assets, clearer guest touchpoints, and a content structure ready for bookings, events, and local campaigns.",
     },
   },
   {
@@ -82,7 +82,7 @@ export const WORK_ITEMS: WorkItem[] = [
       ],
       systems: ["Next.js app routes", "Supabase Postgres + Auth", "Vercel deploy pipeline", "Error monitoring hooks (optional)"],
       results:
-        "Placeholder metrics—plug in conversion, AOV, or time-to-first-sale once live data exists.",
+        "Outcome target: a storefront foundation prepared for conversion tracking, campaign attribution, inventory expansion, and a faster path from first visit to first purchase.",
     },
   },
   {
@@ -108,7 +108,7 @@ export const WORK_ITEMS: WorkItem[] = [
       ],
       systems: ["Meta Ads structure", "UTM + event naming", "Monthly content batching", "KPI dashboard (lightweight)"],
       results:
-        "Placeholder learnings—replace with CPL, response rate, and revenue impact once campaigns have run.",
+        "Outcome target: a local campaign engine where every creative test, landing page visit, and lead response can be measured and improved weekly.",
     },
   },
   {
@@ -134,7 +134,7 @@ export const WORK_ITEMS: WorkItem[] = [
       ],
       systems: ["Next.js", "Edge-friendly caching", "Analytics events for inquiry funnel", "Email/SMS handoff hooks"],
       results:
-        "Placeholder product stats—swap in LCP, inquiry rate, and install rate after launch.",
+        "Outcome target: a fast property browsing experience designed around inquiry rate, mobile performance, and install-ready repeat usage.",
     },
   },
   {
@@ -160,7 +160,7 @@ export const WORK_ITEMS: WorkItem[] = [
       ],
       systems: ["Content templates", "Lead/inquiry routing", "Review request workflow (optional)", "Light CRM tagging"],
       results:
-        "Placeholder ops wins—drop in hours saved, repeat visits, or promo redemption when you have them.",
+        "Outcome target: fewer repeated content requests, cleaner promo planning, and more consistent customer touchpoints across menu, social, and follow-up.",
     },
   },
   {
@@ -186,7 +186,7 @@ export const WORK_ITEMS: WorkItem[] = [
       ],
       systems: ["Role-based access", "Audit log events", "Background jobs for imports", "AI assist behind approval gates"],
       results:
-        "Placeholder efficiency metrics—add time-to-complete, error rate reduction, or throughput once measured.",
+        "Outcome target: lower manual admin load, clearer ownership, and safer throughput through permissions, audit logs, and approval-gated AI assistance.",
     },
   },
 ];

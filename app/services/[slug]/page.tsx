@@ -78,8 +78,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Services — Limited Labs" };
   }
   return {
-    title: `${item.name} — Limited Labs`,
+    title: `${item.name} Systems — Limited Labs`,
     description: item.summary,
+    alternates: {
+      canonical: `/services/${item.slug}`,
+    },
     openGraph: {
       title: `${item.name} — Limited Labs`,
       description: item.summary,

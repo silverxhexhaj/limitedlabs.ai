@@ -43,16 +43,32 @@ export default function Home() {
                 <HeroRefractionTitle />
               </div>
               <div className="anim d3">
-                <p className="max-w-[38ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  We&apos;re your{" "}
-                  <strong className="font-medium text-ink underline decoration-[1.5px] underline-offset-4">
-                    operating partner
-                  </strong>{" "}
-                  for brand, software, marketing, and automation — under one logic, not three vendors.
+                <p className="max-w-[40ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
+                  We build brands, websites, and automation systems for businesses that want to grow
+                  without adding chaos.
                 </p>
-                <p className="mt-[18px] max-w-[38ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  From founders to family businesses, we build the systems that keep working after the
-                  project ends.
+                <p className="mt-[18px] max-w-[42ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
+                  Limited Labs helps founders and local operators turn scattered marketing, outdated
+                  websites, and manual workflows into one clean growth system.
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <a
+                    href="#audit"
+                    className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                  >
+                    Get a free growth systems audit
+                    <span aria-hidden="true">→</span>
+                  </a>
+                  <a
+                    href="#services"
+                    className="inline-flex items-center gap-3 rounded-full border border-border-strong px-6 py-3.5 text-sm font-semibold text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
+                  >
+                    See services
+                  </a>
+                </div>
+                <p className="mt-4 max-w-[42ch] font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+                  Based in Tirana · Hospitality, real estate, e-commerce, and service businesses
                 </p>
 
                 <svg
@@ -562,96 +578,152 @@ export default function Home() {
           aria-labelledby="voices-heading"
         >
           <div className={wrap}>
-            <div className="mb-14 max-w-[min(620px,calc(100%-20px))]">
+            <div className="mb-14 max-w-[min(720px,calc(100%-20px))]">
               <span className={`${eyebrowCore} mb-3 inline-block`}>Proof Wall</span>
               <h2
                 id="voices-heading"
                 className="font-display text-[clamp(36px,6vw,88px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
               >
-                Proof in progress.
+                Built from real operating needs.
               </h2>
-              <p className="mt-5 max-w-[48ch] text-[14.5px] leading-relaxed text-ink-muted">
-                We&apos;re building with a small group of operators first. Selected outcomes, screenshots,
-                and approved client notes will publish here as work ships.
+              <p className="mt-5 max-w-[54ch] text-[14.5px] leading-relaxed text-ink-muted">
+                Before selling systems to clients, we build them for our own ventures: marketplaces,
+                hospitality brands, admin workflows, and automation experiments that need to work in the
+                real world.
               </p>
             </div>
 
             <div className="grid grid-cols-1 gap-5 min-[720px]:grid-cols-2">
-              <div
-                className="voice-card grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
-                data-reveal
-              >
-                <div className="grid size-20 place-items-center rounded-2xl border border-border bg-page text-ink">
-                  <svg className="voice-icon h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                    <path
-                      d="M8 10 H 40 V 30 H 22 L 14 38 V 30 H 8 Z"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinejoin="round"
-                      fill="none"
-                    />
-                    <circle cx="18" cy="20" r="1.5" fill="currentColor" />
-                    <circle cx="24" cy="20" r="1.5" fill="currentColor" />
-                    <circle cx="30" cy="20" r="1.5" fill="currentColor" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="mb-0.5 font-display text-lg font-bold tracking-[-0.02em] text-ink">
-                    First client
+              {[
+                {
+                  title: "limited.al",
+                  label: "Marketplace infrastructure",
+                  body:
+                    "Seller, order, and admin workflow thinking for a marketplace that connects digital operations with real-world fulfillment.",
+                },
+                {
+                  title: "Vento Caffe",
+                  label: "Hospitality brand system",
+                  body:
+                    "Brand, content, and local presence work shaped around how a real cafe needs to look, sell, and stay consistent every day.",
+                },
+                {
+                  title: "Limited Labs",
+                  label: "Studio operating system",
+                  body:
+                    "This site, its service architecture, admin area, production checks, and SEO foundation are part of the same build-first process.",
+                },
+                {
+                  title: "Automation lab",
+                  label: "Workflow experiments",
+                  body:
+                    "Mac mini automations, order signals, hardware triggers, and approval-gated AI workflows tested before becoming client offers.",
+                },
+              ].map((item) => (
+                <article
+                  key={item.title}
+                  className="voice-card rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
+                  data-reveal
+                >
+                  <div className="mb-5 flex items-center justify-between gap-4">
+                    <h3 className="font-display text-2xl font-bold tracking-[-0.03em] text-ink">
+                      {item.title}
+                    </h3>
+                    <span className="rounded-full border border-border-strong px-3 py-[6px] font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+                      Built by us
+                    </span>
                   </div>
-                  <div className="mb-3.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                    Active pilot engagement
-                  </div>
-                  <p className="text-[14.5px] leading-normal text-ink-muted">
-                    Brand, voice, and identity systems for a real operator — documented privately first,
-                    then published once the client approves the story.
+                  <p className="mb-3 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
+                    {item.label}
                   </p>
-                </div>
-              </div>
-
-              <div
-                className="voice-card grid grid-cols-[80px_1fr] gap-6 rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
-                data-reveal
-              >
-                <div className="grid size-20 place-items-center rounded-2xl border border-border bg-page text-ink">
-                  <svg className="voice-icon h-12 w-auto" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                    <path
-                      d="M10 14 Q 10 8, 16 8 H 32 Q 38 8, 38 14 V 28 Q 38 34, 32 34 H 24 L 16 40 V 34 Q 10 34, 10 28 Z"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinejoin="round"
-                      fill="none"
-                    />
-                    <path d="M18 18 Q 24 14, 30 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
-                    <path d="M18 24 Q 24 28, 30 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="mb-0.5 font-display text-lg font-bold tracking-[-0.02em] text-ink">
-                    Second client
-                  </div>
-                  <div className="mb-3.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                    Active pilot engagement
-                  </div>
-                  <p className="text-[14.5px] leading-normal text-ink-muted">
-                    Limited Labs is intentionally starting with a focused client cohort so every system
-                    gets enough attention to become useful after launch.
-                  </p>
-                </div>
-              </div>
+                  <p className="text-[14.5px] leading-normal text-ink-muted">{item.body}</p>
+                </article>
+              ))}
 
               <div
                 className="col-span-full rounded-[20px] border border-dashed border-border-strong bg-[repeating-linear-gradient(135deg,transparent_0px,transparent_14px,rgba(245,244,239,0.015)_14px,rgba(245,244,239,0.015)_15px)] p-10 text-center"
                 data-reveal
               >
-                <span className={`${eyebrowCore} mb-1 inline-block`}>Want to be on this wall?</span>
-                <p className="mx-auto mt-3 max-w-[50ch] text-[15px] text-ink-muted">
-                  We&apos;re taking on a small number of focused builds next.{" "}
-                  <a href="#contact" className="text-ink underline decoration-1 underline-offset-4">
-                    Tell us what you&apos;re building.
-                  </a>
+                <span className={`${eyebrowCore} mb-1 inline-block`}>Want the same operating clarity?</span>
+                <p className="mx-auto mt-3 max-w-[54ch] text-[15px] text-ink-muted">
+                  Start with the audit. We look at your brand, website, marketing path, and manual
+                  workflows, then send back the highest-leverage fixes.
                 </p>
+                <a
+                  href="#audit"
+                  className="mt-6 inline-flex items-center gap-3 rounded-full bg-ink px-7 py-[14px] text-sm font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                >
+                  Request the audit
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-border py-[clamp(80px,10vw,140px)]" id="audit" aria-labelledby="audit-heading">
+          <div className={wrap}>
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+              <div>
+                <span className={`${eyebrowCore} mb-3 inline-block`}>Free Audit</span>
+                <h2
+                  id="audit-heading"
+                  className="font-display text-[clamp(40px,6vw,92px)] font-bold leading-[0.95] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]"
+                >
+                  Get a free growth systems audit.
+                </h2>
+                <p className="mt-5 max-w-[48ch] text-[15px] leading-relaxed text-ink-muted">
+                  Send us your website, Instagram, or business idea. We review the places where brand,
+                  website, marketing, and operations are leaking attention or time.
+                </p>
+                <a
+                  href="mailto:hello@limitedlabs.co?subject=Free%20growth%20systems%20audit%20request&body=Business%20name%3A%0AWebsite%20or%20social%20link%3A%0AWhat%20do%20you%20want%20to%20improve%3A%0ATimeline%3A%0ABudget%20range%20(optional)%3A"
+                  className="mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                >
+                  Request free audit
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  ["01", "We review", "Your website, offer, SEO basics, social presence, and manual workflows."],
+                  ["02", "You receive", "Five quick wins, three priority fixes, and one recommended growth system."],
+                  ["03", "Then decide", "You can implement it yourself, ask us to build it, or start with a focused sprint."],
+                ].map(([step, title, body]) => (
+                  <article key={step} className="rounded-[22px] border border-border bg-surface p-6 text-left">
+                    <span className={`${eyebrowCore} mb-5 block`}>{step}</span>
+                    <h3 className="mb-3 font-display text-xl font-bold tracking-[-0.02em] text-ink">{title}</h3>
+                    <p className="text-[14px] leading-relaxed text-ink-muted">{body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-border py-[clamp(80px,10vw,140px)]" id="faq" aria-labelledby="faq-heading">
+          <div className={wrap}>
+            <div className="mb-12 max-w-[680px]">
+              <span className={`${eyebrowCore} mb-3 inline-block`}>FAQ</span>
+              <h2
+                id="faq-heading"
+                className="font-display text-[clamp(36px,5.5vw,80px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
+              >
+                Frequently asked questions.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {[
+                ["What does Limited Labs do?", "We combine brand, websites, marketing systems, and automation so small teams can grow without stitching together disconnected vendors."],
+                ["Do you only work in Albania?", "We are based in Tirana and work with Albanian and international operators. Albanian and English copywriting are both available."],
+                ["Can you build the website and the marketing system?", "Yes. The strongest projects connect the offer, landing page, tracking, content, and follow-up workflow from the start."],
+                ["How do we start?", "Start with the free audit. If there is a clear fit, we turn the findings into a focused sprint or a full growth system build."],
+              ].map(([question, answer]) => (
+                <article key={question} className="rounded-[20px] border border-border bg-surface p-7">
+                  <h3 className="mb-3 font-display text-xl font-bold tracking-[-0.02em] text-ink">{question}</h3>
+                  <p className="text-[14.5px] leading-relaxed text-ink-muted">{answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -700,11 +772,11 @@ export default function Home() {
             </h2>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <a
-                href="mailto:hello@limitedlabs.co"
+                href="mailto:hello@limitedlabs.co?subject=Free%20growth%20systems%20audit%20request"
                 className="magnetic inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:bg-accent"
                 data-magnetic
               >
-                hello@limitedlabs.co
+                Request free audit
                 <svg className="magnetic-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8 H 13 M 9 4 L 13 8 L 9 12"
@@ -716,7 +788,7 @@ export default function Home() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="mailto:hello@limitedlabs.co?subject=Discovery%20call%20request%20%E2%80%94%20Limited%20Labs"
                 className="magnetic inline-flex items-center gap-3 rounded-full border border-border-strong bg-transparent px-8 py-[18px] text-base font-medium text-ink transition-[border-color] duration-200 ease-out hover:border-ink"
                 data-magnetic
               >

@@ -213,7 +213,7 @@ export default function SiteHeader() {
                   Ready when you are
                 </p>
                 <a
-                  href={sectionHref("contact", isHome)}
+                  href={sectionHref("audit", isHome)}
                   onClick={closeMenu}
                   className="mt-4 inline-flex w-full min-[420px]:w-auto items-center justify-center gap-3 rounded-full bg-ink px-8 py-4 text-base font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-[1.02] hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transform-none"
                 >
@@ -221,7 +221,7 @@ export default function SiteHeader() {
                     className="size-2 shrink-0 rounded-full bg-[#00d27a] shadow-[0_0_0_0_rgba(0,210,122,0.55)] motion-safe:animate-[pulse_2s_infinite]"
                     aria-hidden
                   />
-                  Let&apos;s Talk
+                  Free Audit
                 </a>
                 <Link
                   href="/admin/login"
@@ -341,14 +341,14 @@ export default function SiteHeader() {
               </svg>
             </button>
             <a
-              href={sectionHref("contact", isHome)}
+              href={sectionHref("audit", isHome)}
               className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-[13px] font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:transform-none sm:gap-2.5 sm:px-[22px] sm:py-3 sm:text-sm"
             >
               <span
                 className="size-[7px] shrink-0 rounded-full bg-[#00d27a] shadow-[0_0_0_0_rgba(0,210,122,0.6)] motion-safe:animate-[pulse_2s_infinite]"
                 aria-hidden
               />
-              Let&apos;s Talk
+              Free Audit
             </a>
             <div className="flex items-center md:hidden">
               <button
