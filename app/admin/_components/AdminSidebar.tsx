@@ -15,6 +15,7 @@ type AdminSidebarProps = {
 
 const NAV_MAIN = [
   { href: "/admin", label: "Overview", exact: true },
+  { href: "/admin/operators", label: "Operators", exact: false },
   { href: "/admin/projects", label: "Projects", exact: false },
   { href: "/admin/services", label: "Services", exact: false },
 ] as const;

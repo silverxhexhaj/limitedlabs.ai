@@ -19,6 +19,8 @@ const layout = read("app/layout.tsx");
 const middleware = read("middleware.ts");
 const authActions = read("lib/admin/auth-actions.ts");
 const auth = read("lib/admin/auth.ts");
+const operatorPage = readIfExists("app/admin/(authed)/operators/page.tsx");
+const operatorsData = readIfExists("app/admin/operatorsData.ts");
 const sitemap = readIfExists("app/sitemap.ts");
 const robots = readIfExists("app/robots.ts");
 
@@ -44,6 +46,12 @@ assert(layout.includes("application/ld+json") && layout.includes("ProfessionalSe
 assert(existsSync(fullPath("app/sitemap.ts")) && sitemap.includes("SERVICE_ITEMS"), "Add an SEO sitemap with service URLs.");
 assert(existsSync(fullPath("app/robots.ts")) && robots.includes("sitemap"), "Add robots metadata pointing to the sitemap.");
 assert(homePage.includes("Frequently asked questions"), "Add an FAQ section for conversion and search intent.");
+assert(existsSync(fullPath("app/admin/(authed)/operators/page.tsx")), "Add a protected admin page for managing product/operator skills.");
+assert(operatorsData.includes("limitedlabs-site-operator") && operatorsData.includes("weekly-business-operator-review"), "Create operator data for the recommended beast-mode operator stack.");
+assert(operatorPage.includes("Operator Command Center"), "Operator page should expose a clear command-center heading.");
+assert(operatorPage.includes("Install queue") && operatorPage.includes("Weekly operating rhythm"), "Operator page should include install and cadence management sections.");
+assert(operatorPage.includes("shadcn-inspired") || operatorPage.includes("rounded-2xl border"), "Operator page should use Tailwind/shadcn-style cards and controls.");
+assert(header.includes("/admin/operators") || read("app/admin/_components/AdminSidebar.tsx").includes("/admin/operators"), "Admin sidebar should link to the operator management page.");
 
 if (failures.length > 0) {
   console.error("Production readiness checks failed:");
