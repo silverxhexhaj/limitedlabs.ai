@@ -32,8 +32,7 @@ export default function AdminLoginPage() {
             Sign in
           </h1>
           <p className="mt-2 text-sm text-ink-muted">
-            Local-only auth for now — any email and password will work. Replace with Supabase
-            later.
+            Authorized Limited Labs staff only. Sign in with your admin account.
           </p>
           <LoginForm />
         </div>

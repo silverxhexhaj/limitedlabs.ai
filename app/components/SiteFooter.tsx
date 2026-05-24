@@ -100,7 +100,7 @@ export default function SiteFooter() {
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
           <span className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
-            © 2026 Limited Labs — v0.1
+            © 2026 Limited Labs
           </span>
           <span className="inline-flex items-center gap-1 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
             Made with

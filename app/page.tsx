@@ -373,7 +373,8 @@ export default function Home() {
                   <span className="text-ink-faint">Deep-dive pages included.</span>
                 </h2>
                 <p className="mt-5 max-w-[46ch] text-[14.5px] leading-relaxed text-ink-muted">
-                  Each tile links to an outline-style case page — ready to swap placeholder copy once real projects publish.
+                  Selected systems in motion — anonymized where needed, structured to show the problem,
+                  build, and operating logic behind each engagement.
                 </p>
               </div>
               <span className={`${eyebrowCore} shrink-0`}>Filter by system</span>
@@ -567,10 +568,11 @@ export default function Home() {
                 id="voices-heading"
                 className="font-display text-[clamp(36px,6vw,88px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
               >
-                What our clients <em className="font-bold italic text-ink-faint">will</em> say.
+                Proof in progress.
               </h2>
               <p className="mt-5 max-w-[48ch] text-[14.5px] leading-relaxed text-ink-muted">
-                We&apos;re early — this wall doubles as accountability. Quotes land here once pilots finish — not before.
+                We&apos;re building with a small group of operators first. Selected outcomes, screenshots,
+                and approved client notes will publish here as work ships.
               </p>
             </div>
 
@@ -598,11 +600,11 @@ export default function Home() {
                     First client
                   </div>
                   <div className="mb-3.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                    Pilot engagement — Q2 2026
+                    Active pilot engagement
                   </div>
                   <p className="text-[14.5px] leading-normal text-ink-muted">
-                    &quot;We&apos;re in early. Our first client testimonials publish here as engagements wrap.
-                    In the meantime, the honest truth is we&apos;re newly founded — and proud of it.&quot;
+                    Brand, voice, and identity systems for a real operator — documented privately first,
+                    then published once the client approves the story.
                   </p>
                 </div>
               </div>
@@ -629,11 +631,11 @@ export default function Home() {
                     Second client
                   </div>
                   <div className="mb-3.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                    Pilot engagement — Q2 2026
+                    Active pilot engagement
                   </div>
                   <p className="text-[14.5px] leading-normal text-ink-muted">
-                    &quot;Want your name here? Get on a call. We&apos;re choosing our first cohort of clients
-                    carefully — small, real businesses we can do excellent work for.&quot;
+                    Limited Labs is intentionally starting with a focused client cohort so every system
+                    gets enough attention to become useful after launch.
                   </p>
                 </div>
               </div>
@@ -644,7 +646,7 @@ export default function Home() {
               >
                 <span className={`${eyebrowCore} mb-1 inline-block`}>Want to be on this wall?</span>
                 <p className="mx-auto mt-3 max-w-[50ch] text-[15px] text-ink-muted">
-                  We&apos;re taking on three new clients for Q2 2026.{" "}
+                  We&apos;re taking on a small number of focused builds next.{" "}
                   <a href="#contact" className="text-ink underline decoration-1 underline-offset-4">
                     Tell us what you&apos;re building.
                   </a>

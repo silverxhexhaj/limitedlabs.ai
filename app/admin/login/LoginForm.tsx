@@ -39,7 +39,7 @@ export default function LoginForm() {
           type="email"
           autoComplete="email"
           required
-          defaultValue="admin@limitedlabs.co"
+          placeholder="you@limitedlabs.co"
           className="rounded-xl border border-border-strong bg-page px-4 py-3 text-sm text-ink outline-none transition-[border-color] focus:border-ink"
         />
       </label>

@@ -5,9 +5,13 @@ import { PwaInstaller } from "./components/PwaInstaller";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.limitedlabs.ai"),
   title: "Limited Labs — A digital systems studio. Brand, build, automate.",
   description:
     "Limited Labs is a digital systems studio. We design brands, build software, run marketing engines, and ship automations — under one operating logic. Tirana, Albania.",
+  alternates: {
+    canonical: "/",
+  },
   applicationName: "Limited Labs",
   manifest: "/manifest.webmanifest",
   appleWebApp: {

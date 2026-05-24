@@ -7,6 +7,7 @@ const THEME_STORAGE_KEY = "limitedlabs-theme";
 type Theme = "light" | "dark";
 
 function readStoredTheme(): Theme | null {
+  if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(THEME_STORAGE_KEY);
     if (raw === "light" || raw === "dark") return raw;
@@ -17,17 +18,16 @@ function readStoredTheme(): Theme | null {
 }
 
 function systemTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export default function AdminThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(() => readStoredTheme() ?? systemTheme());
 
   useEffect(() => {
-    const initial = readStoredTheme() ?? systemTheme();
-    document.documentElement.setAttribute("data-theme", initial);
-    setTheme(initial);
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
