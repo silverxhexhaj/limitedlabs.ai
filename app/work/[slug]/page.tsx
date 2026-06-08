@@ -7,7 +7,11 @@ import SiteHeader from "../../components/SiteHeader";
 import LandingInteractions from "../../LandingInteractions";
 import { wrap } from "../../site";
 import WorkArt from "../WorkArt";
-import { WORK_ITEMS, getWorkBySlug } from "../workData";
+import {
+  WORK_CLASSIFICATION_LABELS,
+  WORK_ITEMS,
+  getWorkBySlug,
+} from "../workData";
 
 const tagSm =
   "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted";
@@ -19,10 +23,6 @@ type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return WORK_ITEMS.map((w) => ({ slug: w.slug }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const item = getWorkBySlug(slug);
@@ -32,6 +32,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${item.title} — Limited Labs`,
     description: item.detail.summary,
+    alternates: {
+      canonical: `/work/${item.slug}`,
+    },
   };
 }
 
@@ -47,6 +50,12 @@ export default async function WorkDetailPage({ params }: PageProps) {
   return (
     <>
       <SiteHeader />
+      <span
+        hidden
+        data-page-view-event="work_viewed"
+        data-page-view-slug={work.slug}
+        data-page-view-classification={work.classification}
+      />
 
       <main id="top" className="pt-[110px]">
         <div className={wrap}>
@@ -60,7 +69,7 @@ export default async function WorkDetailPage({ params }: PageProps) {
               </svg>
               Back to work
             </Link>
-            <span className={eyebrowCore}>Case outline</span>
+            <span className={eyebrowCore}>{WORK_CLASSIFICATION_LABELS[work.classification]}</span>
           </nav>
 
           <div className="grid grid-cols-1 gap-[clamp(32px,5vw,64px)] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)] lg:items-start">
@@ -69,6 +78,9 @@ export default async function WorkDetailPage({ params }: PageProps) {
                 {work.title}
               </h1>
               <div className="mt-6 flex flex-wrap items-center gap-3">
+                <span className="rounded-full border border-border-strong px-3 py-[7px] font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted">
+                  {WORK_CLASSIFICATION_LABELS[work.classification]}
+                </span>
                 <span className="rounded-full border border-border-strong px-3 py-[7px] font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted">
                   {work.quarter}
                 </span>
@@ -84,16 +96,20 @@ export default async function WorkDetailPage({ params }: PageProps) {
 
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link
-                  href="/#contact"
+                  href={`/?work=${work.slug}#audit`}
+                  data-analytics-event="work_audit_clicked"
+                  data-analytics-slug={work.slug}
                   className="inline-flex items-center gap-3 rounded-full bg-ink px-7 py-[14px] text-sm font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
                 >
-                  Start something similar
+                  Get a free systems audit
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M3 8 H 13 M 9 4 L 13 8 L 9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
                 <a
-                  href="mailto:hello@limitedlabs.co?subject=Loved%20this%20case%20%E2%80%94%20"
+                  href={`mailto:hello@limitedlabs.co?subject=${encodeURIComponent(`Question about ${work.title}`)}`}
+                  data-analytics-event="email_clicked"
+                  data-analytics-placement={`work-${work.slug}`}
                   className="inline-flex items-center gap-3 rounded-full border border-border-strong px-7 py-[14px] text-sm font-medium text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
                 >
                   hello@limitedlabs.co
@@ -160,7 +176,7 @@ export default async function WorkDetailPage({ params }: PageProps) {
             data-reveal
           >
             <div className="text-sm text-ink-muted">
-              Swap details any time — it lives in <span className="font-mono text-[11px] text-ink">app/work/workData.ts</span>.
+              Browse the adjacent classified examples or return to the systems audit.
             </div>
             <div className="flex flex-wrap gap-3">
               {prev ? (

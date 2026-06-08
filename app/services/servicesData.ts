@@ -457,6 +457,14 @@ export function getServiceBySlug(slug: string): ServiceItem | undefined {
   return SERVICE_ITEMS.find((s) => s.slug === slug);
 }
 
+export function serviceToRequestedSystem(
+  service: ServiceItem,
+): "brand" | "marketing" | "software" | "ai-automation" | "not-sure" {
+  if (service.category === "automation") return "ai-automation";
+  if (service.category === "product-lab") return "not-sure";
+  return service.category;
+}
+
 /** Maps service categories to work tab filter categories (excludes product-lab). */
 export type WorkFilterCategory = "brand" | "software" | "marketing" | "automation";
 

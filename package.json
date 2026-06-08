@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "tsx --test tests/*.test.ts",
+    "check:production": "node scripts/check-production-readiness.mjs",
     "generate-pwa-icons": "node scripts/generate-pwa-icons.mjs"
   },
   "dependencies": {
@@ -26,6 +28,7 @@
     "postcss": "^8.5.14",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.0.0"
   }
 }
