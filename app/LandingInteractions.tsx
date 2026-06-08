@@ -2,34 +2,25 @@
 
 import { useEffect } from "react";
 
-const THEME_STORAGE_KEY = "limitedlabs-theme";
+import { trackEvent } from "@/lib/analytics";
 
+const THEME_STORAGE_KEY = "limitedlabs-theme";
 type Theme = "light" | "dark";
 
-function readStoredTheme(): Theme | null {
+function initialTheme(): Theme {
   try {
-    const raw = localStorage.getItem(THEME_STORAGE_KEY);
-    if (raw === "light" || raw === "dark") return raw;
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    if (stored === "light" || stored === "dark") return stored;
   } catch {
-    /* ignore */
+    // Use the system preference when storage is unavailable.
   }
-  return null;
-}
-
-function systemTheme(): Theme {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function resolveInitialTheme(): Theme {
-  return readStoredTheme() ?? systemTheme();
-}
-
-function applyDomTheme(theme: Theme) {
+function applyTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
-}
-
-function syncThemeToggleLabel(button: HTMLElement, theme: Theme) {
-  button.setAttribute(
+  const button = document.getElementById("themeToggle");
+  button?.setAttribute(
     "aria-label",
     theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
   );
@@ -38,194 +29,99 @@ function syncThemeToggleLabel(button: HTMLElement, theme: Theme) {
 export default function LandingInteractions() {
   useEffect(() => {
     const nav = document.getElementById("nav");
-    if (!nav) return;
+    const toggle = document.getElementById("themeToggle");
+    applyTheme(initialTheme());
 
-    const initialTheme = resolveInitialTheme();
-    applyDomTheme(initialTheme);
-
-    const toggleBtn = document.getElementById("themeToggle");
-    if (toggleBtn) syncThemeToggleLabel(toggleBtn, initialTheme);
-
-    const onThemeToggleClick = () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      const next: Theme = current === "light" ? "dark" : "light";
-      applyDomTheme(next);
+    const onThemeToggle = () => {
+      const next: Theme =
+        document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
       try {
         localStorage.setItem(THEME_STORAGE_KEY, next);
       } catch {
-        /* ignore */
+        // Theme still applies for the current page.
       }
-      if (toggleBtn) syncThemeToggleLabel(toggleBtn, next);
     };
 
-    toggleBtn?.addEventListener("click", onThemeToggleClick);
+    const onScroll = () => nav?.classList.toggle("scrolled", window.scrollY > 32);
 
-    const onScroll = () => {
-      if (window.scrollY > 40) nav.classList.add("scrolled");
-      else nav.classList.remove("scrolled");
+    const onAnalyticsClick = (event: MouseEvent) => {
+      const target = (event.target as HTMLElement).closest<HTMLElement>("[data-analytics-event]");
+      if (!target) return;
+      const name = target.dataset.analyticsEvent;
+      if (name === "email_clicked" || name === "discovery_call_clicked") {
+        trackEvent(name, {
+          page_path: window.location.pathname,
+          placement: target.dataset.analyticsPlacement || "unknown",
+        });
+      } else if (name === "service_audit_clicked" && target.dataset.analyticsSlug) {
+        trackEvent(name, {
+          page_path: window.location.pathname,
+          service_slug: target.dataset.analyticsSlug,
+        });
+      } else if (name === "work_audit_clicked" && target.dataset.analyticsSlug) {
+        trackEvent(name, {
+          page_path: window.location.pathname,
+          work_slug: target.dataset.analyticsSlug,
+        });
+      }
     };
-    const scrollOpts: AddEventListenerOptions = { passive: true };
-    window.addEventListener("scroll", onScroll, scrollOpts);
+
+    toggle?.addEventListener("click", onThemeToggle);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("click", onAnalyticsClick);
     onScroll();
 
-    const heroTitle = document.querySelector<HTMLElement>("[data-hero-title]");
-    const reduceHeroMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const resetHeroTitle = () => {
-      if (!heroTitle) return;
-      heroTitle.classList.remove("is-hero-active");
-      heroTitle.style.setProperty("--hero-tilt-x", "0deg");
-      heroTitle.style.setProperty("--hero-tilt-y", "0deg");
-      heroTitle.style.setProperty("--hero-glare-x", "50%");
-      heroTitle.style.setProperty("--hero-glare-y", "50%");
-    };
-
-    const onHeroPointerMove = (e: PointerEvent) => {
-      if (!heroTitle || reduceHeroMotion) return;
-      const rect = heroTitle.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      const clampedX = Math.min(Math.max(x, 0), 1);
-      const clampedY = Math.min(Math.max(y, 0), 1);
-
-      heroTitle.classList.add("is-hero-active");
-      heroTitle.style.setProperty("--hero-tilt-x", `${((0.5 - clampedY) * 9).toFixed(2)}deg`);
-      heroTitle.style.setProperty("--hero-tilt-y", `${((clampedX - 0.5) * 12).toFixed(2)}deg`);
-      heroTitle.style.setProperty("--hero-glare-x", `${(clampedX * 100).toFixed(2)}%`);
-      heroTitle.style.setProperty("--hero-glare-y", `${(clampedY * 100).toFixed(2)}%`);
-    };
-
-    if (heroTitle && !reduceHeroMotion) {
-      heroTitle.addEventListener("pointermove", onHeroPointerMove);
-      heroTitle.addEventListener("pointerleave", resetHeroTitle);
-      heroTitle.addEventListener("pointercancel", resetHeroTitle);
+    const pageView = document.querySelector<HTMLElement>("[data-page-view-event]");
+    if (
+      pageView?.dataset.pageViewEvent === "service_interest_viewed" &&
+      pageView.dataset.pageViewSlug
+    ) {
+      trackEvent("service_interest_viewed", {
+        service_slug: pageView.dataset.pageViewSlug,
+        page_path: window.location.pathname,
+      });
+    } else if (
+      pageView?.dataset.pageViewEvent === "work_viewed" &&
+      pageView.dataset.pageViewSlug &&
+      pageView.dataset.pageViewClassification
+    ) {
+      trackEvent("work_viewed", {
+        work_slug: pageView.dataset.pageViewSlug,
+        classification: pageView.dataset.pageViewClassification,
+        page_path: window.location.pathname,
+      });
     }
 
-    // ---------- Service illustration parallax tilt ----------
-    const serviceTiles = Array.from(
-      document.querySelectorAll<HTMLElement>(".service-art"),
-    );
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const onServicePointerMove = (event: PointerEvent) => {
-      const tile = event.currentTarget as HTMLElement;
-      const rect = tile.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width;
-      const y = (event.clientY - rect.top) / rect.height;
-      const clampedX = Math.min(Math.max(x, 0), 1);
-      const clampedY = Math.min(Math.max(y, 0), 1);
-      tile.style.setProperty("--tilt-x", `${((0.5 - clampedY) * 8).toFixed(2)}deg`);
-      tile.style.setProperty("--tilt-y", `${((clampedX - 0.5) * 10).toFixed(2)}deg`);
-      tile.style.setProperty("--glare-x", `${(clampedX * 100).toFixed(2)}%`);
-      tile.style.setProperty("--glare-y", `${(clampedY * 100).toFixed(2)}%`);
-    };
-
-    const resetServiceTilt = (event: PointerEvent) => {
-      const tile = event.currentTarget as HTMLElement;
-      tile.style.setProperty("--tilt-x", "0deg");
-      tile.style.setProperty("--tilt-y", "0deg");
-      tile.style.setProperty("--glare-x", "50%");
-      tile.style.setProperty("--glare-y", "50%");
-    };
-
-    if (!reduceMotion) {
-      serviceTiles.forEach((tile) => {
-        tile.addEventListener("pointermove", onServicePointerMove);
-        tile.addEventListener("pointerleave", resetServiceTilt);
-      });
-    }
-
-    // ---------- Pointer spotlight on cards ----------
-    const spotlightCards = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-spotlight]"),
-    );
-
-    const onSpotlightMove = (event: PointerEvent) => {
-      const card = event.currentTarget as HTMLElement;
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
-      card.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
-    };
-
-    if (!reduceMotion) {
-      spotlightCards.forEach((card) => {
-        card.addEventListener("pointermove", onSpotlightMove);
-      });
-    }
-
-    // ---------- Magnetic CTA buttons ----------
-    const magneticEls = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-magnetic]"),
-    );
-    const MAG_STRENGTH = 0.22;
-
-    const onMagneticMove = (event: PointerEvent) => {
-      const el = event.currentTarget as HTMLElement;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (event.clientX - cx) * MAG_STRENGTH;
-      const dy = (event.clientY - cy) * MAG_STRENGTH;
-      el.style.setProperty("--mag-x", `${dx.toFixed(2)}px`);
-      el.style.setProperty("--mag-y", `${dy.toFixed(2)}px`);
-    };
-
-    const resetMagnetic = (event: PointerEvent) => {
-      const el = event.currentTarget as HTMLElement;
-      el.style.setProperty("--mag-x", "0px");
-      el.style.setProperty("--mag-y", "0px");
-    };
-
-    if (!reduceMotion) {
-      magneticEls.forEach((el) => {
-        el.addEventListener("pointermove", onMagneticMove);
-        el.addEventListener("pointerleave", resetMagnetic);
-      });
-    }
-
-    let intersectionObserver: IntersectionObserver | undefined;
-    if ("IntersectionObserver" in window) {
-      intersectionObserver = new IntersectionObserver(
+    let observer: IntersectionObserver | undefined;
+    if (!reduceMotion && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach((en) => {
-            if (en.isIntersecting) {
-              const el = en.target as HTMLElement;
-              el.style.opacity = "1";
-              el.style.transform = "translateY(0)";
-              intersectionObserver?.unobserve(en.target);
-            }
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const element = entry.target as HTMLElement;
+            element.style.opacity = "1";
+            element.style.transform = "translateY(0)";
+            observer?.unobserve(element);
           });
         },
-        { threshold: 0.12 },
+        { threshold: 0.1 },
       );
-      document.querySelectorAll("[data-reveal]").forEach((el) => {
-        const node = el as HTMLElement;
-        node.style.opacity = "0";
-        node.style.transform = "translateY(24px)";
-        node.style.transition =
-          "opacity 0.7s cubic-bezier(.2,.6,.2,1), transform 0.7s cubic-bezier(.2,.6,.2,1)";
-        intersectionObserver?.observe(el);
+      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
+        element.style.opacity = "0";
+        element.style.transform = "translateY(18px)";
+        element.style.transition =
+          "opacity 0.6s cubic-bezier(.2,.6,.2,1), transform 0.6s cubic-bezier(.2,.6,.2,1)";
+        observer?.observe(element);
       });
     }
 
     return () => {
-      toggleBtn?.removeEventListener("click", onThemeToggleClick);
-      window.removeEventListener("scroll", onScroll, scrollOpts);
-      heroTitle?.removeEventListener("pointermove", onHeroPointerMove);
-      heroTitle?.removeEventListener("pointerleave", resetHeroTitle);
-      heroTitle?.removeEventListener("pointercancel", resetHeroTitle);
-      serviceTiles.forEach((tile) => {
-        tile.removeEventListener("pointermove", onServicePointerMove);
-        tile.removeEventListener("pointerleave", resetServiceTilt);
-      });
-      spotlightCards.forEach((card) => {
-        card.removeEventListener("pointermove", onSpotlightMove);
-      });
-      magneticEls.forEach((el) => {
-        el.removeEventListener("pointermove", onMagneticMove);
-        el.removeEventListener("pointerleave", resetMagnetic);
-      });
-      intersectionObserver?.disconnect();
+      toggle?.removeEventListener("click", onThemeToggle);
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("click", onAnalyticsClick);
+      observer?.disconnect();
     };
   }, []);
 

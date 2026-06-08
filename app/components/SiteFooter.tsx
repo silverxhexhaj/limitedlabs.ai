@@ -5,115 +5,59 @@ import { wrap } from "../site";
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-border pt-14 pb-8">
+    <footer className="border-t border-border pb-8 pt-14">
       <div className={wrap}>
-        <div className="mb-20 grid grid-cols-1 gap-8 min-[480px]:grid-cols-2 min-[880px]:grid-cols-4">
+        <div className="mb-16 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr]">
           <div>
             <Image
               src="/ll-logo-white.png"
               alt=""
               width={137}
               height={156}
-              className="site-logo-img mb-4 h-auto w-[60px]"
+              className="site-logo-img mb-5 h-auto w-[52px]"
             />
-            <p className="max-w-[32ch] text-sm text-ink-muted">
-              A digital systems studio. Brand, build, automate — under one logic.
+            <p className="max-w-[40ch] text-sm leading-relaxed text-ink-muted">
+              An AI-powered systems agency helping business operators improve how they look, sell,
+              build, and work.
+            </p>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+              Tirana, Albania
             </p>
           </div>
           <div>
-            <h5 className="mb-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-ink-faint">
-              Studio
-            </h5>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <Link href="/#services" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/#work" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Work
-                </Link>
-              </li>
-              <li>
-                <Link href="/#why" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Impact
-                </Link>
-              </li>
-              <li>
-                <Link href="/#voices" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Proof
-                </Link>
-              </li>
-              <li>
-                <Link href="/#contact" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/admin/login"
-                  className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted"
-                >
-                  Admin login
-                </Link>
-              </li>
+            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+              Navigate
+            </h2>
+            <ul className="space-y-2.5 text-sm">
+              <li><Link href="/#services">Services</Link></li>
+              <li><Link href="/#work">Work</Link></li>
+              <li><Link href="/#why">Why Limited Labs</Link></li>
+              <li><Link href="/#proof">Proof</Link></li>
+              <li><Link href="/#faq">FAQ</Link></li>
+              <li><Link href="/#audit">Free systems audit</Link></li>
             </ul>
           </div>
           <div>
-            <h5 className="mb-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-ink-faint">
+            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
               Contact
-            </h5>
-            <ul className="flex flex-col gap-2.5">
+            </h2>
+            <ul className="space-y-2.5 text-sm">
               <li>
                 <a
                   href="mailto:hello@limitedlabs.co"
-                  className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted"
+                  data-analytics-event="email_clicked"
+                  data-analytics-placement="footer"
                 >
                   hello@limitedlabs.co
                 </a>
               </li>
-              <li>
-                <a href="#" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Tirana, Albania
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h5 className="mb-4 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-ink-faint">
-              Follow
-            </h5>
-            <ul className="flex flex-col gap-2.5">
-              <li>
-                <a href="#" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  Instagram ↗
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-sm text-ink transition-colors duration-200 hover:text-ink-muted">
-                  LinkedIn ↗
-                </a>
-              </li>
+              <li><Link href="/privacy">Privacy notice</Link></li>
             </ul>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
-          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
-            © 2026 Limited Labs
-          </span>
-          <span className="inline-flex items-center gap-1 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
-            Made with
-            <svg
-              aria-label="love"
-              className="h-3 w-3 fill-red-500 text-red-500"
-              viewBox="0 0 24 24"
-              role="img"
-            >
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.08C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-            in Albania
-          </span>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+          <span>© 2026 Limited Labs</span>
+          <span>AI-assisted. Human accountable.</span>
         </div>
       </div>
     </footer>

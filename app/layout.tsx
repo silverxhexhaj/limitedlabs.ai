@@ -1,21 +1,22 @@
 /* eslint-disable @next/next/no-page-custom-font -- mirror index (2).html variable font CSS2 URL */
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import type { ReactNode } from "react";
 import { PwaInstaller } from "./components/PwaInstaller";
 import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.limitedlabs.ai"),
-  title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
+  title: "Limited Labs - AI-Powered Systems Agency in Tirana",
   description:
-    "Limited Labs builds brands, websites, marketing systems, and automation workflows for founders and local operators in Tirana, Albania and beyond.",
+    "Limited Labs helps Albanian business operators improve Brand, Marketing, Software, and AI Automation under one operating logic.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
+    title: "Limited Labs - AI-Powered Systems Agency in Tirana",
     description:
-      "A Tirana-based digital systems studio for businesses that need clearer brand, better websites, stronger marketing, and less manual work.",
+      "Brand, Marketing, Software, and AI Automation systems for Albanian business operators.",
     url: "https://www.limitedlabs.ai",
     siteName: "Limited Labs",
     locale: "en_US",
@@ -23,9 +24,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Limited Labs — Brand, Websites, Marketing & Automation Systems",
+    title: "Limited Labs - AI-Powered Systems Agency",
     description:
-      "Brand, website, marketing, and automation systems for founders and local operators.",
+      "Connected business systems for how operators look, sell, build, and work.",
   },
   applicationName: "Limited Labs",
   manifest: "/manifest.webmanifest",
@@ -73,7 +74,7 @@ const professionalServiceJsonLd = {
     addressCountry: "AL",
   },
   description:
-    "Limited Labs builds brands, websites, marketing systems, and automation workflows for founders and local operators.",
+    "Limited Labs is an AI-powered systems agency for Albanian business operators.",
   knowsAbout: [
     "Brand strategy",
     "Website design",
@@ -110,6 +111,19 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-page font-sans text-ink antialiased">
+        {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ? (
+          <>
+            <Script id="plausible-init" strategy="afterInteractive">
+              {`window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}`}
+            </Script>
+            <Script
+              defer
+              data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+              src="https://plausible.io/js/script.js"
+              strategy="afterInteractive"
+            />
+          </>
+        ) : null}
         <PwaInstaller />
         {children}
       </body>

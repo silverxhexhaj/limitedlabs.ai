@@ -1,34 +1,113 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import AuditForm from "./components/AuditForm";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
-import HeroRefractionTitle from "./components/HeroRefractionTitle";
 import WorksTabs from "./components/WorksTabs";
 import LandingInteractions from "./LandingInteractions";
+import { SERVICE_ITEMS } from "./services/servicesData";
 import { wrap } from "./site";
 
 const tagRow = "flex flex-wrap gap-2";
-
-const tag =
-  "rounded-full border border-border-strong px-3 py-[7px] font-mono text-[10.5px] font-medium uppercase tracking-[0.06em] text-ink-muted transition-colors hover:border-ink hover:text-ink";
-
 const tagSm =
-  "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted transition-colors hover:border-ink hover:text-ink";
+  "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted";
+const eyebrow =
+  "font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint";
 
-const serviceSlide =
-  "group grid grid-cols-1 gap-8 border-b border-border py-[clamp(40px,6vw,80px)] last:border-b-0 md:grid-cols-2 md:items-center md:gap-[clamp(32px,5vw,80px)] md:even:[&>:first-child]:order-2 md:even:[&>:last-child]:order-1";
+const CORE_SERVICE_ORDER = ["brand", "marketing-engines", "software", "automation"];
+const coreServices = CORE_SERVICE_ORDER.map((slug) =>
+  SERVICE_ITEMS.find((service) => service.slug === slug),
+).filter((service): service is NonNullable<typeof service> => Boolean(service));
+const productLab = SERVICE_ITEMS.find((service) => service.slug === "product-lab");
 
-const serviceArt =
-  "service-art relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-border p-8 transition-transform duration-500 ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover:scale-[1.015] [&>span]:flex [&>span]:h-full [&>span]:w-full [&>span]:max-w-full [&>span]:items-center [&>span]:justify-center";
+const problems = [
+  {
+    title: "The business looks inconsistent.",
+    body: "Positioning, identity, website, and content tell different stories, so trust leaks before a conversation starts.",
+  },
+  {
+    title: "Marketing has no shared logic.",
+    body: "Content, ads, landing pages, and follow-up are managed as separate tasks instead of one measurable demand path.",
+  },
+  {
+    title: "Recurring work creates drag.",
+    body: "Email, WhatsApp, spreadsheets, and disconnected tools keep operators busy without making the business easier to run.",
+  },
+];
 
-const eyebrowCore =
-  "font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted";
+const principles = [
+  {
+    index: "01",
+    title: "One operating logic",
+    body: "Brand, marketing, software, and automation are designed together instead of handed across disconnected vendors.",
+  },
+  {
+    index: "02",
+    title: "Systems over isolated outputs",
+    body: "Every deliverable should become reusable business infrastructure, not another asset that expires after launch.",
+  },
+  {
+    index: "03",
+    title: "AI with accountable control",
+    body: "AI supports research, drafting, analysis, and workflow execution. Humans own strategy and consequential decisions.",
+  },
+  {
+    index: "04",
+    title: "Built for the operating reality",
+    body: "The solution has to fit the client's market, team, tools, and ability to maintain it after handoff.",
+  },
+];
 
-const eyebrow = `mb-[18px] ${eyebrowCore}`;
+const proofItems = [
+  {
+    title: "Limited Labs public system",
+    classification: "Internal system",
+    body: "Service architecture, route-level content, production checks, SEO foundations, and the audit intake are built as one operating surface.",
+  },
+  {
+    title: "Marketplace operations",
+    classification: "Internal system",
+    body: "Seller, order, and administrative workflow patterns developed around a real marketplace operating model.",
+  },
+  {
+    title: "Hospitality touchpoints",
+    classification: "Experiment",
+    body: "Brand, content, and local-presence patterns tested against the daily constraints of hospitality operators.",
+  },
+  {
+    title: "Approval-gated automation",
+    classification: "Experiment",
+    body: "Workflow prototypes test routing, reporting, and AI assistance while preserving explicit human approval points.",
+  },
+];
 
-const learnMoreLink =
-  "mt-7 inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors duration-200 hover:text-ink";
+const faqs = [
+  [
+    "What does Limited Labs do?",
+    "We diagnose and improve the connected systems behind how a business looks, sells, builds, and performs recurring work.",
+  ],
+  [
+    "Who is the best fit?",
+    "Established Albanian small and medium-sized businesses with a real offer, a decision owner, and a clear operational or growth constraint.",
+  ],
+  [
+    "Do you work outside Albania?",
+    "Yes. Tirana and the Albanian market are the primary focus, with international engagements accepted when the working fit is strong.",
+  ],
+  [
+    "What happens after the free audit request?",
+    "A human reviews the submission. Qualified requests receive three priority issues, why they matter, and a recommended first action within three business days.",
+  ],
+  [
+    "How is AI used?",
+    "AI accelerates research, synthesis, drafting, analysis, and workflow execution. Strategic and client-facing decisions remain human-controlled.",
+  ],
+  [
+    "How much does an engagement cost?",
+    "Pricing follows diagnosis because scope depends on the business constraint, systems involved, and required level of implementation.",
+  ],
+];
 
 export default function Home() {
   return (
@@ -36,664 +115,70 @@ export default function Home() {
       <SiteHeader />
 
       <main id="top">
-        <section className="py-20">
+        <section className="pb-[clamp(72px,9vw,132px)] pt-[clamp(140px,16vw,220px)]">
           <div className={wrap}>
-            <div className="mt-10 grid grid-cols-1 items-start gap-10 max-[880px]:gap-10 md:grid-cols-[1.4fr_1fr] md:gap-[clamp(32px,5vw,80px)]">
-              <div>
-                <HeroRefractionTitle />
-              </div>
-              <div className="anim d3">
-                <p className="max-w-[40ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  We build brands, websites, and automation systems for businesses that want to grow
-                  without adding chaos.
+            <div className="max-w-[1120px]">
+              <p className={`${eyebrow} anim`}>AI-powered systems agency · Tirana, Albania</p>
+              <h1 className="anim d1 mt-7 max-w-[14ch] font-display text-[clamp(48px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink [font-variation-settings:'opsz'_96]">
+                We help Albanian business operators improve how they look, sell, build, and work.
+              </h1>
+              <div className="anim d2 mt-10 grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
+                <p className="max-w-[54ch] text-[clamp(17px,1.5vw,21px)] leading-relaxed text-ink-muted">
+                  Brand, Marketing, Software, and AI Automation connected under one operating logic.
+                  We improve the highest-leverage parts of the business without adding another layer of
+                  disconnected vendors.
                 </p>
-                <p className="mt-[18px] max-w-[42ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  Limited Labs helps founders and local operators turn scattered marketing, outdated
-                  websites, and manual workflows into one clean growth system.
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <a
-                    href="#audit"
-                    className="inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
-                  >
-                    Get a free growth systems audit
-                    <span aria-hidden="true">→</span>
-                  </a>
-                  <a
-                    href="#services"
-                    className="inline-flex items-center gap-3 rounded-full border border-border-strong px-6 py-3.5 text-sm font-semibold text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
-                  >
-                    See services
-                  </a>
-                </div>
-                <p className="mt-4 max-w-[42ch] font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                  Based in Tirana · Hospitality, real estate, e-commerce, and service businesses
-                </p>
-
-                <svg
-                  className="hero-monogram mt-7 h-auto max-w-[200px] text-ink"
-                  viewBox="0 0 200 100"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M10 10 V 70 Q 10 90, 30 90 H 80"
-                    stroke="currentColor"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                  <path
-                    d="M110 10 V 70 Q 110 90, 130 90 H 190"
-                    stroke="currentColor"
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                  <g transform="translate(180, 18)" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <line x1="0" y1="-8" x2="0" y2="8" />
-                    <line x1="-8" y1="0" x2="8" y2="0" />
-                    <line x1="-6" y1="-6" x2="6" y2="6" />
-                    <line x1="-6" y1="6" x2="6" y2="-6" />
-                  </g>
-                </svg>
-              </div>
-            </div>
-            <div className="anim mt-10 relative grid place-items-center overflow-hidden rounded-[24px] border border-border px-6 py-10 before:pointer-events-none before:absolute before:inset-0 before:z-0 before:bg-[radial-gradient(circle_at_20%_30%,rgba(245,244,239,0.04)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(245,244,239,0.03)_0%,transparent_50%)] before:content-[''] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-[1] after:h-2/3 after:bg-[linear-gradient(to_top,rgba(0,0,0,0.5),transparent)] after:content-[''] d1">
-              <svg
-                className="cloud relative z-10 h-auto w-full max-w-[540px]"
-                viewBox="0 0 540 320"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M120 80 C 80 80, 50 110, 60 150 C 30 165, 35 215, 80 220 C 90 260, 140 270, 175 245 C 200 280, 280 285, 305 245 C 340 270, 410 260, 425 220 C 470 220, 485 175, 460 145 C 480 105, 440 75, 405 90 C 380 55, 320 50, 295 80 C 265 50, 195 50, 170 90 C 145 75, 125 75, 120 80 Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                  className="draw text-ink"
-                />
-                <g transform="translate(120, 130)">
-                  <path
-                    d="M0 0 V 40 H 18"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M28 0 V 40 H 46"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </g>
-                <g transform="translate(210, 150)" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-                  <line x1="0" y1="-22" x2="0" y2="22" />
-                  <line x1="-22" y1="0" x2="22" y2="0" />
-                  <line x1="-16" y1="-16" x2="16" y2="16" />
-                  <line x1="-16" y1="16" x2="16" y2="-16" />
-                </g>
-                <g transform="translate(280, 150)">
-                  <path
-                    d="M-26 0 Q 0 -18, 26 0 Q 0 18, -26 0 Z"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    fill="none"
-                  />
-                  <circle cx="0" cy="0" r="6" fill="currentColor" />
-                </g>
-                <g
-                  transform="translate(360, 150)"
-                  stroke="currentColor"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                >
-                  <path d="M-14 -22 Q -22 -22, -22 -12 L -22 -4 Q -22 0, -28 0 Q -22 0, -22 4 L -22 12 Q -22 22, -14 22" />
-                  <path d="M14 -22 Q 22 -22, 22 -12 L 22 -4 Q 22 0, 28 0 Q 22 0, 22 4 L 22 12 Q 22 22, 14 22" />
-                </g>
-                <g transform="translate(420, 150)">
-                  <path
-                    d="M-8 -20 L 6 -4 L -2 -4 L 8 20 L -6 0 L 2 0 Z"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </g>
-                <circle cx="170" cy="100" r="3" fill="currentColor" opacity="0.6" className="text-ink" />
-                <circle cx="380" cy="200" r="3" fill="currentColor" opacity="0.6" className="text-ink" />
-                <circle cx="240" cy="200" r="2.5" fill="currentColor" opacity="0.4" className="text-ink" />
-              </svg>
-            </div>
-
-          </div>
-        </section>
-
-        <section className="py-20">
-          <div className={wrap}>
-            <h2 className="font-display text-[clamp(48px,9vw,144px)] font-bold leading-[0.88] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-              <span className="block">We think systems.</span>
-              <span className="inline-block pl-[clamp(20px,4vw,100px)]">Then build engines.</span>
-            </h2>
-          </div>
-        </section>
-
-        <section className="py-20" id="services">
-          <div className={wrap}>
-            <div className={serviceSlide} data-reveal>
-              <Link href="/services/brand" className={`${serviceArt} block`}>
-                <Image
-                  src="/svg/brand-service.svg"
-                  alt="Brand service illustration"
-                  width={1254}
-                  height={1254}
-                  className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                  sizes="(max-width: 768px) 70vw, 280px"
-                />
-                <span className="service-ticks" aria-hidden="true">
-                  <span />
-                </span>
-              </Link>
-              <div>
-                <div className={eyebrow}>01 / Brand</div>
-                <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
-                  Strategic, sharp, and built to last.
-                </h3>
-                <p className="mb-7 max-w-[44ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  Positioning, voice, identity, and content pillars. Not a logo on a Pinterest moodboard
-                  — a system that holds up across every channel for years.
-                </p>
-                <ul className={tagRow}>
-                  <li className={tag}>Strategy</li>
-                  <li className={tag}>Positioning</li>
-                  <li className={tag}>Visual Identity</li>
-                  <li className={tag}>Copywriting</li>
-                  <li className={tag}>Content Pillars</li>
-                  <li className={tag}>Brand Guidelines</li>
-                </ul>
-                <Link href="/services/brand" className={learnMoreLink}>
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className={serviceSlide} data-reveal>
-              <Link href="/services/software" className={`${serviceArt} block`}>
-                <Image
-                  src="/svg/code-service.svg"
-                  alt="Software service illustration"
-                  width={1254}
-                  height={1254}
-                  className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                  sizes="(max-width: 768px) 70vw, 280px"
-                />
-                <span className="service-ticks" aria-hidden="true">
-                  <span />
-                </span>
-              </Link>
-              <div>
-                <div className={eyebrow}>02 / Software</div>
-                <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
-                  Websites, MVPs, internal tools.
-                </h3>
-                <p className="mb-7 max-w-[44ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  From a landing page that converts to a shipped MVP. Next.js, Supabase, deployed on
-                  Vercel — a stack you can grow into, with documentation you&apos;ll actually read.
-                </p>
-                <ul className={tagRow}>
-                  <li className={tag}>Landing Pages</li>
-                  <li className={tag}>PWAs</li>
-                  <li className={tag}>MVPs</li>
-                  <li className={tag}>Internal Tools</li>
-                  <li className={tag}>Next.js</li>
-                  <li className={tag}>Supabase</li>
-                  <li className={tag}>Vercel</li>
-                </ul>
-                <Link href="/services/software" className={learnMoreLink}>
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className={serviceSlide} data-reveal>
-              <Link href="/services/marketing-engines" className={`${serviceArt} block`}>
-                <Image
-                  src="/svg/marketing-service.svg"
-                  alt="Marketing engines service illustration"
-                  width={1254}
-                  height={1254}
-                  className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                  sizes="(max-width: 768px) 70vw, 280px"
-                />
-                <span className="service-ticks" aria-hidden="true">
-                  <span />
-                </span>
-              </Link>
-              <div>
-                <div className={eyebrow}>03 / Marketing Engines</div>
-                <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
-                  Content + ads that compound.
-                </h3>
-                <p className="mb-7 max-w-[44ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  Meta Ads, content systems, and lead workflows. Built to publish, learn, and improve
-                  every month — not to win a creative award and disappear.
-                </p>
-                <ul className={tagRow}>
-                  <li className={tag}>Content Calendars</li>
-                  <li className={tag}>Meta Ads</li>
-                  <li className={tag}>Copywriting (AL/EN)</li>
-                  <li className={tag}>Campaign Strategy</li>
-                  <li className={tag}>KPI Reporting</li>
-                  <li className={tag}>Lead Workflows</li>
-                </ul>
-                <Link href="/services/marketing-engines" className={learnMoreLink}>
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className={serviceSlide} data-reveal>
-              <Link href="/services/automation" className={`${serviceArt} block`}>
-                <Image
-                  src="/svg/ai-service.svg"
-                  alt="Automation and AI service illustration"
-                  width={1254}
-                  height={1254}
-                  className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                  sizes="(max-width: 768px) 70vw, 280px"
-                />
-                <span className="service-ticks" aria-hidden="true">
-                  <span />
-                </span>
-              </Link>
-              <div>
-                <div className={eyebrow}>04 / Automation</div>
-                <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
-                  Remove drag. Keep humans deciding.
-                </h3>
-                <p className="mb-7 max-w-[44ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  Workflow audit, automation map, and a working system. AI drafts, you decide. Built with
-                  Make.com, Supabase, and APIs that talk to each other — instead of email threads that
-                  don&apos;t.
-                </p>
-                <ul className={tagRow}>
-                  <li className={tag}>Workflow Audit</li>
-                  <li className={tag}>Make.com</li>
-                  <li className={tag}>API Integrations</li>
-                  <li className={tag}>Internal AI Tools</li>
-                  <li className={tag}>SOPs</li>
-                </ul>
-                <Link href="/services/automation" className={learnMoreLink}>
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className={serviceSlide} data-reveal>
-              <Link href="/services/product-lab" className={`${serviceArt} block`}>
-                <Image
-                  src="/svg/productlab-service.svg"
-                  alt="Product Lab service illustration"
-                  width={1254}
-                  height={1254}
-                  className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                  sizes="(max-width: 768px) 70vw, 280px"
-                />
-                <span className="service-ticks" aria-hidden="true">
-                  <span />
-                </span>
-              </Link>
-              <div>
-                <div className={eyebrow}>05 / Product Lab</div>
-                <h3 className="mb-5 font-display text-[clamp(32px,4.2vw,56px)] font-bold leading-none tracking-[-0.035em] [font-variation-settings:'opsz'_72] text-ink">
-                  For founders with an idea worth testing.
-                </h3>
-                <p className="mb-7 max-w-[44ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                  By invitation. We scope, build, validate — and we&apos;ll tell you when to pull the plug.
-                  No vanity MVPs. No &quot;let&apos;s see what happens.&quot;
-                </p>
-                <ul className={tagRow}>
-                  <li className={tag}>Idea Evaluation</li>
-                  <li className={tag}>MVP Scope</li>
-                  <li className={tag}>Validation Plan</li>
-                  <li className={tag}>Pitch Deck</li>
-                  <li className={tag}>Roadmap</li>
-                </ul>
-                <Link href="/services/product-lab" className={learnMoreLink}>
-                  Learn more
-                  <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="py-20" id="work">
-          <div className={wrap}>
-            <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
-              <div className="min-w-0 max-w-[min(720px,calc(100%-160px))]">
-                <h2 className="font-display text-[clamp(40px,7vw,112px)] font-bold leading-[0.92] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-                  Case snapshots.
-                  <br />
-                  <span className="text-ink-faint">Deep-dive pages included.</span>
-                </h2>
-                <p className="mt-5 max-w-[46ch] text-[14.5px] leading-relaxed text-ink-muted">
-                  Selected systems in motion — anonymized where needed, structured to show the problem,
-                  build, and operating logic behind each engagement.
-                </p>
-              </div>
-              <span className={`${eyebrowCore} shrink-0`}>Filter by system</span>
-            </div>
-          </div>
-
-          <WorksTabs tagRow={tagRow} tagSm={tagSm} />
-        </section>
-
-        <section className="border-y border-border py-10" aria-hidden="true">
-          <div className="marquee-track text-ink" id="marquee">
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              brand
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              software
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              marketing
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              automation
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              product lab
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              brand
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              software
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              marketing
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              automation
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] [font-variation-settings:'opsz'_60,'wdth'_90]">
-              product lab
-            </span>
-            <span className="inline-flex items-center gap-4 whitespace-nowrap py-0 pl-7 pr-7 font-display text-[clamp(28px,4vw,48px)] font-bold lowercase tracking-[-0.03em] text-ink-faint [font-variation-settings:'opsz'_60,'wdth'_90]">
-              ∗
-            </span>
-          </div>
-        </section>
-
-        <section className="py-[clamp(80px,10vw,160px)]" id="why" aria-labelledby="why-heading">
-          <div className={wrap}>
-            <div className="mb-16 max-w-[50ch]">
-              <span className={`${eyebrowCore} mb-3 inline-block`}>Impact</span>
-              <h2
-                id="why-heading"
-                className="mb-4 font-display text-[clamp(36px,5.5vw,80px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
-              >
-                Why this matters.
-              </h2>
-              <p className="max-w-[42ch] text-[15px] text-ink-muted">
-                Most operators don&apos;t lose to one bad channel—they lose because brand, messaging, UX, and
-                workflows disagree. One studio logic keeps shipping aligned.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 min-[980px]:grid-cols-4">
-              <div
-                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
-                data-reveal
-                data-spotlight
-              >
-                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                  <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2" />
-                  <path
-                    d="M12 18 L 16 22 L 24 14"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                </svg>
-                <div>
-                  <div className="mb-2.5 mt-10 font-display text-[clamp(46px,5vw,72px)] font-bold leading-none tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-                    70%
-                  </div>
-                  <p className="text-[13.5px] leading-snug text-ink-muted">
-                    of small businesses lose customers to bad UX. We rebuild it.
+                <div className="md:justify-self-end">
+                  <p className="max-w-[42ch] border-l border-border-strong pl-5 text-sm leading-relaxed text-ink-muted">
+                    AI accelerates research and execution. Humans make strategic, client-facing, and
+                    consequential decisions.
                   </p>
                 </div>
               </div>
-
-              <div
-                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
-                data-reveal
-                data-spotlight
-              >
-                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                  <circle cx="18" cy="18" r="14" stroke="currentColor" strokeWidth="2" />
-                  <path d="M18 10 V 18 L 23 22" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-                </svg>
-                <div>
-                  <div className="mb-2.5 mt-10 font-display text-[clamp(46px,5vw,72px)] font-bold leading-none tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-                    0.5s
-                  </div>
-                  <p className="text-[13.5px] leading-snug text-ink-muted">
-                    the time you have to make a first impression. Faster than a scroll.
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
-                data-reveal
-                data-spotlight
-              >
-                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                  <path d="M6 18 Q 18 6, 30 18 Q 18 30, 6 18 Z" stroke="currentColor" strokeWidth="2" fill="none" />
-                  <circle cx="18" cy="18" r="4" fill="currentColor" />
-                </svg>
-                <div>
-                  <div className="mb-2.5 mt-10 font-display text-[clamp(46px,5vw,72px)] font-bold leading-none tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-                    55%
-                  </div>
-                  <p className="text-[13.5px] leading-snug text-ink-muted">
-                    of first impressions are visual. So yeah — make it look intentional.
-                  </p>
-                </div>
-              </div>
-
-              <div
-                className="stat-card relative flex min-h-[240px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-surface p-7 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-ink-faint"
-                data-reveal
-                data-spotlight
-              >
-                <svg className="stat-icon h-9 w-9 text-ink opacity-80" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-                  <rect x="6" y="6" width="24" height="24" rx="3" stroke="currentColor" strokeWidth="2" fill="none" />
-                  <path
-                    d="M12 14 H 24 M 12 18 H 22 M 12 22 H 20"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div>
-                  <div className="mb-2.5 mt-10 font-display text-[clamp(46px,5vw,72px)] font-bold leading-none tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-                    94%
-                  </div>
-                  <p className="text-[13.5px] leading-snug text-ink-muted">
-                    of customer complaints come down to design. Not the copy. The vibes.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className="border-t border-border py-[clamp(80px,10vw,160px)]"
-          id="voices"
-          aria-labelledby="voices-heading"
-        >
-          <div className={wrap}>
-            <div className="mb-14 max-w-[min(720px,calc(100%-20px))]">
-              <span className={`${eyebrowCore} mb-3 inline-block`}>Proof Wall</span>
-              <h2
-                id="voices-heading"
-                className="font-display text-[clamp(36px,6vw,88px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
-              >
-                Built from real operating needs.
-              </h2>
-              <p className="mt-5 max-w-[54ch] text-[14.5px] leading-relaxed text-ink-muted">
-                Before selling systems to clients, we build them for our own ventures: marketplaces,
-                hospitality brands, admin workflows, and automation experiments that need to work in the
-                real world.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-5 min-[720px]:grid-cols-2">
-              {[
-                {
-                  title: "limited.al",
-                  label: "Marketplace infrastructure",
-                  body:
-                    "Seller, order, and admin workflow thinking for a marketplace that connects digital operations with real-world fulfillment.",
-                },
-                {
-                  title: "Vento Caffe",
-                  label: "Hospitality brand system",
-                  body:
-                    "Brand, content, and local presence work shaped around how a real cafe needs to look, sell, and stay consistent every day.",
-                },
-                {
-                  title: "Limited Labs",
-                  label: "Studio operating system",
-                  body:
-                    "This site, its service architecture, admin area, production checks, and SEO foundation are part of the same build-first process.",
-                },
-                {
-                  title: "Automation lab",
-                  label: "Workflow experiments",
-                  body:
-                    "Mac mini automations, order signals, hardware triggers, and approval-gated AI workflows tested before becoming client offers.",
-                },
-              ].map((item) => (
-                <article
-                  key={item.title}
-                  className="voice-card rounded-[20px] border border-border bg-surface p-8 transition-[transform,border-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-border-strong"
-                  data-reveal
-                >
-                  <div className="mb-5 flex items-center justify-between gap-4">
-                    <h3 className="font-display text-2xl font-bold tracking-[-0.03em] text-ink">
-                      {item.title}
-                    </h3>
-                    <span className="rounded-full border border-border-strong px-3 py-[6px] font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                      Built by us
-                    </span>
-                  </div>
-                  <p className="mb-3 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] text-ink-faint">
-                    {item.label}
-                  </p>
-                  <p className="text-[14.5px] leading-normal text-ink-muted">{item.body}</p>
-                </article>
-              ))}
-
-              <div
-                className="col-span-full rounded-[20px] border border-dashed border-border-strong bg-[repeating-linear-gradient(135deg,transparent_0px,transparent_14px,rgba(245,244,239,0.015)_14px,rgba(245,244,239,0.015)_15px)] p-10 text-center"
-                data-reveal
-              >
-                <span className={`${eyebrowCore} mb-1 inline-block`}>Want the same operating clarity?</span>
-                <p className="mx-auto mt-3 max-w-[54ch] text-[15px] text-ink-muted">
-                  Start with the audit. We look at your brand, website, marketing path, and manual
-                  workflows, then send back the highest-leverage fixes.
-                </p>
+              <div className="anim d3 mt-10 flex flex-wrap gap-3">
                 <a
                   href="#audit"
-                  className="mt-6 inline-flex items-center gap-3 rounded-full bg-ink px-7 py-[14px] text-sm font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
-                  Request the audit
+                  Get a free systems audit
                   <span aria-hidden="true">→</span>
+                </a>
+                <a
+                  href="#services"
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
+                >
+                  Explore the four systems
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="border-t border-border py-[clamp(80px,10vw,140px)]" id="audit" aria-labelledby="audit-heading">
+        <section className="border-y border-border py-[clamp(72px,8vw,112px)]" id="context">
           <div className={wrap}>
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.75fr_1.25fr]">
               <div>
-                <span className={`${eyebrowCore} mb-3 inline-block`}>Free Audit</span>
-                <h2
-                  id="audit-heading"
-                  className="font-display text-[clamp(40px,6vw,92px)] font-bold leading-[0.95] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]"
-                >
-                  Get a free growth systems audit.
+                <p className={eyebrow}>The operating problem</p>
+                <h2 className="mt-4 max-w-[12ch] font-display text-[clamp(38px,5vw,72px)] font-bold leading-[0.96] tracking-[-0.04em]">
+                  Growth breaks when the systems disagree.
                 </h2>
-                <p className="mt-5 max-w-[48ch] text-[15px] leading-relaxed text-ink-muted">
-                  Send us your website, Instagram, or business idea. We review the places where brand,
-                  website, marketing, and operations are leaking attention or time.
-                </p>
-                <a
-                  href="mailto:hello@limitedlabs.co?subject=Free%20growth%20systems%20audit%20request&body=Business%20name%3A%0AWebsite%20or%20social%20link%3A%0AWhat%20do%20you%20want%20to%20improve%3A%0ATimeline%3A%0ABudget%20range%20(optional)%3A"
-                  className="mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-semibold text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
-                >
-                  Request free audit
-                  <span aria-hidden="true">→</span>
-                </a>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {[
-                  ["01", "We review", "Your website, offer, SEO basics, social presence, and manual workflows."],
-                  ["02", "You receive", "Five quick wins, three priority fixes, and one recommended growth system."],
-                  ["03", "Then decide", "You can implement it yourself, ask us to build it, or start with a focused sprint."],
-                ].map(([step, title, body]) => (
-                  <article key={step} className="rounded-[22px] border border-border bg-surface p-6 text-left">
-                    <span className={`${eyebrowCore} mb-5 block`}>{step}</span>
-                    <h3 className="mb-3 font-display text-xl font-bold tracking-[-0.02em] text-ink">{title}</h3>
-                    <p className="text-[14px] leading-relaxed text-ink-muted">{body}</p>
+              <div className="grid grid-cols-1 gap-4">
+                {problems.map((problem, index) => (
+                  <article
+                    key={problem.title}
+                    className="grid grid-cols-[auto_1fr] gap-5 rounded-[20px] border border-border bg-surface p-6 sm:p-8"
+                    data-reveal
+                  >
+                    <span className={eyebrow}>{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3 className="font-display text-2xl font-bold tracking-[-0.025em]">
+                        {problem.title}
+                      </h3>
+                      <p className="mt-3 max-w-[58ch] text-[15px] leading-relaxed text-ink-muted">
+                        {problem.body}
+                      </p>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -701,128 +186,268 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="border-t border-border py-[clamp(80px,10vw,140px)]" id="faq" aria-labelledby="faq-heading">
+        <section className="py-[clamp(80px,10vw,152px)]" id="services" aria-labelledby="services-heading">
           <div className={wrap}>
-            <div className="mb-12 max-w-[680px]">
-              <span className={`${eyebrowCore} mb-3 inline-block`}>FAQ</span>
+            <div className="mb-14 max-w-[780px]">
+              <p className={eyebrow}>Four connected systems</p>
               <h2
-                id="faq-heading"
-                className="font-display text-[clamp(36px,5.5vw,80px)] font-bold leading-[0.95] tracking-[-0.035em] text-ink [font-variation-settings:'opsz'_96]"
+                id="services-heading"
+                className="mt-4 font-display text-[clamp(42px,7vw,96px)] font-bold leading-[0.94] tracking-[-0.045em]"
               >
-                Frequently asked questions.
+                Improve the whole path, starting where it matters most.
               </h2>
             </div>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {[
-                ["What does Limited Labs do?", "We combine brand, websites, marketing systems, and automation so small teams can grow without stitching together disconnected vendors."],
-                ["Do you only work in Albania?", "We are based in Tirana and work with Albanian and international operators. Albanian and English copywriting are both available."],
-                ["Can you build the website and the marketing system?", "Yes. The strongest projects connect the offer, landing page, tracking, content, and follow-up workflow from the start."],
-                ["How do we start?", "Start with the free audit. If there is a clear fit, we turn the findings into a focused sprint or a full growth system build."],
-              ].map(([question, answer]) => (
-                <article key={question} className="rounded-[20px] border border-border bg-surface p-7">
-                  <h3 className="mb-3 font-display text-xl font-bold tracking-[-0.02em] text-ink">{question}</h3>
-                  <p className="text-[14.5px] leading-relaxed text-ink-muted">{answer}</p>
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+              {coreServices.map((service) => (
+                <article
+                  key={service.slug}
+                  className="group grid min-h-[420px] grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(24px,3vw,36px)] transition-colors hover:border-border-strong"
+                  data-reveal
+                >
+                  <div className="flex items-start justify-between gap-5">
+                    <p className={eyebrow}>
+                      {service.index} / {service.category === "automation" ? "AI Automation" : service.name}
+                    </p>
+                    <div className="grid size-20 shrink-0 place-items-center rounded-2xl border border-border bg-page p-3">
+                      <Image
+                        src={service.illustration}
+                        alt=""
+                        width={1254}
+                        height={1254}
+                        className="service-illustration-img h-full w-full object-contain"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-10">
+                    <h3 className="max-w-[14ch] font-display text-[clamp(32px,4vw,54px)] font-bold leading-[0.96] tracking-[-0.04em]">
+                      {service.tagline}
+                    </h3>
+                    <p className="mt-5 max-w-[54ch] text-[15px] leading-relaxed text-ink-muted">
+                      {service.summary}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="mt-10 inline-flex min-h-12 w-fit items-center gap-3 rounded-full border border-border-strong px-5 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink"
+                  >
+                    Explore {service.category === "automation" ? "AI Automation" : service.name}
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </article>
+              ))}
+            </div>
+
+            {productLab ? (
+              <div
+                className="mt-5 flex flex-col gap-6 rounded-[22px] border border-dashed border-border-strong p-[clamp(24px,3vw,36px)] sm:flex-row sm:items-center sm:justify-between"
+                data-reveal
+              >
+                <div>
+                  <p className={eyebrow}>Selective engagement / Product Lab</p>
+                  <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.025em]">
+                    Focused validation and co-building, by invitation.
+                  </h3>
+                  <p className="mt-3 max-w-[64ch] text-sm leading-relaxed text-ink-muted">
+                    Product Lab is considered after qualification when we have conviction in the
+                    problem. It is not a fifth self-service offer.
+                  </p>
+                </div>
+                <Link
+                  href="/services/product-lab"
+                  className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-full border border-border-strong px-6 py-3 text-sm font-semibold transition-colors hover:border-ink"
+                >
+                  How selection works
+                </Link>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        <section
+          className="border-y border-border py-[clamp(80px,10vw,144px)]"
+          id="why"
+          aria-labelledby="why-heading"
+        >
+          <div className={wrap}>
+            <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.72fr_1.28fr]">
+              <div>
+                <p className={eyebrow}>Why this model</p>
+                <h2
+                  id="why-heading"
+                  className="mt-4 max-w-[11ch] font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
+                >
+                  Fewer handoffs. Clearer accountability.
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[22px] border border-border bg-border sm:grid-cols-2">
+                {principles.map((principle) => (
+                  <article key={principle.index} className="bg-page p-[clamp(24px,3vw,36px)]">
+                    <span className={eyebrow}>{principle.index}</span>
+                    <h3 className="mt-8 font-display text-2xl font-bold tracking-[-0.025em]">
+                      {principle.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-ink-muted">{principle.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-[clamp(80px,10vw,144px)]" id="work" aria-labelledby="work-heading">
+          <div className={wrap}>
+            <div className="mb-12 max-w-[780px]">
+              <p className={eyebrow}>Selected work and working models</p>
+              <h2
+                id="work-heading"
+                className="mt-4 font-display text-[clamp(42px,7vw,92px)] font-bold leading-[0.94] tracking-[-0.045em]"
+              >
+                Evidence is labeled before it is presented.
+              </h2>
+              <p className="mt-5 max-w-[60ch] text-[15px] leading-relaxed text-ink-muted">
+                Current items include concepts and internal systems. Each page states what the work is,
+                what is known, and whether an outcome is measured or still a target.
+              </p>
+            </div>
+          </div>
+          <WorksTabs tagRow={tagRow} tagSm={tagSm} />
+        </section>
+
+        <section
+          className="border-y border-border py-[clamp(80px,10vw,144px)]"
+          id="proof"
+          aria-labelledby="proof-heading"
+        >
+          <div className={wrap}>
+            <div className="mb-12 max-w-[780px]">
+              <p className={eyebrow}>Proof</p>
+              <h2
+                id="proof-heading"
+                className="mt-4 font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
+              >
+                Built around operating needs, not invented claims.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              {proofItems.map((item) => (
+                <article
+                  key={item.title}
+                  className="rounded-[22px] border border-border bg-surface p-[clamp(24px,3vw,34px)]"
+                  data-reveal
+                >
+                  <span className="rounded-full border border-border-strong px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint">
+                    {item.classification}
+                  </span>
+                  <h3 className="mt-7 font-display text-2xl font-bold tracking-[-0.025em]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">{item.body}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="relative py-[clamp(80px,10vw,160px)] text-center" id="contact">
+        <section
+          className="py-[clamp(80px,10vw,152px)]"
+          id="audit"
+          aria-labelledby="audit-heading"
+        >
           <div className={wrap}>
-            <div className="relative mb-8 grid h-[220px] place-items-center">
-              <div className="cta-stage relative grid h-[200px] w-[200px] place-items-center">
-                <svg
-                  className="cta-ring absolute inset-0 animate-[spin_18s_linear_infinite] text-ink"
-                  viewBox="0 0 200 200"
-                  aria-hidden="true"
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+              <div className="lg:sticky lg:top-28">
+                <p className={eyebrow}>Free systems audit</p>
+                <h2
+                  id="audit-heading"
+                  className="mt-4 font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
                 >
-                  <defs>
-                    <path id="circlePath" d="M 100, 100 m -78, 0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0" />
-                  </defs>
-                  <text fill="currentColor" fontFamily="Geist Mono" fontSize="11" letterSpacing="2.5">
-                    <textPath href="#circlePath">
-                      LIMITED LABS · LET&apos;S BUILD SOMETHING · LIMITED LABS · LET&apos;S BUILD SOMETHING ·{" "}
-                    </textPath>
-                  </text>
-                </svg>
-                <svg className="cta-squiggle relative z-[1] h-20 w-20 text-ink" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                  <path
-                    d="M10 40 Q 22 22, 40 30 Q 58 22, 70 40 Q 58 58, 40 50 Q 22 58, 10 40 Z"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinejoin="round"
-                    fill="none"
-                  />
-                  <path
-                    d="M10 40 Q 22 38, 40 40 Q 58 38, 70 40"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    fill="none"
-                  />
-                  <path d="M40 30 V 50" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
-                </svg>
+                  Find the first system worth fixing.
+                </h2>
+                <p className="mt-6 max-w-[48ch] text-[15px] leading-relaxed text-ink-muted">
+                  Qualified submissions receive a concise written review of the three highest-priority
+                  issues, why they matter, and the recommended first action.
+                </p>
+                <ol className="mt-8 space-y-5">
+                  {[
+                    "Share the business context and the systems creating friction.",
+                    "A human reviews the request and checks whether the audit can be useful.",
+                    "Qualified requests receive a written priority review within three business days.",
+                  ].map((item, index) => (
+                    <li key={item} className="flex gap-4 text-sm leading-relaxed text-ink-muted">
+                      <span className={`${eyebrow} mt-0.5`}>{String(index + 1).padStart(2, "0")}</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
-            </div>
-            <h2 className="mb-10 font-display text-[clamp(48px,9vw,144px)] font-bold lowercase leading-[0.9] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
-              we&apos;re always
-              <br />
-              happy to chat.
-            </h2>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <a
-                href="mailto:hello@limitedlabs.co?subject=Free%20growth%20systems%20audit%20request"
-                className="magnetic inline-flex items-center gap-3 rounded-full bg-ink px-8 py-[18px] text-base font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:bg-accent"
-                data-magnetic
-              >
-                Request free audit
-                <svg className="magnetic-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path
-                    d="M3 8 H 13 M 9 4 L 13 8 L 9 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
-              <a
-                href="mailto:hello@limitedlabs.co?subject=Discovery%20call%20request%20%E2%80%94%20Limited%20Labs"
-                className="magnetic inline-flex items-center gap-3 rounded-full border border-border-strong bg-transparent px-8 py-[18px] text-base font-medium text-ink transition-[border-color] duration-200 ease-out hover:border-ink"
-                data-magnetic
-              >
-                Book a discovery call
-                <svg className="magnetic-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path
-                    d="M3 13 L 13 3 M 7 3 H 13 V 9"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
+              <AuditForm />
             </div>
           </div>
         </section>
 
-        <section className="footer-wordmark overflow-hidden py-10 pb-[60px]" aria-hidden="true">
-          <svg className="h-auto w-full text-ink" viewBox="0 0 1400 200" fill="none" preserveAspectRatio="xMidYMid meet">
-            <text
-              x="700"
-              y="160"
-              fontFamily="Bricolage Grotesque"
-              fontWeight="700"
-              fontSize="240"
-              fill="currentColor"
-              textAnchor="middle"
-              letterSpacing="-12"
-              style={{ fontVariationSettings: "'opsz' 96, 'wdth' 100" }}
+        <section
+          className="border-y border-border py-[clamp(80px,10vw,136px)]"
+          id="faq"
+          aria-labelledby="faq-heading"
+        >
+          <div className={wrap}>
+            <div className="mb-12 max-w-[720px]">
+              <p className={eyebrow}>FAQ</p>
+              <h2
+                id="faq-heading"
+                className="mt-4 font-display text-[clamp(42px,6vw,80px)] font-bold leading-[0.95] tracking-[-0.04em]"
+              >
+                What to know before you submit.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[22px] border border-border bg-border md:grid-cols-2">
+              {faqs.map(([question, answer]) => (
+                <article key={question} className="bg-page p-[clamp(24px,3vw,34px)]">
+                  <h3 className="font-display text-xl font-bold tracking-[-0.02em]">{question}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">{answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          className="py-[clamp(80px,10vw,144px)]"
+          id="contact"
+          aria-labelledby="contact-heading"
+        >
+          <div className={`${wrap} text-center`}>
+            <p className={eyebrow}>Direct contact</p>
+            <h2
+              id="contact-heading"
+              className="mx-auto mt-4 max-w-[13ch] font-display text-[clamp(46px,8vw,108px)] font-bold leading-[0.92] tracking-[-0.05em]"
             >
-              LIMITED LABS
-            </text>
-          </svg>
+              Start with context, not a sales pitch.
+            </h2>
+            <p className="mx-auto mt-6 max-w-[52ch] text-[15px] leading-relaxed text-ink-muted">
+              The audit is the preferred starting point. Direct email and discovery-call requests remain
+              available when the structured form is not suitable.
+            </p>
+            <div className="mt-9 flex flex-wrap justify-center gap-3">
+              <a
+                href="mailto:hello@limitedlabs.co"
+                data-analytics-event="email_clicked"
+                data-analytics-placement="final-contact"
+                className="inline-flex min-h-12 items-center rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02]"
+              >
+                Email hello@limitedlabs.co
+              </a>
+              <a
+                href="mailto:hello@limitedlabs.co?subject=Discovery%20call%20request%20-%20Limited%20Labs"
+                data-analytics-event="discovery_call_clicked"
+                data-analytics-placement="final-contact"
+                className="inline-flex min-h-12 items-center rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
+              >
+                Request a discovery call
+              </a>
+            </div>
+          </div>
         </section>
       </main>
 

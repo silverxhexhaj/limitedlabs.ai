@@ -6,6 +6,21 @@ export type WorkArtVariant =
   | "waves"
   | "grid";
 
+export type WorkEvidenceClassification =
+  | "verified-client-work"
+  | "anonymized-client-work"
+  | "internal-system"
+  | "experiment"
+  | "concept";
+
+export const WORK_CLASSIFICATION_LABELS: Record<WorkEvidenceClassification, string> = {
+  "verified-client-work": "Verified client work",
+  "anonymized-client-work": "Anonymized client work",
+  "internal-system": "Internal system",
+  experiment: "Experiment",
+  concept: "Concept",
+};
+
 export type WorkDetail = {
   summary: string;
   challenge: string;
@@ -19,6 +34,8 @@ export type WorkItem = {
   slug: string;
   title: string;
   quarter: string;
+  classification: WorkEvidenceClassification;
+  primarySystem: "brand" | "marketing" | "software" | "ai-automation";
   tags: string[];
   /** Tailwind gradient background class for the thumbnail / hero art panel */
   gradientClass: string;
@@ -30,19 +47,21 @@ export type WorkItem = {
 export const WORK_ITEMS: WorkItem[] = [
   {
     slug: "hospitality-brand",
-    title: "Hospitality Brand",
+    title: "Hospitality Brand System",
     quarter: "Q2 2026",
+    classification: "concept",
+    primarySystem: "brand",
     tags: ["Branding", "Identity", "Content"],
     gradientClass: "bg-[linear-gradient(135deg,#ff7a59_0%,#c93b8b_50%,#4a1e5c_100%)]",
     art: "check",
     artWidthPercent: "60%",
     detail: {
       summary:
-        "A full hospitality identity system—positioning, visual language, and repeatable content patterns so every touchpoint feels like the same place.",
+        "A concept showing how positioning, visual language, and repeatable content patterns can make hospitality touchpoints feel coherent.",
       challenge:
         "The brand needed to feel premium without being generic, and hold up across menus, signage, social, and staff training—not just a logo drop.",
       approach:
-        "We started with story and guest journey, then locked a tight type + color system, photography direction, and voice rules you can actually run day to day.",
+        "The proposed approach starts with story and guest journey, then defines a focused type and color system, photography direction, and practical voice rules.",
       deliverables: [
         "Positioning + naming guardrails",
         "Logo system + usage rules",
@@ -61,19 +80,21 @@ export const WORK_ITEMS: WorkItem[] = [
   },
   {
     slug: "e-commerce-mvp",
-    title: "E-commerce MVP",
+    title: "E-commerce MVP Blueprint",
     quarter: "Q2 2026",
+    classification: "concept",
+    primarySystem: "software",
     tags: ["UI/UX", "Next.js", "Supabase"],
     gradientClass: "bg-[linear-gradient(135deg,#b8a4ff_0%,#6e7cff_50%,#1a3aa0_100%)]",
     art: "wireframe",
     artWidthPercent: "55%",
     detail: {
       summary:
-        "A shippable storefront MVP: catalogue, checkout path, admin basics, and analytics hooks—built to iterate, not stall in “almost done.”",
+        "A concept for a focused storefront MVP covering catalogue, checkout, admin basics, and analytics hooks.",
       challenge:
         "Move fast without painting the team into a corner—clean UX today, room for payments, inventory, and campaigns tomorrow.",
       approach:
-        "We scoped a ruthlessly small v1, designed the purchase flow first, then wired data models and admin flows so operations stay sane.",
+        "The blueprint scopes a deliberately small v1, prioritizes the purchase flow, and maps data and admin needs before expansion.",
       deliverables: [
         "Product architecture + MVP scope",
         "UI screens for browse → cart → success",
@@ -87,19 +108,21 @@ export const WORK_ITEMS: WorkItem[] = [
   },
   {
     slug: "local-smb-campaign",
-    title: "Local SMB Campaign",
+    title: "Local Demand System",
     quarter: "Q2 2026",
+    classification: "concept",
+    primarySystem: "marketing",
     tags: ["Meta Ads", "Content", "Strategy"],
     gradientClass: "bg-[linear-gradient(135deg,#ffe27a_0%,#ff9c4a_50%,#b73a1a_100%)]",
     art: "chart",
     artWidthPercent: "55%",
     detail: {
       summary:
-        "A local growth engine: offer structure, creative system, and weekly learning cadence so ad spend turns into booked demand—not noise.",
+        "A concept for connecting offer structure, creative testing, and weekly decisions into a measurable local demand system.",
       challenge:
         "Tight geo + limited budget means every creative and audience test has to teach something useful within days, not months.",
       approach:
-        "We built a simple funnel narrative, three repeatable ad angles, and a reporting rhythm that forces decisions: keep, fix, or kill.",
+        "The proposed approach uses a simple funnel narrative, repeatable ad angles, and a reporting rhythm that forces keep, fix, or stop decisions.",
       deliverables: [
         "Offer + landing alignment map",
         "Creative matrix (angles × formats)",
@@ -113,19 +136,21 @@ export const WORK_ITEMS: WorkItem[] = [
   },
   {
     slug: "real-estate-pwa",
-    title: "Real Estate PWA",
+    title: "Real Estate PWA Concept",
     quarter: "Q3 2026",
+    classification: "concept",
+    primarySystem: "software",
     tags: ["Product", "Branding", "PWA"],
     gradientClass: "bg-[linear-gradient(135deg,#7affc0_0%,#2da38a_50%,#0c4a5e_100%)]",
     art: "property",
     artWidthPercent: "55%",
     detail: {
       summary:
-        "A fast, installable browsing experience with crisp listing hierarchy, inquiry flow, and performance tuned for flaky mobile networks.",
+        "A concept for a fast, installable property browsing experience designed around listing clarity, inquiry flow, and mobile performance.",
       challenge:
         "High-quality media without brutal load times—and a UX that earns trust quickly in a skeptical category.",
       approach:
-        "We prototyped inquiry-first navigation, prioritized image pipelines and caching, and kept the IA boringly obvious on purpose.",
+        "The concept prioritizes inquiry-first navigation, responsive image delivery, caching, and deliberately obvious information architecture.",
       deliverables: [
         "Listing + detail UX flows",
         "Brand surface area for agent trust signals",
@@ -139,19 +164,21 @@ export const WORK_ITEMS: WorkItem[] = [
   },
   {
     slug: "restaurant-system",
-    title: "Restaurant System",
+    title: "Restaurant Operating System",
     quarter: "Q3 2026",
+    classification: "concept",
+    primarySystem: "marketing",
     tags: ["Brand", "Marketing", "Automation"],
     gradientClass: "bg-[linear-gradient(135deg,#ffbb9d_0%,#ff6b9d_50%,#5e1a4a_100%)]",
     art: "waves",
     artWidthPercent: "55%",
     detail: {
       summary:
-        "Brand + marketing + lightweight automation as one system: consistent voice, scheduled promos, and fewer “can someone post this?” threads.",
+        "A concept connecting brand, marketing, and lightweight automation for more consistent daily restaurant operations.",
       challenge:
         "Restaurants run on thin margins and thinner time—tools need to be obvious and maintainable by non-technical staff.",
       approach:
-        "We mapped weekly operations, removed duplicate work with templates, and automated only the boring parts (reminders, routing, handoffs).",
+        "The proposed approach maps weekly operations, replaces duplicate work with templates, and automates routine reminders, routing, and handoffs.",
       deliverables: [
         "Brand refresh + menu hierarchy",
         "Campaign calendar tied to real kitchen capacity",
@@ -165,19 +192,21 @@ export const WORK_ITEMS: WorkItem[] = [
   },
   {
     slug: "internal-ops-tool",
-    title: "Internal Ops Tool",
+    title: "Internal Operations Console",
     quarter: "Q3 2026",
+    classification: "internal-system",
+    primarySystem: "ai-automation",
     tags: ["Automation", "Tooling", "AI"],
     gradientClass: "bg-[linear-gradient(135deg,#c4a3ff_0%,#5a3aa0_50%,#1a1040_100%)]",
     art: "grid",
     artWidthPercent: "55%",
     detail: {
       summary:
-        "An internal console that turns recurring admin work into a guided flow—fast search, clear states, and guardrails so mistakes are rare.",
+        "An internal system pattern for turning recurring administrative work into guided flows with clear states and approval controls.",
       challenge:
         "Spreadsheets worked until they didn’t: permissions, auditability, and speed became the real product requirements.",
       approach:
-        "We interviewed the actual operators, drew the real state machine, then shipped a thin shell that could grow module-by-module.",
+        "The internal approach maps operator jobs and state transitions first, then grows the console module by module.",
       deliverables: [
         "Workflow audit + permission model",
         "Core screens for the top 3 jobs-to-be-done",

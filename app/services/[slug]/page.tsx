@@ -12,6 +12,7 @@ import { WORK_ITEMS, type WorkItem } from "../../work/workData";
 import {
   SERVICE_ITEMS,
   getServiceBySlug,
+  serviceToRequestedSystem,
   serviceCategoryToWorkFilter,
   type ServiceItem,
 } from "../servicesData";
@@ -58,18 +59,9 @@ function getRelatedWork(service: ServiceItem): WorkItem[] {
   return WORK_ITEMS.filter((work) => workMatchesCategory(work, filter)).slice(0, 3);
 }
 
-function discussMailto(service: ServiceItem): string {
-  const subject = encodeURIComponent(`Discuss ${service.name} offer — Limited Labs`);
-  return `mailto:hello@limitedlabs.co?subject=${subject}`;
-}
-
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
-
-export function generateStaticParams() {
-  return SERVICE_ITEMS.map((s) => ({ slug: s.slug }));
-}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -100,10 +92,17 @@ export default async function ServiceDetailPage({ params }: PageProps) {
   const prev = idx > 0 ? SERVICE_ITEMS[idx - 1] : null;
   const next = idx < SERVICE_ITEMS.length - 1 ? SERVICE_ITEMS[idx + 1] : null;
   const relatedWork = getRelatedWork(service);
+  const requestedSystem = serviceToRequestedSystem(service);
+  const auditHref = `/?service=${requestedSystem}#audit`;
 
   return (
     <>
       <SiteHeader />
+      <span
+        hidden
+        data-page-view-event="service_interest_viewed"
+        data-page-view-slug={service.slug}
+      />
 
       <main id="top" className="pt-[110px]">
         <div className={wrap}>
@@ -149,11 +148,13 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               </p>
 
               <div className="mt-10 flex flex-wrap gap-3">
-                <a
-                  href={discussMailto(service)}
+                <Link
+                  href={auditHref}
+                  data-analytics-event="service_audit_clicked"
+                  data-analytics-slug={service.slug}
                   className="inline-flex items-center gap-3 rounded-full bg-ink px-7 py-[14px] text-sm font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
                 >
-                  Discuss this offer
+                  Get a free systems audit
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path
                       d="M3 8 H 13 M 9 4 L 13 8 L 9 12"
@@ -163,13 +164,15 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
-                <Link
-                  href="/#contact"
+                </Link>
+                <a
+                  href={`mailto:hello@limitedlabs.co?subject=${encodeURIComponent(`Discovery call request - ${service.name}`)}`}
+                  data-analytics-event="discovery_call_clicked"
+                  data-analytics-placement={`service-${service.slug}`}
                   className="inline-flex items-center gap-3 rounded-full border border-border-strong px-7 py-[14px] text-sm font-medium text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
                 >
-                  Book a discovery call
-                </Link>
+                  Request a discovery call
+                </a>
               </div>
             </div>
 
@@ -261,23 +264,25 @@ export default async function ServiceDetailPage({ params }: PageProps) {
               <div>
                 <h2 className={`${eyebrowCore} mb-3`}>Related work</h2>
                 <p className="max-w-[46ch] text-[14.5px] leading-relaxed text-ink-muted">
-                  Case snapshots that overlap with this service — placeholders until real projects publish.
+                  Classified examples and working models that overlap with this system.
                 </p>
               </div>
             </div>
 
             {service.invitationOnly ? (
               <div className="rounded-[20px] border border-dashed border-border-strong bg-[repeating-linear-gradient(135deg,transparent_0px,transparent_14px,rgba(245,244,239,0.015)_14px,rgba(245,244,239,0.015)_15px)] p-10 text-center">
-                <span className={`${eyebrowCore} mb-1 inline-block`}>[ FORTHCOMING ]</span>
+                <span className={`${eyebrowCore} mb-1 inline-block`}>Selective engagement</span>
                 <p className="mx-auto mt-3 max-w-[50ch] text-[15px] text-ink-muted">
-                  Product Lab case studies publish after Q2 deliveries. In the meantime,{" "}
-                  <a
-                    href={discussMailto(service)}
+                  Product Lab is considered after qualification when we have conviction in the problem.{" "}
+                  <Link
+                    href={auditHref}
+                    data-analytics-event="service_audit_clicked"
+                    data-analytics-slug={service.slug}
                     className="text-ink underline decoration-1 underline-offset-4"
                   >
-                    tell us what you&apos;re building
-                  </a>
-                  .
+                    Request a systems audit
+                  </Link>
+                  {" "}to share the operating context.
                 </p>
               </div>
             ) : relatedWork.length > 0 ? (
@@ -289,7 +294,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             ) : (
               <div className="rounded-[20px] border border-dashed border-border-strong p-10 text-center">
                 <p className="text-[15px] text-ink-muted">
-                  First case studies in this category publish after Q2 deliveries.
+                  No additional classified examples are published in this category yet.
                 </p>
               </div>
             )}
@@ -301,10 +306,15 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             data-reveal
           >
             <div className="text-sm text-ink-muted">
-              Explore other offers — or{" "}
-              <a href={discussMailto(service)} className="text-ink underline decoration-1 underline-offset-4">
-                discuss this one
-              </a>
+              Explore another system or{" "}
+              <Link
+                href={auditHref}
+                data-analytics-event="service_audit_clicked"
+                data-analytics-slug={service.slug}
+                className="text-ink underline decoration-1 underline-offset-4"
+              >
+                request a contextual audit
+              </Link>
               .
             </div>
             <div className="flex flex-wrap gap-3">
