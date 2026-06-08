@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { PwaInstaller } from "./components/PwaInstaller";
+import { LanguageProvider } from "./i18n/LanguageProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -125,7 +126,7 @@ export default function RootLayout({
           </>
         ) : null}
         <PwaInstaller />
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

@@ -5,16 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import LanguageToggle from "./LanguageToggle";
+import { useLanguage } from "../i18n/LanguageProvider";
 import { wrap } from "../site";
 
-const NAV_ITEMS = [
-  ["services", "Services"],
-  ["work", "Work"],
-  ["why", "Why Limited Labs"],
-  ["proof", "Proof"],
-  ["faq", "FAQ"],
-  ["contact", "Contact"],
-] as const;
+const NAV_IDS = ["services", "work", "why", "proof", "faq", "contact"] as const;
 
 function sectionHref(id: string, isHome: boolean) {
   return isHome ? `#${id}` : `/#${id}`;
@@ -24,6 +19,8 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useLanguage();
+  const navItems = NAV_IDS.map((id) => [id, t.header.nav[id]] as const);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -49,7 +46,7 @@ export default function SiteHeader() {
           <Link
             href="/"
             className="inline-flex shrink-0 items-center gap-3 text-ink"
-            aria-label="Limited Labs home"
+            aria-label={t.header.homeAria}
             onClick={() => setMenuOpen(false)}
           >
             <Image
@@ -65,8 +62,8 @@ export default function SiteHeader() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Primary navigation">
-            {NAV_ITEMS.map(([id, label]) => (
+          <nav className="hidden items-center gap-0.5 lg:flex" aria-label={t.header.primaryNavAria}>
+            {navItems.map(([id, label]) => (
               <a
                 key={id}
                 href={sectionHref(id, isHome)}
@@ -78,6 +75,7 @@ export default function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <LanguageToggle />
             <button
               type="button"
               id="themeToggle"
@@ -107,14 +105,14 @@ export default function SiteHeader() {
               href={sectionHref("audit", isHome)}
               className="inline-flex min-h-11 items-center rounded-full bg-ink px-4 py-2.5 text-[13px] font-semibold text-page transition-transform hover:scale-[1.02] sm:px-5"
             >
-              Free systems audit
+              {t.header.cta}
             </a>
             <button
               type="button"
               className="grid size-11 place-items-center rounded-full border border-border-strong bg-surface text-ink lg:hidden"
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
-              aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+              aria-label={menuOpen ? t.header.closeNav : t.header.openNav}
               onClick={() => setMenuOpen((current) => !current)}
             >
               <svg className="size-5" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -144,8 +142,8 @@ export default function SiteHeader() {
           id="mobile-navigation"
           className="fixed inset-0 z-[99] bg-page/95 px-[var(--gutter)] pb-10 pt-28 backdrop-blur-xl lg:hidden"
         >
-          <nav className="mx-auto flex max-w-[var(--max)] flex-col" aria-label="Mobile navigation">
-            {NAV_ITEMS.map(([id, label], index) => (
+          <nav className="mx-auto flex max-w-[var(--max)] flex-col" aria-label={t.header.mobileNavAria}>
+            {navItems.map(([id, label], index) => (
               <a
                 key={id}
                 href={sectionHref(id, isHome)}
@@ -163,7 +161,7 @@ export default function SiteHeader() {
               onClick={() => setMenuOpen(false)}
               className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page"
             >
-              Get a free systems audit
+              {t.header.mobileCta}
             </a>
           </nav>
         </div>
