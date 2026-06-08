@@ -13,6 +13,7 @@ import {
   type RequestedSystem,
 } from "@/lib/audit/types";
 import { validateAuditSubmission } from "@/lib/audit/validation";
+import { useLanguage } from "../i18n/LanguageProvider";
 import { WORK_ITEMS } from "../work/workData";
 
 type FormState = Omit<AuditSubmissionRequest, "consent" | "source"> & {
@@ -40,21 +41,6 @@ declare global {
 }
 
 const ATTRIBUTION_KEY = "limitedlabs-audit-source";
-
-const SYSTEM_LABELS: Record<RequestedSystem, string> = {
-  brand: "Brand",
-  marketing: "Marketing",
-  software: "Software",
-  "ai-automation": "AI Automation",
-  "not-sure": "Not sure yet",
-};
-
-const TIMELINE_LABELS: Record<(typeof AUDIT_TIMELINES)[number], string> = {
-  immediately: "Immediately",
-  "within-30-days": "Within 30 days",
-  "within-90-days": "Within 90 days",
-  exploring: "Exploring",
-};
 
 const EMPTY_FORM: FormState = {
   fullName: "",
@@ -121,23 +107,33 @@ function requestedSystemForContext(source: AuditSource): RequestedSystem | undef
   return WORK_ITEMS.find((item) => item.slug === source.workSlug)?.primarySystem;
 }
 
-function contextMessage(source: AuditSource): string {
+function contextMessage(
+  source: AuditSource,
+  labels: Record<RequestedSystem, string>,
+  copy: {
+    contextPreselected: string;
+    contextWork: string;
+    contextDefault: string;
+  },
+): string {
   const requested = requestedSystemForContext(source);
   if (requested && requested !== "not-sure") {
-    return `${SYSTEM_LABELS[requested]} is preselected from the page you were viewing. You can add or change systems below.`;
+    return copy.contextPreselected.replace("{system}", labels[requested]);
   }
   if (source.workSlug) {
-    return "We preserved the work example you were viewing so the review has the right context.";
+    return copy.contextWork;
   }
-  return "Tell us where the business is stuck. A human reviews every qualified request.";
+  return copy.contextDefault;
 }
 
 function TurnstileWidget({
   onToken,
   error,
+  notConfiguredMessage,
 }: {
   onToken: (token: string) => void;
   error?: string;
+  notConfiguredMessage: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | undefined>(undefined);
@@ -181,7 +177,7 @@ function TurnstileWidget({
 
   if (!siteKey) {
     return process.env.NODE_ENV === "production" ? (
-      <p className="text-sm text-red-400">Verification is not configured.</p>
+      <p className="text-sm text-red-400">{notConfiguredMessage}</p>
     ) : null;
   }
 
@@ -205,6 +201,17 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 }
 
 export default function AuditForm() {
+  const { locale, t } = useLanguage();
+  const copy = t.audit.form;
+  const systemLabels = copy.systemLabels as Record<RequestedSystem, string>;
+  const timelineLabels = copy.timelineOptions as Record<
+    (typeof AUDIT_TIMELINES)[number],
+    string
+  >;
+  const displayError = (field: string, message?: string) => {
+    if (!message || locale === "en") return message;
+    return copy.validationErrors[field as keyof typeof copy.validationErrors] ?? message;
+  };
   const [source] = useState<AuditSource>(() =>
     typeof window === "undefined" ? { landingPath: "/" } : readSource(),
   );
@@ -352,7 +359,7 @@ export default function AuditForm() {
       });
     } catch {
       setErrors({
-        form: "The request could not be submitted. Email hello@limitedlabs.co instead.",
+        form: copy.networkError,
       });
       trackEvent("audit_form_error", {
         page_path: window.location.pathname,
@@ -371,21 +378,20 @@ export default function AuditForm() {
         className="rounded-[24px] border border-border-strong bg-surface p-[clamp(24px,4vw,44px)] outline-none"
       >
         <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-faint">
-          Submission received
+          {copy.confirmBadge}
         </span>
         <h3 className="mt-4 font-display text-[clamp(32px,4vw,52px)] font-bold leading-none tracking-[-0.035em]">
-          A human will review it.
+          {copy.confirmHeading}
         </h3>
         <p className="mt-5 max-w-[52ch] text-ink-muted">
-          Qualified requests receive a concise written priority review within three business days.
-          Keep this reference for follow-up.
+          {copy.confirmBody}
         </p>
         <p className="mt-6 rounded-xl border border-border bg-page px-4 py-3 font-mono text-sm text-ink">
           {result.submissionId}
         </p>
         {result.duplicate ? (
           <p className="mt-4 text-sm text-ink-muted">
-            This matched a recent request, so we kept the original submission instead of creating a duplicate.
+            {copy.confirmDuplicate}
           </p>
         ) : null}
       </div>
@@ -402,11 +408,16 @@ export default function AuditForm() {
       <div className="mb-8 flex items-center justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faint">
-            Step {step} of 3
+            {copy.stepWord} {step} {copy.ofThree}
           </p>
-          <p className="mt-2 text-sm text-ink-muted">{contextMessage(source)}</p>
+          <p className="mt-2 text-sm text-ink-muted">
+            {contextMessage(source, systemLabels, copy)}
+          </p>
         </div>
-        <div className="flex gap-2" aria-label={`Step ${step} of 3`}>
+        <div
+          className="flex gap-2"
+          aria-label={`${copy.stepWord} ${step} ${copy.ofThree}`}
+        >
           {[1, 2, 3].map((item) => (
             <span
               key={item}
@@ -423,9 +434,15 @@ export default function AuditForm() {
           role="alert"
           className="mb-6 rounded-xl border border-red-400/40 bg-red-400/5 p-4 outline-none"
         >
-          <p className="font-semibold text-ink">Review the highlighted fields.</p>
+          <p className="font-semibold text-ink">{copy.errorSummary}</p>
           <ul className="mt-2 list-disc pl-5 text-sm text-red-300">
-            {Array.from(new Set(Object.values(errors))).map((message) => (
+            {Array.from(
+              new Set(
+                Object.entries(errors).map(([field, message]) =>
+                  displayError(field, message),
+                ),
+              ),
+            ).map((message) => (
               <li key={message}>{message}</li>
             ))}
           </ul>
@@ -435,11 +452,11 @@ export default function AuditForm() {
       {step === 1 ? (
         <fieldset>
           <legend className="font-display text-2xl font-bold tracking-[-0.02em]">
-            Your business
+            {copy.step1Legend}
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <label className="text-sm font-medium text-ink">
-              Full name *
+              {copy.fullName}
               <input
                 value={form.fullName}
                 onChange={(event) => update("fullName", event.target.value)}
@@ -448,10 +465,10 @@ export default function AuditForm() {
                 aria-invalid={Boolean(errors.fullName)}
                 aria-describedby={errors.fullName ? "fullName-error" : undefined}
               />
-              <FieldError id="fullName-error" message={errors.fullName} />
+              <FieldError id="fullName-error" message={displayError("fullName", errors.fullName)} />
             </label>
             <label className="text-sm font-medium text-ink">
-              Work email *
+              {copy.email}
               <input
                 type="email"
                 value={form.email}
@@ -461,10 +478,10 @@ export default function AuditForm() {
                 aria-invalid={Boolean(errors.email)}
                 aria-describedby={errors.email ? "email-error" : undefined}
               />
-              <FieldError id="email-error" message={errors.email} />
+              <FieldError id="email-error" message={displayError("email", errors.email)} />
             </label>
             <label className="text-sm font-medium text-ink">
-              Company or business *
+              {copy.company}
               <input
                 value={form.companyName}
                 onChange={(event) => update("companyName", event.target.value)}
@@ -473,10 +490,10 @@ export default function AuditForm() {
                 aria-invalid={Boolean(errors.companyName)}
                 aria-describedby={errors.companyName ? "companyName-error" : undefined}
               />
-              <FieldError id="companyName-error" message={errors.companyName} />
+              <FieldError id="companyName-error" message={displayError("companyName", errors.companyName)} />
             </label>
             <label className="text-sm font-medium text-ink">
-              Primary website or social URL *
+              {copy.primaryUrl}
               <input
                 type="url"
                 value={form.primaryUrl}
@@ -486,10 +503,10 @@ export default function AuditForm() {
                 aria-invalid={Boolean(errors.primaryUrl)}
                 aria-describedby={errors.primaryUrl ? "primaryUrl-error" : undefined}
               />
-              <FieldError id="primaryUrl-error" message={errors.primaryUrl} />
+              <FieldError id="primaryUrl-error" message={displayError("primaryUrl", errors.primaryUrl)} />
             </label>
             <label className="text-sm font-medium text-ink">
-              Phone or WhatsApp
+              {copy.phone}
               <input
                 value={form.phone}
                 onChange={(event) => update("phone", event.target.value)}
@@ -498,7 +515,7 @@ export default function AuditForm() {
               />
             </label>
             <label className="text-sm font-medium text-ink">
-              Industry
+              {copy.industry}
               <input
                 value={form.industry}
                 onChange={(event) => update("industry", event.target.value)}
@@ -506,22 +523,22 @@ export default function AuditForm() {
               />
             </label>
             <label className="text-sm font-medium text-ink">
-              Team size
+              {copy.teamSize}
               <select
                 value={form.teamSize}
                 onChange={(event) => update("teamSize", event.target.value)}
                 className={inputClass}
               >
-                <option value="">Select</option>
-                <option value="1">Just me</option>
-                <option value="2-5">2–5</option>
-                <option value="6-20">6–20</option>
-                <option value="21-50">21–50</option>
-                <option value="51+">51+</option>
+                <option value="">{copy.selectPlaceholder}</option>
+                <option value="1">{copy.teamSizeOptions.solo}</option>
+                <option value="2-5">{copy.teamSizeOptions.small}</option>
+                <option value="6-20">{copy.teamSizeOptions.medium}</option>
+                <option value="21-50">{copy.teamSizeOptions.large}</option>
+                <option value="51+">{copy.teamSizeOptions.xlarge}</option>
               </select>
             </label>
             <label className="text-sm font-medium text-ink">
-              Additional URLs
+              {copy.additionalUrls}
               <input
                 value={form.additionalUrls.join(", ")}
                 onChange={(event) =>
@@ -535,11 +552,11 @@ export default function AuditForm() {
                   )
                 }
                 className={inputClass}
-                placeholder="Separate up to five URLs with commas"
+                placeholder={copy.additionalUrlsPlaceholder}
                 aria-invalid={Boolean(errors.additionalUrls)}
                 aria-describedby={errors.additionalUrls ? "additionalUrls-error" : undefined}
               />
-              <FieldError id="additionalUrls-error" message={errors.additionalUrls} />
+              <FieldError id="additionalUrls-error" message={displayError("additionalUrls", errors.additionalUrls)} />
             </label>
           </div>
         </fieldset>
@@ -548,10 +565,10 @@ export default function AuditForm() {
       {step === 2 ? (
         <fieldset>
           <legend className="font-display text-2xl font-bold tracking-[-0.02em]">
-            What needs attention
+            {copy.step2Legend}
           </legend>
           <div className="mt-6">
-            <span className="text-sm font-medium text-ink">Requested systems *</span>
+            <span className="text-sm font-medium text-ink">{copy.requestedSystems}</span>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {REQUESTED_SYSTEMS.map((system) => (
                 <label
@@ -564,14 +581,14 @@ export default function AuditForm() {
                     onChange={() => toggleSystem(system)}
                     className="size-4 accent-[var(--ink)]"
                   />
-                  {SYSTEM_LABELS[system]}
+                  {systemLabels[system]}
                 </label>
               ))}
             </div>
-            <FieldError id="requestedSystems-error" message={errors.requestedSystems} />
+            <FieldError id="requestedSystems-error" message={displayError("requestedSystems", errors.requestedSystems)} />
           </div>
           <label className="mt-6 block text-sm font-medium text-ink">
-            Current challenge *
+            {copy.challenge}
             <textarea
               value={form.challenge}
               onChange={(event) => update("challenge", event.target.value)}
@@ -581,12 +598,12 @@ export default function AuditForm() {
               aria-describedby="challenge-help challenge-error"
             />
             <span id="challenge-help" className="mt-2 block text-xs text-ink-faint">
-              Minimum 30 characters. Do not include passwords or confidential credentials.
+              {copy.challengeHelp}
             </span>
-            <FieldError id="challenge-error" message={errors.challenge} />
+            <FieldError id="challenge-error" message={displayError("challenge", errors.challenge)} />
           </label>
           <label className="mt-6 block text-sm font-medium text-ink">
-            Desired outcome *
+            {copy.desiredOutcome}
             <textarea
               value={form.desiredOutcome}
               onChange={(event) => update("desiredOutcome", event.target.value)}
@@ -596,9 +613,9 @@ export default function AuditForm() {
               aria-describedby="desiredOutcome-help desiredOutcome-error"
             />
             <span id="desiredOutcome-help" className="mt-2 block text-xs text-ink-faint">
-              Describe what would materially improve for the business.
+              {copy.desiredOutcomeHelp}
             </span>
-            <FieldError id="desiredOutcome-error" message={errors.desiredOutcome} />
+            <FieldError id="desiredOutcome-error" message={displayError("desiredOutcome", errors.desiredOutcome)} />
           </label>
         </fieldset>
       ) : null}
@@ -606,11 +623,11 @@ export default function AuditForm() {
       {step === 3 ? (
         <fieldset>
           <legend className="font-display text-2xl font-bold tracking-[-0.02em]">
-            Timing and review
+            {copy.step3Legend}
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
             <label className="text-sm font-medium text-ink">
-              Timeline
+              {copy.timeline}
               <select
                 value={form.timeline || ""}
                 onChange={(event) =>
@@ -621,31 +638,31 @@ export default function AuditForm() {
                 }
                 className={inputClass}
               >
-                <option value="">Select</option>
+                <option value="">{copy.selectPlaceholder}</option>
                 {AUDIT_TIMELINES.map((timeline) => (
                   <option key={timeline} value={timeline}>
-                    {TIMELINE_LABELS[timeline]}
+                    {timelineLabels[timeline]}
                   </option>
                 ))}
               </select>
             </label>
             <label className="text-sm font-medium text-ink">
-              Approximate budget range
+              {copy.budget}
               <select
                 value={form.budgetRange}
                 onChange={(event) => update("budgetRange", event.target.value)}
                 className={inputClass}
               >
-                <option value="">Prefer not to say</option>
-                <option value="under-2000">Under €2,000</option>
-                <option value="2000-5000">€2,000–€5,000</option>
-                <option value="5000-10000">€5,000–€10,000</option>
-                <option value="10000-plus">€10,000+</option>
+                <option value="">{copy.budgetOptions.none}</option>
+                <option value="under-2000">{copy.budgetOptions["under-2000"]}</option>
+                <option value="2000-5000">{copy.budgetOptions["2000-5000"]}</option>
+                <option value="5000-10000">{copy.budgetOptions["5000-10000"]}</option>
+                <option value="10000-plus">{copy.budgetOptions["10000-plus"]}</option>
               </select>
             </label>
           </div>
           <label className="mt-6 block text-sm font-medium text-ink">
-            How did you hear about us?
+            {copy.referral}
             <input
               value={form.referralDetail}
               onChange={(event) => update("referralDetail", event.target.value)}
@@ -654,13 +671,15 @@ export default function AuditForm() {
           </label>
           <div className="mt-6 rounded-xl border border-border bg-page p-4 text-sm text-ink-muted">
             <p>
-              We will review <strong className="text-ink">{form.companyName || "your business"}</strong>{" "}
-              across {form.requestedSystems.map((item) => SYSTEM_LABELS[item]).join(", ") || "the selected systems"}.
+              {copy.summaryLine
+                .replace("{company}", form.companyName || copy.summaryCompanyFallback)
+                .replace(
+                  "{systems}",
+                  form.requestedSystems.map((item) => systemLabels[item]).join(", ") ||
+                    copy.summarySystemsFallback,
+                )}
             </p>
-            <p className="mt-2">
-              Submission does not guarantee a free deliverable. We may decline requests that lack enough
-              information or are not a fit.
-            </p>
+            <p className="mt-2">{copy.summaryDisclaimer}</p>
           </div>
           <label className="mt-6 flex cursor-pointer items-start gap-3 text-sm text-ink">
             <input
@@ -672,18 +691,19 @@ export default function AuditForm() {
               aria-describedby={errors.consent ? "consent-error" : undefined}
             />
             <span>
-              I consent to Limited Labs storing and reviewing this submission as described in the{" "}
+              {copy.consentBefore}
               <Link href="/privacy" className="underline underline-offset-4">
-                privacy notice
+                {copy.consentLink}
               </Link>
-              . *
+              {copy.consentAfter}
             </span>
           </label>
-          <FieldError id="consent-error" message={errors.consent} />
+          <FieldError id="consent-error" message={displayError("consent", errors.consent)} />
           <div className="mt-6">
             <TurnstileWidget
               onToken={(token) => update("turnstileToken", token)}
-              error={errors.turnstile}
+              error={displayError("turnstile", errors.turnstile)}
+              notConfiguredMessage={copy.verificationNotConfigured}
             />
           </div>
         </fieldset>
@@ -699,7 +719,7 @@ export default function AuditForm() {
             }}
             className="min-h-12 rounded-full border border-border-strong px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink"
           >
-            Back
+            {copy.back}
           </button>
         ) : (
           <span />
@@ -710,7 +730,7 @@ export default function AuditForm() {
             onClick={nextStep}
             className="min-h-12 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02]"
           >
-            Continue
+            {copy.continue}
           </button>
         ) : (
           <button
@@ -718,7 +738,7 @@ export default function AuditForm() {
             disabled={submitting}
             className="min-h-12 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60"
           >
-            {submitting ? "Submitting…" : "Submit audit request"}
+            {submitting ? copy.submitting : copy.submit}
           </button>
         )}
       </div>

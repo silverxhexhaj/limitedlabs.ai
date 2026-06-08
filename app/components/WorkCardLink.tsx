@@ -1,10 +1,11 @@
+"use client";
+
 import Link from "next/link";
 
+import { getWorkContent } from "../i18n/content/workContent";
+import { useLanguage } from "../i18n/LanguageProvider";
 import WorkArt from "../work/WorkArt";
-import {
-  WORK_CLASSIFICATION_LABELS,
-  type WorkItem,
-} from "../work/workData";
+import { type WorkItem } from "../work/workData";
 
 type WorkCardLinkProps = {
   work: WorkItem;
@@ -25,6 +26,8 @@ export default function WorkCardLink({
   tagSm,
   layout = "carousel",
 }: WorkCardLinkProps) {
+  const { locale, t } = useLanguage();
+  const content = getWorkContent(work, locale);
   return (
     <Link
       href={`/work/${work.slug}`}
@@ -35,7 +38,7 @@ export default function WorkCardLink({
       <article className="h-full">
         <div className="relative mb-[18px] aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-surface shadow-none transition-[border-color,box-shadow] duration-300 group-hover/card:border-border-strong group-hover/card:shadow-[0_28px_80px_rgba(0,0,0,0.18)] dark:group-hover/card:shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
           <span className="absolute left-3.5 top-3.5 z-[1] rounded-full border border-white/20 bg-[rgba(10,10,10,0.5)] px-2.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-cream backdrop-blur-md">
-            {WORK_CLASSIFICATION_LABELS[work.classification]}
+            {t.workClassifications[work.classification]}
           </span>
           <div
             className={`pointer-events-none absolute inset-0 grid place-items-center p-8 transition-transform duration-500 ease-[cubic-bezier(0.2,0.6,0.2,1)] group-hover/card:scale-[1.02] ${work.gradientClass}`}
@@ -43,7 +46,7 @@ export default function WorkCardLink({
             <WorkArt variant={work.art} width={work.artWidthPercent} />
           </div>
           <span className="pointer-events-none absolute bottom-3.5 right-3.5 z-[1] inline-flex items-center gap-2 rounded-full border border-white/25 bg-[rgba(10,10,10,0.45)] px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-cream backdrop-blur-md opacity-95 transition-opacity duration-200 group-hover/card:opacity-100">
-            View details
+            {t.work.viewDetails}
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="opacity-90">
               <path
                 d="M3 13 L13 3 M7 3 H13 V9"
@@ -56,7 +59,7 @@ export default function WorkCardLink({
           </span>
         </div>
         <h4 className="mb-2 font-display text-[26px] font-bold leading-none tracking-[-0.025em] text-ink underline decoration-transparent decoration-2 underline-offset-8 transition-colors duration-200 group-hover/card:decoration-ink [font-variation-settings:'opsz'_36]">
-          {work.title}
+          {content.title}
         </h4>
         <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint">
           {work.quarter}

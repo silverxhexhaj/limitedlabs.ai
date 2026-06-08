@@ -3,17 +3,12 @@
 import { useId, useMemo, useState } from "react";
 
 import WorkCardLink from "./WorkCardLink";
+import { useLanguage } from "../i18n/LanguageProvider";
 import { WORK_ITEMS, type WorkItem } from "../work/workData";
 
 export type WorkCategory = "all" | "brand" | "software" | "marketing" | "automation";
 
-const CATEGORIES: { id: WorkCategory; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "brand", label: "Brand" },
-  { id: "software", label: "Software" },
-  { id: "marketing", label: "Marketing" },
-  { id: "automation", label: "Automation" },
-];
+const CATEGORY_IDS: WorkCategory[] = ["all", "brand", "software", "marketing", "automation"];
 
 /** Tag substrings matched per category (case-insensitive). */
 const CATEGORY_MATCHERS: Record<Exclude<WorkCategory, "all">, string[]> = {
@@ -43,6 +38,8 @@ type WorksTabsProps = {
 export default function WorksTabs({ tagRow, tagSm }: WorksTabsProps) {
   const [activeCategory, setActiveCategory] = useState<WorkCategory>("all");
   const panelId = useId();
+  const { t } = useLanguage();
+  const categories = CATEGORY_IDS.map((id) => ({ id, label: t.work.categories[id] }));
 
   const filteredItems = useMemo(
     () => WORK_ITEMS.filter((work) => workMatchesCategory(work, activeCategory)),
@@ -53,10 +50,10 @@ export default function WorksTabs({ tagRow, tagSm }: WorksTabsProps) {
     <div className="mx-auto max-w-[var(--max)] px-[var(--gutter)]">
       <div
         role="tablist"
-        aria-label="Filter case snapshots by system"
+        aria-label={t.work.filterAria}
         className="mb-8 flex flex-wrap gap-2"
       >
-        {CATEGORIES.map((category) => {
+        {categories.map((category) => {
           const isActive = activeCategory === category.id;
           return (
             <button

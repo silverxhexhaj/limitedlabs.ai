@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { useLanguage } from "../i18n/LanguageProvider";
 import { wrap } from "../site";
 
 export default function SiteFooter() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-border pb-8 pt-14">
       <div className={wrap}>
@@ -17,29 +22,28 @@ export default function SiteFooter() {
               className="site-logo-img mb-5 h-auto w-[52px]"
             />
             <p className="max-w-[40ch] text-sm leading-relaxed text-ink-muted">
-              An AI-powered systems agency helping business operators improve how they look, sell,
-              build, and work.
+              {t.footer.tagline}
             </p>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
-              Tirana, Albania
+              {t.footer.location}
             </p>
           </div>
           <div>
             <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
-              Navigate
+              {t.footer.navigateHeading}
             </h2>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/#services">Services</Link></li>
-              <li><Link href="/#work">Work</Link></li>
-              <li><Link href="/#why">Why Limited Labs</Link></li>
-              <li><Link href="/#proof">Proof</Link></li>
-              <li><Link href="/#faq">FAQ</Link></li>
-              <li><Link href="/#audit">Free systems audit</Link></li>
+              <li><Link href="/#services">{t.header.nav.services}</Link></li>
+              <li><Link href="/#work">{t.header.nav.work}</Link></li>
+              <li><Link href="/#why">{t.header.nav.why}</Link></li>
+              <li><Link href="/#proof">{t.header.nav.proof}</Link></li>
+              <li><Link href="/#faq">{t.header.nav.faq}</Link></li>
+              <li><Link href="/#audit">{t.footer.auditLink}</Link></li>
             </ul>
           </div>
           <div>
             <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
-              Contact
+              {t.footer.contactHeading}
             </h2>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -51,13 +55,13 @@ export default function SiteFooter() {
                   hello@limitedlabs.co
                 </a>
               </li>
-              <li><Link href="/privacy">Privacy notice</Link></li>
+              <li><Link href="/privacy">{t.footer.privacyLink}</Link></li>
             </ul>
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
-          <span>© 2026 Limited Labs</span>
-          <span>AI-assisted. Human accountable.</span>
+          <span>{t.footer.copyright}</span>
+          <span>{t.footer.accountability}</span>
         </div>
       </div>
     </footer>
