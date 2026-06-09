@@ -39,10 +39,10 @@ export default function SiteHeader() {
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-[100] py-4 transition-[background,border-color] duration-300"
+        className="fixed inset-x-0 top-0 z-[100] py-3 transition-[background,border-color] duration-300 sm:py-4"
         id="nav"
       >
-        <div className={`${wrap} flex items-center justify-between gap-4`}>
+        <div className={`${wrap} flex items-center justify-between gap-2 sm:gap-4`}>
           <Link
             href="/"
             className="inline-flex shrink-0 items-center gap-3 text-ink"
@@ -57,7 +57,7 @@ export default function SiteHeader() {
               priority
               className="site-logo-img h-[28px] w-auto"
             />
-            <span className="font-display text-lg font-bold tracking-[-0.02em]">
+            <span className="font-display text-lg font-bold tracking-[-0.02em] max-[380px]:hidden">
               Limited Labs
             </span>
           </Link>
@@ -74,7 +74,7 @@ export default function SiteHeader() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <LanguageToggle />
             <button
               type="button"
@@ -103,7 +103,7 @@ export default function SiteHeader() {
             </button>
             <a
               href={sectionHref("audit", isHome)}
-              className="inline-flex min-h-11 items-center rounded-full bg-ink px-4 py-2.5 text-[13px] font-semibold text-page transition-transform hover:scale-[1.02] sm:px-5"
+              className="hidden min-h-11 items-center rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-page transition-transform hover:scale-[1.02] sm:inline-flex"
             >
               {t.header.cta}
             </a>
@@ -140,7 +140,7 @@ export default function SiteHeader() {
       {menuOpen ? (
         <div
           id="mobile-navigation"
-          className="fixed inset-0 z-[99] bg-page/95 px-[var(--gutter)] pb-10 pt-28 backdrop-blur-xl lg:hidden"
+          className="fixed inset-0 z-[99] overflow-y-auto overscroll-contain bg-page/95 px-[var(--gutter)] pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(5.5rem+env(safe-area-inset-top))] backdrop-blur-xl lg:hidden"
         >
           <nav className="mx-auto flex max-w-[var(--max)] flex-col" aria-label={t.header.mobileNavAria}>
             {navItems.map(([id, label], index) => (
@@ -148,12 +148,12 @@ export default function SiteHeader() {
                 key={id}
                 href={sectionHref(id, isHome)}
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-5 border-b border-border py-5"
+                className="flex min-h-16 items-center gap-4 border-b border-border py-4 sm:gap-5 sm:py-5"
               >
                 <span className="font-mono text-[10px] text-ink-faint">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-3xl font-bold tracking-[-0.03em]">{label}</span>
+                <span className="font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold tracking-[-0.03em]">{label}</span>
               </a>
             ))}
             <a

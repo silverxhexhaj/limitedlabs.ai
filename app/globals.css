@@ -21,7 +21,7 @@
   --mono: "Geist Mono", ui-monospace, "JetBrains Mono", monospace;
   --hand: "Caveat", "Comic Sans MS", cursive;
 
-  --gutter: clamp(20px, 4vw, 56px);
+  --gutter: clamp(16px, 4vw, 56px);
   --max: 1320px;
 }
 
@@ -80,6 +80,14 @@ html[data-theme="light"] {
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
     overscroll-behavior-x: none;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
   }
 
   ::selection {
@@ -301,6 +309,12 @@ html[data-theme="light"] .hero-title-line {
 
 .marquee-track:hover {
   animation-play-state: paused;
+}
+
+@media (max-width: 639px) {
+  html {
+    scroll-padding-top: 80px;
+  }
 }
 
 @keyframes rise {

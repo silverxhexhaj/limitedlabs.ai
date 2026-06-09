@@ -17,7 +17,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/admin/projects/${project.id}`}
-      className="group flex flex-col rounded-[20px] border border-border bg-surface p-5 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-border-strong"
+      className="group flex min-w-0 flex-col rounded-[20px] border border-border bg-surface p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-border-strong sm:p-5"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
@@ -38,11 +38,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {service?.name ?? project.serviceSlug}
         </span>
         {project.website ? (
-          <span className="truncate font-mono text-[10px] text-ink-faint">
+          <span className="min-w-0 max-w-full truncate font-mono text-[10px] text-ink-faint">
             {project.website.replace(/^https?:\/\//, "")}
           </span>
         ) : null}
-        <span className="ml-auto font-mono text-[10px] text-ink-faint">
+        <span className="ml-auto font-mono text-[10px] text-ink-faint max-[420px]:ml-0 max-[420px]:w-full">
           {doneCount}/{totalDeliverables} deliverables
         </span>
       </div>

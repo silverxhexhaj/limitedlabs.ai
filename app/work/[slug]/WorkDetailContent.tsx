@@ -40,9 +40,9 @@ export default function WorkDetailContent({ work, prev, next }: Props) {
         data-page-view-classification={work.classification}
       />
 
-      <main id="top" className="pt-[110px]">
+      <main id="top" className="pt-[92px] sm:pt-[110px]">
         <div className={wrap}>
-          <nav className="mb-10 flex flex-wrap items-center justify-between gap-4" aria-label="Breadcrumb">
+          <nav className="mb-8 flex flex-col items-start gap-3 min-[480px]:mb-10 min-[480px]:flex-row min-[480px]:flex-wrap min-[480px]:items-center min-[480px]:justify-between" aria-label="Breadcrumb">
             <Link
               href="/#work"
               className="inline-flex items-center gap-2 font-mono text-[10.5px] font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors hover:text-ink"
@@ -74,18 +74,18 @@ export default function WorkDetailContent({ work, prev, next }: Props) {
               <p className="mt-8 max-w-[52ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
                 {content.summary}
               </p>
-              <div className="mt-10 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-col gap-3 min-[480px]:mt-10 min-[480px]:flex-row min-[480px]:flex-wrap">
                 <Link
                   href={`/?work=${work.slug}#audit`}
                   data-analytics-event="work_audit_clicked"
                   data-analytics-slug={work.slug}
-                  className="inline-flex items-center gap-3 rounded-full bg-ink px-7 py-[14px] text-sm font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-ink px-7 py-[14px] text-center text-sm font-medium text-page transition-[transform,background-color] duration-200 ease-out hover:scale-105 hover:bg-accent"
                 >
                   {copy.ctaAudit}<span aria-hidden="true">→</span>
                 </Link>
                 <a
                   href={`mailto:hello@limitedlabs.co?subject=${encodeURIComponent(`Question about ${work.title}`)}`}
-                  className="inline-flex items-center gap-3 rounded-full border border-border-strong px-7 py-[14px] text-sm font-medium text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 break-all rounded-full border border-border-strong px-7 py-[14px] text-center text-sm font-medium text-ink transition-[border-color,transform] duration-200 hover:scale-105 hover:border-ink"
                 >
                   hello@limitedlabs.co
                 </a>
@@ -144,14 +144,14 @@ export default function WorkDetailContent({ work, prev, next }: Props) {
 
           <nav className="my-[clamp(48px,6vw,90px)] flex flex-col gap-4 rounded-[22px] border border-border-strong px-[clamp(20px,3vw,32px)] py-[clamp(20px,3vw,28px)] min-[760px]:flex-row min-[760px]:items-center min-[760px]:justify-between" aria-label={copy.adjacentAria} data-reveal>
             <div className="text-sm text-ink-muted">{copy.adjacentBody}</div>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-1 gap-3 min-[480px]:flex min-[480px]:flex-wrap">
               {prev && prevContent ? (
-                <Link href={`/work/${prev.slug}`} className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface px-5 py-3 text-sm font-medium text-ink">
+                <Link href={`/work/${prev.slug}`} className="inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-full border border-border-strong bg-surface px-5 py-3 text-center text-sm font-medium text-ink">
                   {copy.previous}<span className="text-ink-faint">{prevContent.title}</span>
                 </Link>
               ) : null}
               {next && nextContent ? (
-                <Link href={`/work/${next.slug}`} className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-medium text-page">
+                <Link href={`/work/${next.slug}`} className="inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-page">
                   {copy.next}<span className="text-page/90">{nextContent.title}</span>
                 </Link>
               ) : null}

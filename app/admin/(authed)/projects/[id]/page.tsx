@@ -36,7 +36,7 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
           { label: project.name },
         ]}
       />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
         <div className="mb-6 flex flex-wrap items-center gap-3">
           <StatusPill status={project.status} />
           <span className="font-mono text-[10px] uppercase tracking-[0.06em] text-ink-faint">
@@ -45,7 +45,7 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
           <button
             type="button"
             disabled
-            className="ml-auto rounded-full border border-border-strong px-5 py-2.5 text-sm font-medium text-ink opacity-50 cursor-not-allowed"
+            className="min-h-11 rounded-full border border-border-strong px-5 py-2.5 text-sm font-medium text-ink opacity-50 cursor-not-allowed min-[480px]:ml-auto"
             title="Coming soon"
           >
             Edit project
@@ -64,7 +64,7 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
                   href={project.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block text-sm text-accent underline decoration-1 underline-offset-4"
+                  className="mt-2 inline-block max-w-full break-all text-sm text-accent underline decoration-1 underline-offset-4"
                 >
                   {project.website.replace(/^https?:\/\//, "")}
                 </a>
@@ -114,14 +114,14 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
           </aside>
 
           <div className="space-y-6">
-            <section className="rounded-[20px] border border-border bg-surface p-6">
+            <section className="rounded-[20px] border border-border bg-surface p-5 sm:p-6">
               <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-muted">
                 Summary
               </h2>
               <p className="mt-3 text-[15px] leading-relaxed text-ink-muted">{project.summary}</p>
             </section>
 
-            <section className="rounded-[20px] border border-border bg-surface p-6">
+            <section className="rounded-[20px] border border-border bg-surface p-5 sm:p-6">
               <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-muted">
                 Deliverables
               </h2>
@@ -145,7 +145,7 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
             </section>
 
             {project.notes ? (
-              <section className="rounded-[20px] border border-dashed border-border-strong bg-page p-6">
+              <section className="rounded-[20px] border border-dashed border-border-strong bg-page p-5 sm:p-6">
                 <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-muted">
                   Internal notes
                 </h2>
@@ -154,7 +154,7 @@ export default async function AdminProjectDetailPage({ params }: PageProps) {
             ) : null}
 
             {service ? (
-              <section className="rounded-[20px] border border-border bg-surface/50 p-6">
+              <section className="rounded-[20px] border border-border bg-surface/50 p-5 sm:p-6">
                 <h2 className="font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-ink-muted">
                   Service context
                 </h2>

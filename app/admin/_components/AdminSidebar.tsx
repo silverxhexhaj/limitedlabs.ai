@@ -11,6 +11,8 @@ import SignOutButton from "./SignOutButton";
 
 type AdminSidebarProps = {
   adminEmail: string;
+  className?: string;
+  onClose?: () => void;
 };
 
 const NAV_MAIN = [
@@ -21,14 +23,18 @@ const NAV_MAIN = [
 ] as const;
 
 function linkClass(active: boolean) {
-  return `block rounded-xl px-3 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
+  return `flex min-h-11 items-center rounded-xl px-3 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] transition-colors ${
     active
       ? "bg-ink text-page"
       : "text-ink-muted hover:bg-surface hover:text-ink"
   }`;
 }
 
-export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
+export default function AdminSidebar({
+  adminEmail,
+  className = "",
+  onClose,
+}: AdminSidebarProps) {
   const pathname = usePathname();
   const [servicesOpen, setServicesOpen] = useState(
     pathname.startsWith("/admin/services"),
@@ -38,7 +44,7 @@ export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
     exact ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <aside className="flex h-full w-[260px] shrink-0 flex-col border-r border-border bg-surface">
+    <aside className={`flex h-full w-[260px] max-w-full shrink-0 flex-col border-r border-border bg-surface ${className}`}>
       <div className="flex items-center gap-2.5 border-b border-border px-5 py-5">
         <Link href="/admin" className="inline-flex min-w-0 items-center gap-2.5 text-ink">
           <Image
@@ -52,6 +58,23 @@ export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
             Admin
           </span>
         </Link>
+        {onClose ? (
+          <button
+            type="button"
+            onClick={onClose}
+            className="ml-auto grid size-11 shrink-0 place-items-center rounded-full border border-border-strong bg-page text-ink"
+            aria-label="Close admin navigation"
+          >
+            <svg className="size-5" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M5 5l14 14M19 5L5 19"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        ) : null}
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4" aria-label="Admin">
@@ -60,6 +83,7 @@ export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
             key={item.href}
             href={item.href}
             className={linkClass(isActive(item.href, item.exact))}
+            onClick={onClose}
           >
             {item.label}
           </Link>
@@ -84,7 +108,7 @@ export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
                 const active = pathname === href || pathname.startsWith(`${href}/`);
                 return (
                   <li key={service.slug}>
-                    <Link href={href} className={linkClass(active)}>
+                    <Link href={href} className={linkClass(active)} onClick={onClose}>
                       {service.index} / {service.name}
                     </Link>
                   </li>
@@ -100,6 +124,7 @@ export default function AdminSidebar({ adminEmail }: AdminSidebarProps) {
         <SignOutButton />
         <Link
           href="/"
+          onClick={onClose}
           className="mt-3 block text-center font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint transition-colors hover:text-ink-muted"
         >
           ← Public site

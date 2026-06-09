@@ -10,7 +10,7 @@ type ViewToggleProps = {
 export default function ViewToggle({ value, onChange }: ViewToggleProps) {
   return (
     <div
-      className="inline-flex rounded-full border border-border-strong bg-page p-1"
+      className="inline-flex self-start rounded-full border border-border-strong bg-page p-1"
       role="group"
       aria-label="Projects view mode"
     >
@@ -24,7 +24,7 @@ export default function ViewToggle({ value, onChange }: ViewToggleProps) {
           key={opt.id}
           type="button"
           onClick={() => onChange(opt.id)}
-          className={`rounded-full px-4 py-2 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] transition-colors ${
+          className={`min-h-10 rounded-full px-4 py-2 font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] transition-colors ${
             value === opt.id
               ? "bg-ink text-page"
               : "text-ink-muted hover:text-ink"

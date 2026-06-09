@@ -40,7 +40,7 @@ export default function LoginForm() {
           autoComplete="email"
           required
           placeholder="you@limitedlabs.co"
-          className="rounded-xl border border-border-strong bg-page px-4 py-3 text-sm text-ink outline-none transition-[border-color] focus:border-ink"
+          className="rounded-xl border border-border-strong bg-page px-4 py-3 text-base text-ink outline-none transition-[border-color] focus:border-ink sm:text-sm"
         />
       </label>
       <label className="flex flex-col gap-2">
@@ -53,7 +53,7 @@ export default function LoginForm() {
           autoComplete="current-password"
           required
           placeholder="••••••••"
-          className="rounded-xl border border-border-strong bg-page px-4 py-3 text-sm text-ink outline-none transition-[border-color] focus:border-ink"
+          className="rounded-xl border border-border-strong bg-page px-4 py-3 text-base text-ink outline-none transition-[border-color] focus:border-ink sm:text-sm"
         />
       </label>
       {error ? (

@@ -33,11 +33,11 @@ export default function HomeContent() {
       <SiteHeader />
 
       <main id="top">
-        <section className="pb-[clamp(72px,9vw,132px)] pt-[clamp(140px,16vw,220px)]">
+        <section className="pb-[clamp(64px,9vw,132px)] pt-[clamp(112px,16vw,220px)]">
           <div className={wrap}>
             <div className="max-w-[1120px]">
               <p className={`${eyebrow} anim`}>{t.hero.eyebrow}</p>
-              <h1 className="anim d1 mt-7 max-w-[14ch] font-display text-[clamp(48px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink [font-variation-settings:'opsz'_96]">
+              <h1 className="anim d1 mt-6 max-w-[14ch] font-display text-[clamp(42px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink [font-variation-settings:'opsz'_96] sm:mt-7">
                 {t.hero.heading}
               </h1>
               <div className="anim d2 mt-10 grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
@@ -50,17 +50,17 @@ export default function HomeContent() {
                   </p>
                 </div>
               </div>
-              <div className="anim d3 mt-10 flex flex-wrap gap-3">
+              <div className="anim d3 mt-8 flex flex-col gap-3 min-[480px]:flex-row min-[480px]:flex-wrap sm:mt-10">
                 <a
                   href="#audit"
-                  className="inline-flex min-h-12 items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
                   {t.hero.ctaPrimary}
                   <span aria-hidden="true">→</span>
                 </a>
                 <a
                   href="#services"
-                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
                 >
                   {t.hero.ctaSecondary}
                 </a>
@@ -82,7 +82,7 @@ export default function HomeContent() {
                 {t.problem.items.map((problem, index) => (
                   <article
                     key={problem.title}
-                    className="grid grid-cols-[auto_1fr] gap-5 rounded-[20px] border border-border bg-surface p-6 sm:p-8"
+                    className="grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-[20px] border border-border bg-surface p-5 min-[480px]:gap-5 sm:p-8"
                     data-reveal
                   >
                     <span className={eyebrow}>{String(index + 1).padStart(2, "0")}</span>
@@ -121,14 +121,14 @@ export default function HomeContent() {
                 return (
                   <article
                     key={service.slug}
-                    className="group grid min-h-[420px] grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(24px,3vw,36px)] transition-colors hover:border-border-strong"
+                    className="group grid min-h-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(20px,3vw,36px)] transition-colors hover:border-border-strong sm:min-h-[420px]"
                     data-reveal
                   >
                     <div className="flex items-start justify-between gap-5">
                       <p className={eyebrow}>
                         {service.index} / {displayName}
                       </p>
-                      <div className="grid size-20 shrink-0 place-items-center rounded-2xl border border-border bg-page p-3">
+                      <div className="grid size-16 shrink-0 place-items-center rounded-2xl border border-border bg-page p-2.5 sm:size-20 sm:p-3">
                         <Image
                           src={service.illustration}
                           alt=""
@@ -138,7 +138,7 @@ export default function HomeContent() {
                         />
                       </div>
                     </div>
-                    <div className="mt-10">
+                    <div className="mt-8 sm:mt-10">
                       <h3 className="max-w-[14ch] font-display text-[clamp(32px,4vw,54px)] font-bold leading-[0.96] tracking-[-0.04em]">
                         {content.tagline}
                       </h3>
@@ -148,7 +148,7 @@ export default function HomeContent() {
                     </div>
                     <Link
                       href={`/services/${service.slug}`}
-                      className="mt-10 inline-flex min-h-12 w-fit items-center gap-3 rounded-full border border-border-strong px-5 py-3 font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink"
+                      className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong px-5 py-3 text-center font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink min-[480px]:w-fit sm:mt-10"
                     >
                       {t.services.explorePrefix}
                       {displayName}
@@ -342,12 +342,12 @@ export default function HomeContent() {
             <p className="mx-auto mt-6 max-w-[52ch] text-[15px] leading-relaxed text-ink-muted">
               {t.contact.body}
             </p>
-            <div className="mt-9 flex flex-wrap justify-center gap-3">
+            <div className="mt-9 flex flex-col justify-center gap-3 min-[480px]:flex-row min-[480px]:flex-wrap">
               <a
                 href="mailto:hello@limitedlabs.co"
                 data-analytics-event="email_clicked"
                 data-analytics-placement="final-contact"
-                className="inline-flex min-h-12 items-center rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02]"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02]"
               >
                 {t.contact.ctaEmail}
               </a>
@@ -355,7 +355,7 @@ export default function HomeContent() {
                 href="mailto:hello@limitedlabs.co?subject=Discovery%20call%20request%20-%20Limited%20Labs"
                 data-analytics-event="discovery_call_clicked"
                 data-analytics-placement="final-contact"
-                className="inline-flex min-h-12 items-center rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
               >
                 {t.contact.ctaCall}
               </a>

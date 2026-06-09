@@ -15,7 +15,7 @@ export default function PrivacyContent() {
   return (
     <>
       <SiteHeader />
-      <main className="pb-24 pt-36">
+      <main className="pb-20 pt-28 sm:pb-24 sm:pt-36">
         <article className={`${wrap} max-w-[920px]`}>
           <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-faint">
             {copy.eyebrow}

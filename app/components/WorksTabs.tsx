@@ -51,7 +51,7 @@ export default function WorksTabs({ tagRow, tagSm }: WorksTabsProps) {
       <div
         role="tablist"
         aria-label={t.work.filterAria}
-        className="mb-8 flex flex-wrap gap-2"
+        className="-mx-1 mb-8 flex gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0"
       >
         {categories.map((category) => {
           const isActive = activeCategory === category.id;
@@ -66,7 +66,7 @@ export default function WorksTabs({ tagRow, tagSm }: WorksTabsProps) {
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveCategory(category.id)}
               className={[
-                "rounded-full border px-3 py-[7px] font-mono text-[10.5px] font-medium uppercase tracking-[0.06em] transition-[border-color,background-color,color] duration-200 ease-out",
+                "min-h-11 shrink-0 rounded-full border px-3 py-[7px] font-mono text-[10.5px] font-medium uppercase tracking-[0.06em] transition-[border-color,background-color,color] duration-200 ease-out",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4 focus-visible:ring-offset-page",
                 isActive
                   ? "border-ink bg-ink text-page"

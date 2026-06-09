@@ -29,6 +29,7 @@ type TurnstileApi = {
       "expired-callback": () => void;
       "error-callback": () => void;
       theme: "auto";
+      size: "compact" | "flexible";
     },
   ): string;
   reset(widgetId: string): void;
@@ -151,6 +152,7 @@ function TurnstileWidget({
         "expired-callback": () => onToken(""),
         "error-callback": () => onToken(""),
         theme: "auto",
+        size: window.matchMedia("(max-width: 479px)").matches ? "compact" : "flexible",
       });
     };
 
@@ -182,15 +184,15 @@ function TurnstileWidget({
   }
 
   return (
-    <div>
-      <div ref={containerRef} />
+    <div className="max-w-full overflow-hidden">
+      <div ref={containerRef} className="max-w-full" />
       {error ? <p className="mt-2 text-sm text-red-400">{error}</p> : null}
     </div>
   );
 }
 
 const inputClass =
-  "mt-2 w-full rounded-xl border border-border-strong bg-page px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ink";
+  "mt-2 w-full min-w-0 rounded-xl border border-border-strong bg-page px-4 py-3 text-base text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-ink sm:text-[15px]";
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   return message ? (
@@ -386,7 +388,7 @@ export default function AuditForm() {
         <p className="mt-5 max-w-[52ch] text-ink-muted">
           {copy.confirmBody}
         </p>
-        <p className="mt-6 rounded-xl border border-border bg-page px-4 py-3 font-mono text-sm text-ink">
+        <p className="mt-6 break-all rounded-xl border border-border bg-page px-4 py-3 font-mono text-sm text-ink">
           {result.submissionId}
         </p>
         {result.duplicate ? (
@@ -402,11 +404,11 @@ export default function AuditForm() {
     <form
       onSubmit={submit}
       onFocus={markStarted}
-      className="rounded-[24px] border border-border-strong bg-surface p-[clamp(20px,3.5vw,40px)]"
+      className="min-w-0 rounded-[24px] border border-border-strong bg-surface p-[clamp(16px,3.5vw,40px)] min-[480px]:p-[clamp(20px,3.5vw,40px)]"
       noValidate
     >
-      <div className="mb-8 flex items-center justify-between gap-4">
-        <div>
+      <div className="mb-8 flex flex-col gap-4 min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-between">
+        <div className="min-w-0">
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-ink-faint">
             {copy.stepWord} {step} {copy.ofThree}
           </p>
@@ -415,13 +417,13 @@ export default function AuditForm() {
           </p>
         </div>
         <div
-          className="flex gap-2"
+          className="flex w-full gap-2 min-[480px]:w-auto"
           aria-label={`${copy.stepWord} ${step} ${copy.ofThree}`}
         >
           {[1, 2, 3].map((item) => (
             <span
               key={item}
-              className={`h-1.5 w-10 rounded-full ${item <= step ? "bg-ink" : "bg-border-strong"}`}
+              className={`h-1.5 flex-1 rounded-full min-[480px]:w-10 min-[480px]:flex-none ${item <= step ? "bg-ink" : "bg-border-strong"}`}
             />
           ))}
         </div>
@@ -709,7 +711,7 @@ export default function AuditForm() {
         </fieldset>
       ) : null}
 
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
+      <div className="mt-8 grid grid-cols-1 gap-3 border-t border-border pt-6 min-[480px]:flex min-[480px]:flex-wrap min-[480px]:items-center min-[480px]:justify-between">
         {step > 1 ? (
           <button
             type="button"
@@ -717,18 +719,18 @@ export default function AuditForm() {
               setErrors({});
               setStep((current) => current - 1);
             }}
-            className="min-h-12 rounded-full border border-border-strong px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink"
+            className="min-h-12 w-full rounded-full border border-border-strong px-6 py-3 text-sm font-semibold text-ink transition-colors hover:border-ink min-[480px]:w-auto"
           >
             {copy.back}
           </button>
         ) : (
-          <span />
+          <span className="hidden min-[480px]:block" />
         )}
         {step < 3 ? (
           <button
             type="button"
             onClick={nextStep}
-            className="min-h-12 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02]"
+            className="min-h-12 w-full rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02] min-[480px]:w-auto"
           >
             {copy.continue}
           </button>
@@ -736,7 +738,7 @@ export default function AuditForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="min-h-12 rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60"
+            className="min-h-12 w-full rounded-full bg-ink px-7 py-3 text-sm font-semibold text-page transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60 min-[480px]:w-auto"
           >
             {submitting ? copy.submitting : copy.submit}
           </button>

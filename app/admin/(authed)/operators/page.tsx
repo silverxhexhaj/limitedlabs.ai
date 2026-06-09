@@ -84,13 +84,13 @@ function OperatorCard({ operator }: { operator: OperatorItem }) {
       <div className="mt-5 flex flex-wrap gap-2">
         <button
           type="button"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-page transition-[transform,background-color] duration-200 hover:scale-[1.02] hover:bg-accent"
+          className="min-h-11 rounded-full bg-ink px-4 py-2 text-sm font-medium text-page transition-[transform,background-color] duration-200 hover:scale-[1.02] hover:bg-accent"
         >
           Open playbook
         </button>
         <button
           type="button"
-          className="rounded-full border border-border-strong px-4 py-2 text-sm font-medium text-ink transition-[border-color] duration-200 hover:border-ink"
+          className="min-h-11 rounded-full border border-border-strong px-4 py-2 text-sm font-medium text-ink transition-[border-color] duration-200 hover:border-ink"
         >
           Queue run
         </button>
@@ -109,8 +109,8 @@ export default function AdminOperatorsPage() {
         title="Operators"
         breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Operators" }]}
       />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
-        <section className="mb-8 rounded-[24px] border border-border bg-surface p-6 shadow-sm">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
+        <section className="mb-8 rounded-[24px] border border-border bg-surface p-4 shadow-sm sm:p-6">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
             <div>
               <p className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint">

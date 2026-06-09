@@ -59,7 +59,7 @@ export default function SiteFooter() {
             </ul>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+        <div className="flex flex-col items-start gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint min-[480px]:flex-row min-[480px]:flex-wrap min-[480px]:items-center min-[480px]:justify-between">
           <span>{t.footer.copyright}</span>
           <span>{t.footer.accountability}</span>
         </div>
