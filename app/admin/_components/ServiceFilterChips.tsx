@@ -12,7 +12,11 @@ type ServiceFilterChipsProps = {
 
 export default function ServiceFilterChips({ value, onChange }: ServiceFilterChipsProps) {
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by service">
+    <div
+      className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0"
+      role="group"
+      aria-label="Filter by service"
+    >
       <button
         type="button"
         onClick={() => onChange("all")}
@@ -37,7 +41,7 @@ export default function ServiceFilterChips({ value, onChange }: ServiceFilterChi
 }
 
 function chipClass(active: boolean) {
-  return `rounded-full border px-3 py-[7px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] transition-colors ${
+  return `min-h-11 shrink-0 rounded-full border px-3 py-[7px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] transition-colors ${
     active
       ? "border-ink bg-ink text-page"
       : "border-border-strong text-ink-muted hover:border-ink-muted hover:text-ink"

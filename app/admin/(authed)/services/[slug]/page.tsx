@@ -32,7 +32,7 @@ export default async function AdminServiceProjectsPage({ params }: PageProps) {
           { label: service.name },
         ]}
       />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
         <div className="mb-10 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_200px] lg:items-start">
           <div>
             <p className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">

@@ -11,7 +11,7 @@ export default async function AdminProjectsPage() {
         title="Projects"
         breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Projects" }]}
       />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
         <ProjectsListClient projects={projects} />
       </main>
     </>

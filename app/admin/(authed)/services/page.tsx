@@ -14,7 +14,7 @@ export default async function AdminServicesPage() {
         title="Services"
         breadcrumbs={[{ label: "Admin", href: "/admin" }, { label: "Services" }]}
       />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
         <p className="mb-8 max-w-[52ch] text-sm text-ink-muted">
           Manage client projects grouped by service line — Brand, Software, Marketing Engines,
           Automation, and Product Lab.
@@ -26,7 +26,7 @@ export default async function AdminServicesPage() {
               <Link
                 key={service.slug}
                 href={`/admin/services/${service.slug}`}
-                className="group flex flex-col rounded-[20px] border border-border bg-surface p-6 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-border-strong"
+                className="group flex flex-col rounded-[20px] border border-border bg-surface p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-border-strong sm:p-6"
               >
                 <div className="relative mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[16px] border border-border bg-page p-6">
                   <Image

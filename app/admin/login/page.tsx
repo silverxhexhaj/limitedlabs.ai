@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 
 export default function AdminLoginPage() {
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center px-[var(--gutter)] py-12">
+    <div className="flex min-h-dvh flex-col items-center justify-center px-[var(--gutter)] py-8 sm:py-12">
       <div className="w-full max-w-[400px]">
-        <Link href="/" className="mb-10 inline-flex items-center gap-3 text-ink">
+        <Link href="/" className="mb-8 inline-flex min-h-11 items-center gap-3 text-ink sm:mb-10">
           <Image
             src="/ll-logo-white.png"
             alt=""
@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
           <span className="font-display text-lg font-bold tracking-[-0.02em]">Limited Labs</span>
         </Link>
 
-        <div className="rounded-[22px] border border-border bg-surface p-8">
+        <div className="rounded-[22px] border border-border bg-surface p-5 min-[380px]:p-6 sm:p-8">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
             Admin
           </p>

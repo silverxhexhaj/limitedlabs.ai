@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
   return (
     <>
       <AdminTopbar title="Overview" />
-      <main className="flex-1 overflow-y-auto px-6 py-8">
+      <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 sm:py-8">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard label="Total projects" value={projects.length} />
           <StatCard label="In progress" value={inProgress} />
@@ -28,7 +28,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         <section className="mt-10">
-          <div className="mb-5 flex items-end justify-between gap-4">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted">
               Recent projects
             </h2>
