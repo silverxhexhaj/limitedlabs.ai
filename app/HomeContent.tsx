@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import AnimatedHeading from "./components/AnimatedHeading";
 import AuditForm from "./components/AuditForm";
+import HeroVisual from "./components/HeroVisual";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import WorksTabs from "./components/WorksTabs";
@@ -13,11 +15,19 @@ import LandingInteractions from "./LandingInteractions";
 import { SERVICE_ITEMS } from "./services/servicesData";
 import { wrap } from "./site";
 
+const HERO_ACCENTS: Record<string, string[]> = {
+  en: ["look", "sell", "build", "work"],
+  sq: ["duken", "shesin", "ndërtojnë", "punojnë"],
+};
+
 const tagRow = "flex flex-wrap gap-2";
 const tagSm =
   "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted";
 const eyebrow =
-  "font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink-faint";
+  "font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-muted";
+// Section label: brighter mono with a short lime leading rule (the wibify "[0X] LABEL" tell).
+const eyebrowLabel =
+  "inline-flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-muted before:h-px before:w-7 before:bg-accent before:content-['']";
 
 const CORE_SERVICE_ORDER = ["brand", "marketing-engines", "software", "automation"];
 const coreServices = CORE_SERVICE_ORDER.map((slug) =>
@@ -33,13 +43,19 @@ export default function HomeContent() {
       <SiteHeader />
 
       <main id="top">
-        <section className="pb-[clamp(64px,9vw,132px)] pt-[clamp(112px,16vw,220px)]">
-          <div className={wrap}>
+        <section className="section-grain relative overflow-hidden pb-[clamp(64px,9vw,132px)] pt-[clamp(112px,16vw,220px)]">
+          <HeroVisual />
+          <div className={`${wrap} relative z-[1]`}>
             <div className="max-w-[1120px]">
               <p className={`${eyebrow} anim`}>{t.hero.eyebrow}</p>
-              <h1 className="anim d1 mt-6 max-w-[14ch] font-display text-[clamp(42px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink [font-variation-settings:'opsz'_96] sm:mt-7">
-                {t.hero.heading}
-              </h1>
+              <AnimatedHeading
+                as="h1"
+                immediate
+                delay={0.15}
+                text={t.hero.heading}
+                accentWords={HERO_ACCENTS[locale] ?? HERO_ACCENTS.en}
+                className="mt-6 max-w-[15ch] font-display text-[clamp(42px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink sm:mt-7"
+              />
               <div className="anim d2 mt-10 grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
                 <p className="max-w-[54ch] text-[clamp(17px,1.5vw,21px)] leading-relaxed text-ink-muted">
                   {t.hero.lead}
@@ -53,13 +69,17 @@ export default function HomeContent() {
               <div className="anim d3 mt-8 flex flex-col gap-3 min-[480px]:flex-row min-[480px]:flex-wrap sm:mt-10">
                 <a
                   href="#audit"
-                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-page transition-transform hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  data-magnetic
+                  data-cursor-label="Audit"
+                  className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-[#0a0a0b] transition-colors hover:bg-ink hover:text-page focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
                   {t.hero.ctaPrimary}
-                  <span aria-hidden="true">→</span>
+                  <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
                 <a
                   href="#services"
+                  data-magnetic
+                  data-cursor-label="Explore"
                   className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-border-strong px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink"
                 >
                   {t.hero.ctaSecondary}
@@ -73,10 +93,13 @@ export default function HomeContent() {
           <div className={wrap}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.75fr_1.25fr]">
               <div>
-                <p className={eyebrow}>{t.problem.eyebrow}</p>
-                <h2 className="mt-4 max-w-[12ch] font-display text-[clamp(38px,5vw,72px)] font-bold leading-[0.96] tracking-[-0.04em]">
-                  {t.problem.heading}
-                </h2>
+                <p className={eyebrowLabel}>{t.problem.eyebrow}</p>
+                <AnimatedHeading
+                  as="h2"
+                  accentLast={1}
+                  text={t.problem.heading}
+                  className="mt-4 max-w-[12ch] font-display text-[clamp(38px,5vw,72px)] font-bold leading-[0.96] tracking-[-0.04em]"
+                />
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {t.problem.items.map((problem, index) => (
@@ -104,13 +127,14 @@ export default function HomeContent() {
         <section className="py-[clamp(80px,10vw,152px)]" id="services" aria-labelledby="services-heading">
           <div className={wrap}>
             <div className="mb-14 max-w-[780px]">
-              <p className={eyebrow}>{t.services.eyebrow}</p>
-              <h2
+              <p className={eyebrowLabel}>{t.services.eyebrow}</p>
+              <AnimatedHeading
+                as="h2"
                 id="services-heading"
+                accentLast={2}
+                text={t.services.heading}
                 className="mt-4 font-display text-[clamp(42px,7vw,96px)] font-bold leading-[0.94] tracking-[-0.045em]"
-              >
-                {t.services.heading}
-              </h2>
+              />
             </div>
 
             <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
@@ -121,7 +145,7 @@ export default function HomeContent() {
                 return (
                   <article
                     key={service.slug}
-                    className="group grid min-h-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(20px,3vw,36px)] transition-colors hover:border-border-strong sm:min-h-[420px]"
+                    className="group relative grid min-h-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(20px,3vw,36px)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-border-strong hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.65)] sm:min-h-[420px]"
                     data-reveal
                   >
                     <div className="flex items-start justify-between gap-5">
@@ -148,11 +172,12 @@ export default function HomeContent() {
                     </div>
                     <Link
                       href={`/services/${service.slug}`}
-                      className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong px-5 py-3 text-center font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink min-[480px]:w-fit sm:mt-10"
+                      data-cursor-label="View"
+                      className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong px-5 py-3 text-center font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink hover:bg-accent hover:text-[#0a0a0b] min-[480px]:w-fit sm:mt-10"
                     >
                       {t.services.explorePrefix}
                       {displayName}
-                      <span aria-hidden="true">→</span>
+                      <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </Link>
                   </article>
                 );
@@ -165,7 +190,7 @@ export default function HomeContent() {
                 data-reveal
               >
                 <div>
-                  <p className={eyebrow}>{t.services.productLab.eyebrow}</p>
+                  <p className={eyebrowLabel}>{t.services.productLab.eyebrow}</p>
                   <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.025em]">
                     {t.services.productLab.title}
                   </h3>
@@ -192,13 +217,14 @@ export default function HomeContent() {
           <div className={wrap}>
             <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.72fr_1.28fr]">
               <div>
-                <p className={eyebrow}>{t.why.eyebrow}</p>
-                <h2
+                <p className={eyebrowLabel}>{t.why.eyebrow}</p>
+                <AnimatedHeading
+                  as="h2"
                   id="why-heading"
+                  accentLast={1}
+                  text={t.why.heading}
                   className="mt-4 max-w-[11ch] font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
-                >
-                  {t.why.heading}
-                </h2>
+                />
               </div>
               <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[22px] border border-border bg-border sm:grid-cols-2">
                 {t.why.principles.map((principle, index) => (
@@ -218,13 +244,14 @@ export default function HomeContent() {
         <section className="py-[clamp(80px,10vw,144px)]" id="work" aria-labelledby="work-heading">
           <div className={wrap}>
             <div className="mb-12 max-w-[780px]">
-              <p className={eyebrow}>{t.work.eyebrow}</p>
-              <h2
+              <p className={eyebrowLabel}>{t.work.eyebrow}</p>
+              <AnimatedHeading
+                as="h2"
                 id="work-heading"
+                accentLast={1}
+                text={t.work.heading}
                 className="mt-4 font-display text-[clamp(42px,7vw,92px)] font-bold leading-[0.94] tracking-[-0.045em]"
-              >
-                {t.work.heading}
-              </h2>
+              />
               <p className="mt-5 max-w-[60ch] text-[15px] leading-relaxed text-ink-muted">
                 {t.work.body}
               </p>
@@ -240,22 +267,23 @@ export default function HomeContent() {
         >
           <div className={wrap}>
             <div className="mb-12 max-w-[780px]">
-              <p className={eyebrow}>{t.proof.eyebrow}</p>
-              <h2
+              <p className={eyebrowLabel}>{t.proof.eyebrow}</p>
+              <AnimatedHeading
+                as="h2"
                 id="proof-heading"
+                accentLast={1}
+                text={t.proof.heading}
                 className="mt-4 font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
-              >
-                {t.proof.heading}
-              </h2>
+              />
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {t.proof.items.map((item) => (
                 <article
                   key={item.title}
-                  className="rounded-[22px] border border-border bg-surface p-[clamp(24px,3vw,34px)]"
+                  className="rounded-[22px] border border-border bg-surface p-[clamp(24px,3vw,34px)] transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-border-strong"
                   data-reveal
                 >
-                  <span className="rounded-full border border-border-strong px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-ink-faint">
+                  <span className="rounded-full border border-border-strong px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-ink-muted">
                     {item.classification}
                   </span>
                   <h3 className="mt-7 font-display text-2xl font-bold tracking-[-0.025em]">
@@ -276,13 +304,14 @@ export default function HomeContent() {
           <div className={wrap}>
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
               <div className="lg:sticky lg:top-28">
-                <p className={eyebrow}>{t.audit.eyebrow}</p>
-                <h2
+                <p className={eyebrowLabel}>{t.audit.eyebrow}</p>
+                <AnimatedHeading
+                  as="h2"
                   id="audit-heading"
+                  accentLast={1}
+                  text={t.audit.heading}
                   className="mt-4 font-display text-[clamp(42px,6vw,84px)] font-bold leading-[0.95] tracking-[-0.04em]"
-                >
-                  {t.audit.heading}
-                </h2>
+                />
                 <p className="mt-6 max-w-[48ch] text-[15px] leading-relaxed text-ink-muted">
                   {t.audit.body}
                 </p>
@@ -307,13 +336,14 @@ export default function HomeContent() {
         >
           <div className={wrap}>
             <div className="mb-12 max-w-[720px]">
-              <p className={eyebrow}>{t.faq.eyebrow}</p>
-              <h2
+              <p className={eyebrowLabel}>{t.faq.eyebrow}</p>
+              <AnimatedHeading
+                as="h2"
                 id="faq-heading"
+                accentLast={1}
+                text={t.faq.heading}
                 className="mt-4 font-display text-[clamp(42px,6vw,80px)] font-bold leading-[0.95] tracking-[-0.04em]"
-              >
-                {t.faq.heading}
-              </h2>
+              />
             </div>
             <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[22px] border border-border bg-border md:grid-cols-2">
               {t.faq.items.map(({ question, answer }) => (
@@ -327,18 +357,20 @@ export default function HomeContent() {
         </section>
 
         <section
-          className="py-[clamp(80px,10vw,144px)]"
+          className="section-grain relative overflow-hidden py-[clamp(80px,10vw,144px)]"
           id="contact"
           aria-labelledby="contact-heading"
         >
-          <div className={`${wrap} text-center`}>
-            <p className={eyebrow}>{t.contact.eyebrow}</p>
-            <h2
+          <div className="glow-radial absolute left-1/2 top-1/2 h-[120%] w-[70%] -translate-x-1/2 -translate-y-1/2" />
+          <div className={`${wrap} relative z-[1] text-center`}>
+            <p className={eyebrowLabel}>{t.contact.eyebrow}</p>
+            <AnimatedHeading
+              as="h2"
               id="contact-heading"
+              accentLast={2}
+              text={t.contact.heading}
               className="mx-auto mt-4 max-w-[13ch] font-display text-[clamp(46px,8vw,108px)] font-bold leading-[0.92] tracking-[-0.05em]"
-            >
-              {t.contact.heading}
-            </h2>
+            />
             <p className="mx-auto mt-6 max-w-[52ch] text-[15px] leading-relaxed text-ink-muted">
               {t.contact.body}
             </p>

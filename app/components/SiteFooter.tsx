@@ -24,15 +24,15 @@ export default function SiteFooter() {
             <p className="max-w-[40ch] text-sm leading-relaxed text-ink-muted">
               {t.footer.tagline}
             </p>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
               {t.footer.location}
             </p>
           </div>
           <div>
-            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
               {t.footer.navigateHeading}
             </h2>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm [&_a]:text-ink [&_a]:transition-colors [&_a:hover]:text-accent">
               <li><Link href="/#services">{t.header.nav.services}</Link></li>
               <li><Link href="/#work">{t.header.nav.work}</Link></li>
               <li><Link href="/#why">{t.header.nav.why}</Link></li>
@@ -42,10 +42,10 @@ export default function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint">
+            <h2 className="mb-4 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted">
               {t.footer.contactHeading}
             </h2>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm [&_a]:text-ink [&_a]:transition-colors [&_a:hover]:text-accent">
               <li>
                 <a
                   href="mailto:hello@limitedlabs.co"
@@ -59,7 +59,7 @@ export default function SiteFooter() {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col items-start gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-faint min-[480px]:flex-row min-[480px]:flex-wrap min-[480px]:items-center min-[480px]:justify-between">
+        <div className="flex flex-col items-start gap-3 border-t border-border pt-6 font-mono text-[10px] uppercase tracking-[0.1em] text-ink-muted min-[480px]:flex-row min-[480px]:flex-wrap min-[480px]:items-center min-[480px]:justify-between">
           <span>{t.footer.copyright}</span>
           <span>{t.footer.accountability}</span>
         </div>

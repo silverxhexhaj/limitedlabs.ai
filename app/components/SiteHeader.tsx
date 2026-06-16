@@ -26,13 +26,37 @@ export default function SiteHeader() {
     if (!menuOpen) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
+    // Focus management: move focus into the dialog, trap it, and restore on close.
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const overlay = document.getElementById("mobile-navigation");
+    const focusables = overlay
+      ? Array.from(overlay.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'))
+      : [];
+    focusables[0]?.focus();
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        return;
+      }
+      if (event.key === "Tab" && focusables.length) {
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => {
       document.body.style.overflow = previous;
       window.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus?.();
     };
   }, [menuOpen]);
 
@@ -103,7 +127,8 @@ export default function SiteHeader() {
             </button>
             <a
               href={sectionHref("audit", isHome)}
-              className="hidden min-h-11 items-center rounded-full bg-ink px-5 py-2.5 text-[13px] font-semibold text-page transition-transform hover:scale-[1.02] sm:inline-flex"
+              data-cursor-label="Audit"
+              className="hidden min-h-11 items-center rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-[#0a0a0b] transition-colors hover:bg-ink hover:text-page sm:inline-flex"
             >
               {t.header.cta}
             </a>
@@ -140,6 +165,9 @@ export default function SiteHeader() {
       {menuOpen ? (
         <div
           id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.header.mobileNavAria}
           className="fixed inset-0 z-[99] overflow-y-auto overscroll-contain bg-page/95 px-[var(--gutter)] pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(5.5rem+env(safe-area-inset-top))] backdrop-blur-xl lg:hidden"
         >
           <nav className="mx-auto flex max-w-[var(--max)] flex-col" aria-label={t.header.mobileNavAria}>

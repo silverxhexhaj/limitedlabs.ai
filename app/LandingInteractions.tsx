@@ -93,35 +93,12 @@ export default function LandingInteractions() {
       });
     }
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let observer: IntersectionObserver | undefined;
-    if (!reduceMotion && "IntersectionObserver" in window) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const element = entry.target as HTMLElement;
-            element.style.opacity = "1";
-            element.style.transform = "translateY(0)";
-            observer?.unobserve(element);
-          });
-        },
-        { threshold: 0.1 },
-      );
-      document.querySelectorAll<HTMLElement>("[data-reveal]").forEach((element) => {
-        element.style.opacity = "0";
-        element.style.transform = "translateY(18px)";
-        element.style.transition =
-          "opacity 0.6s cubic-bezier(.2,.6,.2,1), transform 0.6s cubic-bezier(.2,.6,.2,1)";
-        observer?.observe(element);
-      });
-    }
+    // [data-reveal] entrance animation is handled globally by <ScrollReveal /> (GSAP).
 
     return () => {
       toggle?.removeEventListener("click", onThemeToggle);
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("click", onAnalyticsClick);
-      observer?.disconnect();
     };
   }, []);
 

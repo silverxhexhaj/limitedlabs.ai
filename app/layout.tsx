@@ -4,6 +4,8 @@ import Script from "next/script";
 import type { ReactNode } from "react";
 import { PwaInstaller } from "./components/PwaInstaller";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import MotionLayer from "./components/MotionLayer";
+import SmoothScroll from "./components/SmoothScroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -102,8 +104,16 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.fontshare.com" crossOrigin="anonymous" />
+        {/* Switzer (display + body grotesk) via Fontshare */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@500;700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap"
+          rel="stylesheet"
+        />
+        {/* Instrument Serif italic (accent words) + JetBrains Mono (labels) via Google */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
         <script
@@ -126,6 +136,8 @@ export default function RootLayout({
           </>
         ) : null}
         <PwaInstaller />
+        <SmoothScroll />
+        <MotionLayer />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
