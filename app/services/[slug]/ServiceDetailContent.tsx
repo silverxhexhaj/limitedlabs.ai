@@ -18,9 +18,6 @@ const tagSm =
   "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted";
 const eyebrow =
   "font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted";
-const serviceArt =
-  "service-art relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-border p-8 [&>span]:flex [&>span]:h-full [&>span]:w-full [&>span]:max-w-full [&>span]:items-center [&>span]:justify-center";
-
 type Props = {
   service: ServiceItem;
   prev: ServiceItem | null;
@@ -65,18 +62,19 @@ export default function ServiceDetailContent({
             </span>
           </nav>
 
-          <div className="grid grid-cols-1 gap-[clamp(32px,5vw,64px)] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)] lg:items-start">
-            <div>
+          <div className="border-b border-border pb-[clamp(48px,6vw,80px)]">
+            <div className="grid grid-cols-1 gap-[clamp(32px,5vw,64px)] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.95fr)] lg:items-center">
+              <div>
               <div className={`${eyebrow} mb-[18px]`}>{service.index} / {content.name}</div>
               <h1 className="font-display text-[clamp(40px,6vw,88px)] font-bold leading-[0.93] tracking-[-0.04em] text-ink [font-variation-settings:'opsz'_96]">
                 {content.tagline}
               </h1>
+              <p className="mt-7 max-w-[52ch] text-[clamp(16px,1.3vw,19px)] leading-relaxed text-ink-muted">
+                {content.summary}
+              </p>
               <ul className={`${tagRow} mt-6`} aria-label={copy.focusAreasAria}>
                 {service.tags.map((tag) => <li key={tag} className={tagSm}>{tag}</li>)}
               </ul>
-              <p className="mt-8 max-w-[52ch] text-[clamp(15px,1.2vw,17px)] leading-normal text-ink-muted">
-                {content.summary}
-              </p>
               <div className="mt-8 flex flex-col gap-3 min-[480px]:mt-10 min-[480px]:flex-row min-[480px]:flex-wrap">
                 <Link
                   href={auditHref}
@@ -97,64 +95,84 @@ export default function ServiceDetailContent({
               </div>
             </div>
 
-            <div className={`${serviceArt} lg:sticky lg:top-[120px]`}>
-              <Image
-                src={service.illustration}
-                alt={`${content.name} service illustration`}
-                width={1254}
-                height={1254}
-                className="service-illustration-img h-auto max-h-full w-auto max-w-full object-contain object-center"
-                sizes="(max-width: 768px) 70vw, 400px"
-                priority
-              />
-              <span className="service-ticks" aria-hidden="true"><span /></span>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] border border-border bg-[#05090b]">
+              {service.heroVideo ? (
+                <video
+                  src={service.heroVideo}
+                  poster={service.heroImage}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  aria-hidden="true"
+                />
+              ) : (
+                <Image
+                  src={service.heroImage}
+                  alt=""
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover"
+                />
+              )}
+            </div>
             </div>
           </div>
 
-          <section className="mt-[clamp(64px,8vw,120px)]" data-reveal>
-            <h2 className={`${eyebrow} mb-8`}>{copy.whatsIncluded}</h2>
-            <div className="grid grid-cols-1 gap-4 min-[620px]:grid-cols-2">
-              {content.includes.map((item) => (
-                <article key={item.title} className="rounded-[22px] border border-border bg-surface p-[clamp(20px,2.8vw,28px)] transition-[border-color,transform] duration-300 ease-out hover:-translate-y-0.5 hover:border-border-strong">
-                  <h3 className="mb-2 font-display text-lg font-bold tracking-[-0.02em] text-ink">{item.title}</h3>
-                  <p className="text-[14.5px] leading-relaxed text-ink-muted">{item.description}</p>
-                </article>
+          <section className="mt-[clamp(48px,6vw,88px)]" data-reveal>
+            <h2 className={`${eyebrow} mb-2`}>{copy.whatsIncluded}</h2>
+            <ol className="divide-y divide-border">
+              {content.includes.map((item, index) => (
+                <li
+                  key={item.title}
+                  className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-1 py-5 sm:grid-cols-[56px_minmax(0,0.9fr)_minmax(0,1.1fr)] sm:items-baseline sm:gap-x-6"
+                >
+                  <span className={eyebrow}>{String(index + 1).padStart(2, "0")}</span>
+                  <h3 className="font-display text-lg font-bold tracking-[-0.02em] text-ink">{item.title}</h3>
+                  <p className="col-start-2 text-[14.5px] leading-relaxed text-ink-muted sm:col-start-3">
+                    {item.description}
+                  </p>
+                </li>
               ))}
+            </ol>
+          </section>
+
+          <section className="mt-[clamp(48px,6vw,88px)] border-t border-border pt-[clamp(40px,5vw,64px)]" data-reveal>
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-14">
+              <div>
+                <h2 className={`${eyebrow} mb-6`}>{copy.whoItsFor}</h2>
+                <ul className="flex flex-col gap-3">
+                  {content.whoItsFor.map((item) => (
+                    <li key={item} className="flex gap-3 text-[14.5px] leading-snug text-ink-muted">
+                      <span className="mt-2 size-[6px] shrink-0 rounded-full bg-accent" aria-hidden />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h2 className={`${eyebrow} mb-6`}>{copy.deliverables}</h2>
+                <ul className="flex flex-col gap-3">
+                  {content.deliverables.map((item) => (
+                    <li key={item} className="flex gap-3 text-[14.5px] leading-snug text-ink-muted">
+                      <span className="mt-[7px] h-px w-6 shrink-0 bg-border-strong" aria-hidden />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </section>
 
-          <div className="mt-[clamp(48px,6vw,80px)] grid grid-cols-1 gap-5 md:grid-cols-2">
-            <section className="rounded-[22px] border border-border bg-surface p-[clamp(24px,3vw,32px)]" data-reveal>
-              <h2 className={`${eyebrow} mb-5`}>{copy.whoItsFor}</h2>
-              <ul className="flex flex-col gap-3">
-                {content.whoItsFor.map((item) => (
-                  <li key={item} className="flex gap-3 text-[14.5px] leading-snug text-ink-muted">
-                    <span className="mt-2 size-[6px] shrink-0 rounded-full bg-accent" aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-            <section className="rounded-[22px] border border-dashed border-border-strong bg-page p-[clamp(24px,3vw,32px)]" data-reveal>
-              <h2 className={`${eyebrow} mb-5`}>{copy.deliverables}</h2>
-              <ul className="flex flex-col gap-3">
-                {content.deliverables.map((item) => (
-                  <li key={item} className="flex gap-3 text-[14.5px] leading-snug text-ink-muted">
-                    <span className="mt-[7px] h-px w-6 shrink-0 bg-border-strong" aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          </div>
-
-          <section className="mt-[clamp(48px,6vw,80px)]" data-reveal>
-            <h2 className={`${eyebrow} mb-8`}>{copy.howWeWork}</h2>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <section className="mt-[clamp(48px,6vw,88px)] border-t border-border pt-[clamp(40px,5vw,64px)]" data-reveal>
+            <h2 className={`${eyebrow} mb-10`}>{copy.howWeWork}</h2>
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
               {content.process.map((step, index) => (
-                <article key={step.title} className="rounded-[22px] border border-border bg-surface p-[clamp(24px,3vw,32px)]">
-                  <span className={`${eyebrow} mb-4 block`}>{service.process[index]?.step}</span>
-                  <h3 className="mb-3 font-display text-xl font-bold tracking-[-0.02em] text-ink">{step.title}</h3>
+                <article key={step.title} className="border-t-2 border-accent pt-5">
+                  <span className={`${eyebrow} mb-3 block`}>{service.process[index]?.step}</span>
+                  <h3 className="mb-2 font-display text-xl font-bold tracking-[-0.02em] text-ink">{step.title}</h3>
                   <p className="text-[14.5px] leading-relaxed text-ink-muted">{step.description}</p>
                 </article>
               ))}
@@ -186,24 +204,54 @@ export default function ServiceDetailContent({
             )}
           </section>
 
-          <nav className="my-[clamp(48px,6vw,90px)] flex flex-col gap-4 rounded-[22px] border border-border-strong px-[clamp(20px,3vw,32px)] py-[clamp(20px,3vw,28px)] min-[760px]:flex-row min-[760px]:items-center min-[760px]:justify-between" aria-label={copy.adjacentAria} data-reveal>
-            <div className="text-sm text-ink-muted">
-              {copy.adjacentBefore}
-              <Link href={auditHref} className="text-ink underline decoration-1 underline-offset-4">{copy.adjacentLink}</Link>
-              {copy.adjacentAfter}
+          <section
+            className="mt-[clamp(64px,8vw,120px)] border-t border-border py-[clamp(56px,7vw,96px)] text-center"
+            data-reveal
+          >
+            <p className="mx-auto max-w-[30ch] font-display text-[clamp(30px,4vw,52px)] font-bold leading-[1.02] tracking-[-0.035em] text-ink">
+              {t.contact.heading}
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 min-[480px]:flex-row min-[480px]:flex-wrap">
+              <Link
+                href={auditHref}
+                data-analytics-event="service_audit_clicked"
+                data-analytics-slug={service.slug}
+                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 py-[14px] text-center text-sm font-semibold text-[color:var(--accent-ink)] transition-colors hover:bg-ink hover:text-page"
+              >
+                {copy.ctaAudit}<span aria-hidden="true">→</span>
+              </Link>
+              <a
+                href={`mailto:hello@limitedlabs.co?subject=${encodeURIComponent(`Discovery call request - ${service.name}`)}`}
+                data-analytics-event="discovery_call_clicked"
+                data-analytics-placement={`service-${service.slug}-footer`}
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-border-strong px-7 py-[14px] text-center text-sm font-medium text-ink transition-colors hover:border-ink"
+              >
+                {copy.ctaCall}
+              </a>
             </div>
-            <div className="grid grid-cols-1 gap-3 min-[480px]:flex min-[480px]:flex-wrap">
-              {prev && prevContent ? (
-                <Link href={`/services/${prev.slug}`} className="inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-full border border-border-strong bg-surface px-5 py-3 text-center text-sm font-medium text-ink">
-                  {copy.previous}<span className="text-ink-faint">{prevContent.name}</span>
-                </Link>
-              ) : null}
-              {next && nextContent ? (
-                <Link href={`/services/${next.slug}`} className="inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-center text-sm font-medium text-page">
-                  {copy.next}<span className="text-page/90">{nextContent.name}</span>
-                </Link>
-              ) : null}
-            </div>
+          </section>
+
+          <nav
+            className="mb-[clamp(40px,5vw,72px)] flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6"
+            aria-label={copy.adjacentAria}
+            data-reveal
+          >
+            {prev && prevContent ? (
+              <Link
+                href={`/services/${prev.slug}`}
+                className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors hover:text-ink"
+              >
+                <span aria-hidden="true">←</span>{copy.previous} / {prevContent.name}
+              </Link>
+            ) : <span />}
+            {next && nextContent ? (
+              <Link
+                href={`/services/${next.slug}`}
+                className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-ink-muted transition-colors hover:text-ink"
+              >
+                {copy.next} / {nextContent.name}<span aria-hidden="true">→</span>
+              </Link>
+            ) : <span />}
           </nav>
         </div>
       </main>

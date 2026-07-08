@@ -37,7 +37,7 @@ export default function WorkCardLink({
     >
       <article className="h-full">
         <div className="relative mb-[18px] aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-surface shadow-none transition-[border-color,box-shadow] duration-300 group-hover/card:border-border-strong group-hover/card:shadow-[0_28px_80px_rgba(0,0,0,0.18)] dark:group-hover/card:shadow-[0_28px_90px_rgba(0,0,0,0.45)]">
-          <span className="absolute left-3.5 top-3.5 z-[1] rounded-full border border-white/20 bg-[rgba(10,10,10,0.5)] px-2.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-cream backdrop-blur-md">
+          <span className="absolute left-3.5 top-3.5 z-[1] rounded-full border border-white/25 bg-[rgba(10,10,10,0.72)] px-2.5 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-white backdrop-blur-md">
             {t.workClassifications[work.classification]}
           </span>
           <div
@@ -45,7 +45,7 @@ export default function WorkCardLink({
           >
             <WorkArt variant={work.art} width={work.artWidthPercent} />
           </div>
-          <span className="pointer-events-none absolute bottom-3.5 right-3.5 z-[1] inline-flex items-center gap-2 rounded-full border border-white/25 bg-[rgba(10,10,10,0.45)] px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-cream backdrop-blur-md opacity-95 transition-opacity duration-200 group-hover/card:opacity-100">
+          <span className="pointer-events-none absolute bottom-3.5 right-3.5 z-[1] inline-flex items-center gap-2 rounded-full border border-white/25 bg-[rgba(10,10,10,0.72)] px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-white backdrop-blur-md opacity-95 transition-opacity duration-200 group-hover/card:opacity-100">
             {t.work.viewDetails}
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" className="opacity-90">
               <path

@@ -19,6 +19,10 @@ export type ServiceItem = {
   tagline: string;
   summary: string;
   illustration: string;
+  /** Cinematic hero image for the service detail page */
+  heroImage: string;
+  /** Optional looping video that plays over the hero image on the service detail page */
+  heroVideo?: string;
   includes: ServiceInclude[];
   whoItsFor: string[];
   process: ServiceProcessStep[];
@@ -35,8 +39,9 @@ export const SERVICE_ITEMS: ServiceItem[] = [
     name: "Brand",
     tagline: "Strategic, sharp, and built to last.",
     summary:
-      "Positioning, voice, identity, and content pillars — not a logo on a Pinterest moodboard. A brand system that holds up across every channel for years.",
+      "A brand system that holds up across every channel for years — not a logo on a moodboard.",
     illustration: "/svg/brand-service.svg",
+    heroImage: "/images/services/brand.webp",
     includes: [
       {
         title: "Brand strategy & positioning",
@@ -120,8 +125,9 @@ export const SERVICE_ITEMS: ServiceItem[] = [
     name: "Software",
     tagline: "Websites, MVPs, internal tools.",
     summary:
-      "From a landing page that converts to a shipped MVP. Next.js, Supabase, deployed on Vercel — a stack you can grow into, with documentation you'll actually read.",
+      "From a landing page that converts to a shipped MVP — on a stack you can grow into.",
     illustration: "/svg/code-service.svg",
+    heroImage: "/images/services/software.webp",
     includes: [
       {
         title: "Landing pages",
@@ -203,8 +209,9 @@ export const SERVICE_ITEMS: ServiceItem[] = [
     name: "Marketing Engines",
     tagline: "Content + ads that compound.",
     summary:
-      "Meta Ads, content systems, and lead workflows. Built to publish, learn, and improve every month — not to win a creative award and disappear.",
+      "Content, ads, and lead workflows built to publish, learn, and improve every month.",
     illustration: "/svg/marketing-service.svg",
+    heroImage: "/images/services/marketing-engines.webp",
     includes: [
       {
         title: "Meta Ads",
@@ -291,8 +298,9 @@ export const SERVICE_ITEMS: ServiceItem[] = [
     name: "Automation",
     tagline: "Remove drag. Keep humans deciding.",
     summary:
-      "Workflow audit, automation map, and a working system. AI drafts, you decide. Built with Make.com, Supabase, and APIs that talk to each other — instead of email threads that don't.",
+      "A working automation system for your real workflows. AI drafts, you decide.",
     illustration: "/svg/ai-service.svg",
+    heroImage: "/images/services/automation.webp",
     includes: [
       {
         title: "Workflow audit",
@@ -378,8 +386,10 @@ export const SERVICE_ITEMS: ServiceItem[] = [
     name: "Product Lab",
     tagline: "For founders with an idea worth testing.",
     summary:
-      "By invitation. We scope, build, validate — and we'll tell you when to pull the plug. No vanity MVPs. No \"let's see what happens.\"",
+      "By invitation. We scope, build, validate — and tell you when to stop.",
     illustration: "/svg/productlab-service.svg",
+    heroImage: "/images/services/product-lab.webp",
+    heroVideo: "/videos/services/product-lab.mp4",
     invitationOnly: true,
     includes: [
       {

@@ -19,7 +19,7 @@ const SERVICE_CONTENT_SQ: Record<string, ServiceContent> = {
     name: "Brand",
     tagline: "Strategjik, i mprehtë dhe i ndërtuar për të zgjatur.",
     summary:
-      "Pozicionim, zë, identitet dhe shtylla përmbajtjeje — jo një logo në një moodboard Pinterest. Një sistem brandi që qëndron në çdo kanal për vite me radhë.",
+      "Një sistem brandi që qëndron në çdo kanal për vite me radhë — jo një logo në një moodboard.",
     includes: [
       { title: "Strategji dhe pozicionim brandi", description: "Auditim konkurrence, hartë e audiencës, deklaratë pozicionimi dhe shtylla brandi." },
       { title: "Emërtim dhe slogane", description: "Listë e ngushtë, kontroll gjuhësor (SQ/EN) dhe verifikim bazë i markës tregtare." },
@@ -57,7 +57,7 @@ const SERVICE_CONTENT_SQ: Record<string, ServiceContent> = {
     name: "Software",
     tagline: "Faqe interneti, MVP, mjete të brendshme.",
     summary:
-      "Nga një faqe uljeje që konverton te një MVP i dorëzuar. Next.js, Supabase, i vendosur në Vercel — një grup teknologjish ku mund të rritesh, me dokumentim që vërtet do ta lexoni.",
+      "Nga një faqe uljeje që konverton te një MVP i dorëzuar — mbi një grup teknologjish ku mund të rriteni.",
     includes: [
       { title: "Faqe uljeje", description: "Një-faqësh konvertimi, variante A/B dhe LCP i shpejtë." },
       { title: "Faqe marketingu", description: "Faqe me shumë nënfaqe me CMS të lehtë aty ku duhet." },
@@ -93,7 +93,7 @@ const SERVICE_CONTENT_SQ: Record<string, ServiceContent> = {
     name: "Motorë Marketingu",
     tagline: "Përmbajtje + reklama që rriten me kohën.",
     summary:
-      "Meta Ads, sisteme përmbajtjeje dhe rrjedha pune për kontakte. Ndërtuar për të publikuar, mësuar dhe përmirësuar çdo muaj — jo për të fituar një çmim krijues dhe për t'u zhdukur.",
+      "Përmbajtje, reklama dhe rrjedha kontaktesh të ndërtuara për të publikuar, mësuar dhe përmirësuar çdo muaj.",
     includes: [
       { title: "Meta Ads", description: "Konfigurim llogarie, pixel + evente, audienca, matricë krijuese dhe optimizim javor." },
       { title: "Google Ads (Search/PMax)", description: "Shtesë opsionale për kërkim lokal me qëllim të lartë." },
@@ -131,7 +131,7 @@ const SERVICE_CONTENT_SQ: Record<string, ServiceContent> = {
     name: "Automatizim",
     tagline: "Hiq ngarkesën. Mbaj njerëzit duke vendosur.",
     summary:
-      "Auditim rrjedhash pune, hartë automatizimi dhe një sistem funksional. AI harton, ju vendosni. Ndërtuar me Make.com, Supabase dhe API që flasin me njëri-tjetrin — në vend të vargjeve të email-eve që s'flasin.",
+      "Një sistem automatizimi funksional për rrjedhat tuaja reale të punës. AI harton, ju vendosni.",
     includes: [
       { title: "Auditim rrjedhash pune", description: "Hartëzo proceset aktuale, identifiko pikat kryesore të ngarkesës dhe vlerëso realizueshmërinë." },
       { title: "Ndërtime Make.com / n8n / Zapier", description: "Lidhje e mjeteve që përdorni tashmë — pa i hequr e zëvendësuar." },
@@ -168,7 +168,7 @@ const SERVICE_CONTENT_SQ: Record<string, ServiceContent> = {
     name: "Product Lab",
     tagline: "Për themelues me një ide që ia vlen të testohet.",
     summary:
-      "Me ftesë. Ne përcaktojmë fushëveprimin, ndërtojmë, validojmë — dhe do t'ju themi kur duhet ndalur. Pa MVP sa për sy e faqe. Pa «të shohim çfarë ndodh».",
+      "Me ftesë. Përcaktojmë fushëveprimin, ndërtojmë, validojmë — dhe ju themi kur duhet ndalur.",
     includes: [
       { title: "Sprint vlerësimi ideje", description: "Sprint 1–2 javë: validim problemi, përmasim tregu dhe rekomandim vazhdo/ndalo." },
       { title: "Përcaktim fushëveprimi dhe plan rruge MVP", description: "Fushëveprim i ashpër për v1, momente kyçe dhe vendime ndërto-apo-bli." },

@@ -1,14 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import AnimatedHeading from "./components/AnimatedHeading";
 import AuditForm from "./components/AuditForm";
-import HeroVisual from "./components/HeroVisual";
 import SiteFooter from "./components/SiteFooter";
+import HeroProjectsField from "./components/HeroProjectsField";
+import HomeShowcasePreview from "./components/HomeShowcasePreview";
 import SiteHeader from "./components/SiteHeader";
-import WorksTabs from "./components/WorksTabs";
 import { getServiceContent } from "./i18n/content/serviceContent";
 import { useLanguage } from "./i18n/LanguageProvider";
 import LandingInteractions from "./LandingInteractions";
@@ -20,9 +19,6 @@ const HERO_ACCENTS: Record<string, string[]> = {
   sq: ["duken", "shesin", "ndërtojnë", "punojnë"],
 };
 
-const tagRow = "flex flex-wrap gap-2";
-const tagSm =
-  "rounded-full border border-border-strong px-2.5 py-[5px] font-mono text-[10px] font-medium uppercase tracking-[0.06em] text-ink-muted";
 const eyebrow =
   "font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-muted";
 // Section label: brighter mono with a short lime leading rule (the wibify "[0X] LABEL" tell).
@@ -43,9 +39,28 @@ export default function HomeContent() {
       <SiteHeader />
 
       <main id="top">
-        <section className="section-grain relative overflow-hidden pb-[clamp(64px,9vw,132px)] pt-[clamp(112px,16vw,220px)]">
-          <HeroVisual />
-          <div className={`${wrap} relative z-[1]`}>
+        <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-[clamp(64px,9vw,132px)] pt-[clamp(112px,16vw,200px)]">
+          <HeroProjectsField />
+          {/* Legibility scrim: dims the field behind the headline, leaves the
+              right/edge tiles vivid. Pointer-transparent so tiles stay clickable. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[1] max-sm:hidden"
+            style={{
+              background:
+                "linear-gradient(100deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 74%, transparent) 34%, color-mix(in srgb, var(--bg) 30%, transparent) 58%, transparent 82%)",
+            }}
+          />
+          {/* On phones there's no hover to attract tiles, so keep them as a
+              quiet backdrop and let the copy dominate. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[1] sm:hidden"
+            style={{ background: "color-mix(in srgb, var(--bg) 46%, transparent)" }}
+          />
+          {/* pointer-events-none lets the cursor reach the floating tiles behind
+              the text; interactive children (the CTAs) re-enable pointer events. */}
+          <div className={`${wrap} relative z-10 pointer-events-none [&_a]:pointer-events-auto`}>
             <div className="max-w-[1120px]">
               <p className={`${eyebrow} anim`}>{t.hero.eyebrow}</p>
               <AnimatedHeading
@@ -56,22 +71,15 @@ export default function HomeContent() {
                 accentWords={HERO_ACCENTS[locale] ?? HERO_ACCENTS.en}
                 className="mt-6 max-w-[15ch] font-display text-[clamp(42px,8.5vw,118px)] font-bold leading-[0.91] tracking-[-0.05em] text-ink sm:mt-7"
               />
-              <div className="anim d2 mt-10 grid grid-cols-1 gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
-                <p className="max-w-[54ch] text-[clamp(17px,1.5vw,21px)] leading-relaxed text-ink-muted">
-                  {t.hero.lead}
-                </p>
-                <div className="md:justify-self-end">
-                  <p className="max-w-[42ch] border-l border-border-strong pl-5 text-sm leading-relaxed text-ink-muted">
-                    {t.hero.note}
-                  </p>
-                </div>
-              </div>
+              <p className="anim d2 mt-10 max-w-[54ch] text-[clamp(17px,1.5vw,21px)] leading-relaxed text-ink-muted">
+                {t.hero.lead}
+              </p>
               <div className="anim d3 mt-8 flex flex-col gap-3 min-[480px]:flex-row min-[480px]:flex-wrap sm:mt-10">
                 <a
                   href="#audit"
                   data-magnetic
                   data-cursor-label="Audit"
-                  className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-[#0a0a0b] transition-colors hover:bg-ink hover:text-page focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                  className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-[color:var(--accent-ink)] transition-colors hover:bg-ink hover:text-page focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                 >
                   {t.hero.ctaPrimary}
                   <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -148,20 +156,9 @@ export default function HomeContent() {
                     className="group relative grid min-h-0 grid-rows-[auto_1fr_auto] overflow-hidden rounded-[24px] border border-border bg-surface p-[clamp(20px,3vw,36px)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-border-strong hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.65)] sm:min-h-[420px]"
                     data-reveal
                   >
-                    <div className="flex items-start justify-between gap-5">
-                      <p className={eyebrow}>
-                        {service.index} / {displayName}
-                      </p>
-                      <div className="grid size-16 shrink-0 place-items-center rounded-2xl border border-border bg-page p-2.5 sm:size-20 sm:p-3">
-                        <Image
-                          src={service.illustration}
-                          alt=""
-                          width={1254}
-                          height={1254}
-                          className="service-illustration-img h-full w-full object-contain"
-                        />
-                      </div>
-                    </div>
+                    <p className={eyebrow}>
+                      {service.index} / {displayName}
+                    </p>
                     <div className="mt-8 sm:mt-10">
                       <h3 className="max-w-[14ch] font-display text-[clamp(32px,4vw,54px)] font-bold leading-[0.96] tracking-[-0.04em]">
                         {content.tagline}
@@ -173,7 +170,7 @@ export default function HomeContent() {
                     <Link
                       href={`/services/${service.slug}`}
                       data-cursor-label="View"
-                      className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong px-5 py-3 text-center font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink hover:bg-accent hover:text-[#0a0a0b] min-[480px]:w-fit sm:mt-10"
+                      className="mt-8 inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full border border-border-strong px-5 py-3 text-center font-mono text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:border-ink hover:bg-accent hover:text-[color:var(--accent-ink)] min-[480px]:w-fit sm:mt-10"
                     >
                       {t.services.explorePrefix}
                       {displayName}
@@ -252,12 +249,9 @@ export default function HomeContent() {
                 text={t.work.heading}
                 className="mt-4 font-display text-[clamp(42px,7vw,92px)] font-bold leading-[0.94] tracking-[-0.045em]"
               />
-              <p className="mt-5 max-w-[60ch] text-[15px] leading-relaxed text-ink-muted">
-                {t.work.body}
-              </p>
             </div>
           </div>
-          <WorksTabs tagRow={tagRow} tagSm={tagSm} />
+          <HomeShowcasePreview />
         </section>
 
         <section

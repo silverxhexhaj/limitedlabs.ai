@@ -35,6 +35,7 @@ export default function SiteFooter() {
             <ul className="space-y-2.5 text-sm [&_a]:text-ink [&_a]:transition-colors [&_a:hover]:text-accent">
               <li><Link href="/#services">{t.header.nav.services}</Link></li>
               <li><Link href="/#work">{t.header.nav.work}</Link></li>
+              <li><Link href="/courses">{t.header.nav.courses}</Link></li>
               <li><Link href="/#why">{t.header.nav.why}</Link></li>
               <li><Link href="/#proof">{t.header.nav.proof}</Link></li>
               <li><Link href="/#faq">{t.header.nav.faq}</Link></li>

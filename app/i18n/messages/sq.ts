@@ -19,6 +19,7 @@ export const sq: Messages = {
     nav: {
       services: "Shërbimet",
       work: "Punët",
+      courses: "Kurse",
       why: "Pse Limited Labs",
       proof: "Dëshmitë",
       faq: "Pyetje",
@@ -30,7 +31,7 @@ export const sq: Messages = {
     eyebrow: "Agjenci sistemesh me fuqi AI · Tiranë, Shqipëri",
     heading: "I ndihmojmë bizneset të përmirësojnë mënyrën se si duken, shesin, ndërtojnë dhe punojnë.",
     lead:
-      "Brand, Marketing, Software dhe Automatizim me AI të lidhura nën një logjikë të vetme operimi. Përmirësojmë pjesët me ndikimin më të lartë të biznesit pa shtuar një shtresë tjetër furnitorësh të shkëputur.",
+      "Brand, Marketing, Software dhe Automatizim me AI — të lidhura si një sistem i vetëm.",
     note:
       "AI përshpejton kërkimin dhe ekzekutimin. Njerëzit marrin vendimet strategjike, ato që prekin klientin dhe ato me pasoja.",
     ctaPrimary: "Merr një auditim falas të biznesit",
@@ -322,6 +323,61 @@ export const sq: Messages = {
     adjacentAria: "Shërbime ngjitur",
     previous: "I mëparshmi",
     next: "Tjetri",
+  },
+
+  courses: {
+    eyebrow: "Kurse",
+    heading: "Mëso sistemet që ndërtojmë.",
+    lead:
+      "Kurse të shkurtra dhe praktike që u mësojnë operatorëve të bizneseve të funksionojnë me AI — të njëjtat sisteme që ne ndërtojmë për klientët, të paketuara që t'i ndërtosh vetë.",
+    metaAria: "Detajet e kursit",
+    flagshipLabel: "Kursi kryesor",
+    freeLabel: "Kurs falas",
+    viewCourse: "Shiko kursin",
+    comingSoonHeading: "Në zhvillim",
+    comingSoonBody:
+      "Po vijnë edhe kurse të tjera për operatorë — automatizim, marketing me AI dhe mjete të brendshme.",
+    comingSoonTag: "Së shpejti",
+    upcoming: [
+      "Motorë Marketingu me AI për Operatorë",
+      "Mjete të Brendshme pa Kod për një Fundjavë",
+    ],
+    ctaHeading: "S'je i sigurt nga t'ia nisësh?",
+    ctaBody: "Merr një auditim falas të sistemeve dhe të tregojmë automatizimin e parë të duhur.",
+    ctaButton: "Merr një auditim falas të sistemeve",
+  },
+
+  courseDetail: {
+    back: "Kthehu te kurset",
+    courseWord: "Kurs",
+    focusAreasAria: "Temat e mbuluara",
+    enroll: "Regjistrohu tani",
+    enrollFree: "Fillo falas",
+    fromPrice: "Nga",
+    freeWord: "Falas",
+    noCard: "Falas përgjithmonë — pa kartë krediti",
+    specLevel: "Niveli",
+    specDuration: "Kohëzgjatja",
+    specModules: "Modulet",
+    specLanguages: "Gjuhët",
+    outcomes: "Çfarë do të jesh në gjendje të bësh",
+    whoItsFor: "Për kë është",
+    curriculum: "Programi",
+    lessonsWord: "mësime",
+    included: "Çfarë përfshihet",
+    instructor: "Kush e mëson",
+    instructorBody:
+      "Ndërtuar nga ekipi i Limited Labs — të njëjtët njerëz që dizajnojnë dhe ndërtojnë këto automatizime për klientët. Po mëson pikërisht sistemin që ne instalojmë, jo teori klase.",
+    seeWork: "Shiko punët",
+    pricing: "Çmimet",
+    oneTime: "pagesë e njëhershme",
+    mostPopular: "Më i popullarizuari",
+    guarantee: "Garanci kthimi parash brenda 14 ditësh",
+    faq: "Pyetje të shpeshta",
+    finalHeading: "Fillo ta drejtosh biznesin tënd me AI.",
+    finalBody:
+      "Mëso sistemet, ndërto automatizimet dhe mbaji njerëzit në kontroll të çdo vendimi që ka rëndësi.",
+    finalSecondary: "Preferon të bëhet për ty? Merr një auditim falas të sistemeve",
   },
 
   workDetail: {

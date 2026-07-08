@@ -11,6 +11,10 @@ import { wrap } from "../site";
 
 const NAV_IDS = ["services", "work", "why", "proof", "faq", "contact"] as const;
 
+// "Work" is a standalone route (the 25-work showcase); the rest are homepage
+// section anchors.
+const ROUTE_IDS: Partial<Record<(typeof NAV_IDS)[number], string>> = { work: "/work" };
+
 function sectionHref(id: string, isHome: boolean) {
   return isHome ? `#${id}` : `/#${id}`;
 }
@@ -20,7 +24,23 @@ export default function SiteHeader() {
   const isHome = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const { t } = useLanguage();
-  const navItems = NAV_IDS.map((id) => [id, t.header.nav[id]] as const);
+
+  // Section links come from NAV_IDS; Courses is a standalone route slotted in
+  // right after Work so it reads as a first-class destination, not a hash.
+  type NavLink = { key: string; label: string; href: string; route?: boolean };
+  const navLinks: NavLink[] = [];
+  NAV_IDS.forEach((id) => {
+    const route = ROUTE_IDS[id];
+    navLinks.push({
+      key: id,
+      label: t.header.nav[id],
+      href: route ?? sectionHref(id, isHome),
+      route: Boolean(route),
+    });
+    if (id === "work") {
+      navLinks.push({ key: "courses", label: t.header.nav.courses, href: "/courses", route: true });
+    }
+  });
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -87,15 +107,19 @@ export default function SiteHeader() {
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex" aria-label={t.header.primaryNavAria}>
-            {navItems.map(([id, label]) => (
-              <a
-                key={id}
-                href={sectionHref(id, isHome)}
-                className="rounded-full px-3 py-2 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted transition-colors hover:bg-surface hover:text-ink"
-              >
-                {label}
-              </a>
-            ))}
+            {navLinks.map((item) => {
+              const className =
+                "rounded-full px-3 py-2 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted transition-colors hover:bg-surface hover:text-ink";
+              return item.route ? (
+                <Link key={item.key} href={item.href} className={className}>
+                  {item.label}
+                </Link>
+              ) : (
+                <a key={item.key} href={item.href} className={className}>
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
@@ -128,7 +152,7 @@ export default function SiteHeader() {
             <a
               href={sectionHref("audit", isHome)}
               data-cursor-label="Audit"
-              className="hidden min-h-11 items-center rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-[#0a0a0b] transition-colors hover:bg-ink hover:text-page sm:inline-flex"
+              className="hidden min-h-11 items-center rounded-full bg-accent px-5 py-2.5 text-[13px] font-semibold text-[color:var(--accent-ink)] transition-colors hover:bg-ink hover:text-page sm:inline-flex"
             >
               {t.header.cta}
             </a>
@@ -171,19 +195,28 @@ export default function SiteHeader() {
           className="fixed inset-0 z-[99] overflow-y-auto overscroll-contain bg-page/95 px-[var(--gutter)] pb-[max(2.5rem,env(safe-area-inset-bottom))] pt-[calc(5.5rem+env(safe-area-inset-top))] backdrop-blur-xl lg:hidden"
         >
           <nav className="mx-auto flex max-w-[var(--max)] flex-col" aria-label={t.header.mobileNavAria}>
-            {navItems.map(([id, label], index) => (
-              <a
-                key={id}
-                href={sectionHref(id, isHome)}
-                onClick={() => setMenuOpen(false)}
-                className="flex min-h-16 items-center gap-4 border-b border-border py-4 sm:gap-5 sm:py-5"
-              >
+            {navLinks.map((item, index) => {
+              const number = (
                 <span className="font-mono text-[10px] text-ink-faint">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold tracking-[-0.03em]">{label}</span>
-              </a>
-            ))}
+              );
+              const labelEl = (
+                <span className="font-display text-[clamp(1.5rem,8vw,1.875rem)] font-bold tracking-[-0.03em]">{item.label}</span>
+              );
+              const rowClass = "flex min-h-16 items-center gap-4 border-b border-border py-4 sm:gap-5 sm:py-5";
+              return item.route ? (
+                <Link key={item.key} href={item.href} onClick={() => setMenuOpen(false)} className={rowClass}>
+                  {number}
+                  {labelEl}
+                </Link>
+              ) : (
+                <a key={item.key} href={item.href} onClick={() => setMenuOpen(false)} className={rowClass}>
+                  {number}
+                  {labelEl}
+                </a>
+              );
+            })}
             <a
               href={sectionHref("audit", isHome)}
               onClick={() => setMenuOpen(false)}

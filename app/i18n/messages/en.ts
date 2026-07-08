@@ -19,6 +19,7 @@ export const en = {
     nav: {
       services: "Services",
       work: "Work",
+      courses: "Courses",
       why: "Why Limited Labs",
       proof: "Proof",
       faq: "FAQ",
@@ -30,7 +31,7 @@ export const en = {
     eyebrow: "AI-powered systems agency · Tirana, Albania",
     heading: "We help businesses improve how they look, sell, build, and work.",
     lead:
-      "Brand, Marketing, Software, and AI Automation connected under one operating logic. We improve the highest-leverage parts of the business without adding another layer of disconnected vendors.",
+      "Brand, Marketing, Software, and AI Automation — connected as one system.",
     note:
       "AI accelerates research and execution. Humans make strategic, client-facing, and consequential decisions.",
     ctaPrimary: "Get a free systems audit",
@@ -322,6 +323,61 @@ export const en = {
     adjacentAria: "Adjacent services",
     previous: "Previous",
     next: "Next",
+  },
+
+  courses: {
+    eyebrow: "Courses",
+    heading: "Learn the systems we build.",
+    lead:
+      "Short, practical courses that teach business operators to run on AI — the same systems we ship for clients, packaged so you can build them yourself.",
+    metaAria: "Course details",
+    flagshipLabel: "Flagship course",
+    freeLabel: "Free course",
+    viewCourse: "View course",
+    comingSoonHeading: "In development",
+    comingSoonBody:
+      "More operator-focused courses are on the way — automation, AI marketing, and internal tools.",
+    comingSoonTag: "Coming soon",
+    upcoming: [
+      "AI Marketing Engines for Operators",
+      "No-Code Internal Tools in a Weekend",
+    ],
+    ctaHeading: "Not sure where to start?",
+    ctaBody: "Get a free systems audit and we'll point you to the right first automation.",
+    ctaButton: "Get a free systems audit",
+  },
+
+  courseDetail: {
+    back: "Back to courses",
+    courseWord: "Course",
+    focusAreasAria: "Topics covered",
+    enroll: "Enroll now",
+    enrollFree: "Start for free",
+    fromPrice: "From",
+    freeWord: "Free",
+    noCard: "Free forever — no credit card required",
+    specLevel: "Level",
+    specDuration: "Duration",
+    specModules: "Modules",
+    specLanguages: "Languages",
+    outcomes: "What you'll be able to do",
+    whoItsFor: "Who it's for",
+    curriculum: "Curriculum",
+    lessonsWord: "lessons",
+    included: "What's included",
+    instructor: "Who teaches it",
+    instructorBody:
+      "Built by the Limited Labs team — the same people who design and ship these automations for clients. You're learning the exact system we install, not classroom theory.",
+    seeWork: "See the work",
+    pricing: "Pricing",
+    oneTime: "one-time payment",
+    mostPopular: "Most popular",
+    guarantee: "14-day money-back guarantee",
+    faq: "Frequently asked",
+    finalHeading: "Start running your business on AI.",
+    finalBody:
+      "Learn the systems, build the automations, and keep humans in control of every decision that matters.",
+    finalSecondary: "Prefer done-for-you? Get a free systems audit",
   },
 
   workDetail: {

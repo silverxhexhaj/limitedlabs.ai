@@ -5,18 +5,19 @@
 /* ---------- design tokens ---------- */
 :root {
   color-scheme: dark;
-  /* Wibify-style cinematic dark palette */
-  --bg: #0a0a0b;
-  --bg-2: #111114;
-  --ink: #fafafa;
-  --ink-2: #9a9a96;
-  --ink-3: #7d7d77;
-  --line: #1c1c20;
-  --line-2: #2a2a2f;
-  --accent: #c9e265;
-  --accent-rgb: 201, 226, 101;
-  --cream: #fafafa;
-  --nav-scrolled-bg: rgba(10, 10, 11, 0.72);
+  /* Cinematic cool dark palette — electric cyan accent */
+  --bg: #05090b;
+  --bg-2: #0b1114;
+  --ink: #f2fafa;
+  --ink-2: #93a1a1;
+  --ink-3: #758280;
+  --line: #161e22;
+  --line-2: #223034;
+  --accent: #2de2e6;
+  --accent-rgb: 45, 226, 230;
+  --accent-ink: #05090b;
+  --cream: #f2fafa;
+  --nav-scrolled-bg: rgba(5, 9, 11, 0.72);
 
   --display: "Switzer", "Inter Tight", system-ui, sans-serif;
   --sans: "Switzer", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -30,17 +31,18 @@
 
 html[data-theme="light"] {
   color-scheme: light;
-  --bg: #f6f6f3;
-  --bg-2: #eceae3;
-  --ink: #0d0d0e;
-  --ink-2: #56564f;
-  --ink-3: #6b6b63;
-  --line: #dcdcd5;
-  --line-2: #c9c9c1;
-  --accent: #5c6b16;
-  --accent-rgb: 92, 107, 22;
-  --cream: #0d0d0e;
-  --nav-scrolled-bg: rgba(246, 246, 243, 0.8);
+  --bg: #f3f6f6;
+  --bg-2: #e7eded;
+  --ink: #0b0f10;
+  --ink-2: #4f5a5b;
+  --ink-3: #647070;
+  --line: #d7dedd;
+  --line-2: #c3cccb;
+  --accent: #0b7e85;
+  --accent-rgb: 11, 126, 133;
+  --accent-ink: #f3f6f6;
+  --cream: #0b0f10;
+  --nav-scrolled-bg: rgba(243, 246, 246, 0.8);
 }
 
 @theme inline {
