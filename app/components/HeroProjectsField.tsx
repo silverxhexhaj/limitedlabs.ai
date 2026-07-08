@@ -133,25 +133,30 @@ export default function HeroProjectsField() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    if (prefersReducedMotion() || !hasFinePointer()) return;
+    // The ambient drift + formation loop runs whenever motion is allowed (incl.
+    // touch). Only the cursor magnetism + hover-to-sharpen need a fine pointer.
+    if (prefersReducedMotion()) return;
+    const fine = hasFinePointer();
 
     const states: TileState[] = [];
     const tileCleanups: (() => void)[] = [];
     tileRefs.current.forEach((el) => {
       if (!el) return;
       const s: TileState = { el, magX: 0, magY: 0, scl: 1, ext: 0, hov: 0, hovered: false };
-      const enter = () => {
-        s.hovered = true;
-      };
-      const leave = () => {
-        s.hovered = false;
-      };
-      el.addEventListener("pointerenter", enter);
-      el.addEventListener("pointerleave", leave);
-      tileCleanups.push(() => {
-        el.removeEventListener("pointerenter", enter);
-        el.removeEventListener("pointerleave", leave);
-      });
+      if (fine) {
+        const enter = () => {
+          s.hovered = true;
+        };
+        const leave = () => {
+          s.hovered = false;
+        };
+        el.addEventListener("pointerenter", enter);
+        el.addEventListener("pointerleave", leave);
+        tileCleanups.push(() => {
+          el.removeEventListener("pointerenter", enter);
+          el.removeEventListener("pointerleave", leave);
+        });
+      }
       states.push(s);
     });
 
@@ -278,9 +283,11 @@ export default function HeroProjectsField() {
     );
     io.observe(container);
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerleave", onLeave);
-    window.addEventListener("blur", onLeave);
+    if (fine) {
+      window.addEventListener("pointermove", onMove, { passive: true });
+      window.addEventListener("pointerleave", onLeave);
+      window.addEventListener("blur", onLeave);
+    }
     window.addEventListener("scroll", refreshRect, { passive: true });
     window.addEventListener("resize", refreshRect);
 
